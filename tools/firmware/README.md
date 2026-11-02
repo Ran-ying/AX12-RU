@@ -155,6 +155,32 @@ Evidence:
 
 **Status: planned, not deployed.** No same-version reinstallation was attempted on real hardware, and no live upgrade is authorized by this note.
 
+
+## First-upgrade preflight: owner-only 1.5.0 + SSH (2026-11-02)
+
+The **live AX12 runs RU 1.1.22**, not 1.2.0. The existing flashed SSH keypair was generated on the owner's MacBook and its **RSA-3072 private key** is kept on the Mac mini under `~/.ssh/ax12_root`. Its SHA256 public-key fingerprint, derived from the Mac mini private key in a read-only check, is `SHA256:rXNBCRUiTLSt2Q0d1BUmSjvafQ7sAgVYJIsZnQUPWtQ`. The historical successful-flash README documents `authorized_keys` being integrated into the 1.1.22 RootFS and tested root SSH login; this recent check did not directly read current runtime `authorized_keys`.
+
+**Do not mix the SSH RSA-3072 key with the firmware RSA-2048 signer.** The latter used so far is a disposable experiment key on the VPS and must be replaced with a backed-up long-term *owner* signing key before any actual firmware installation.
+
+The initial dual-library 1.5.0 offline lab build is **not boot-ready**: inspection confirmed it contains neither `root/.ssh/authorized_keys` nor the previously proven `etc_ro/init.d/ax12-ssh` startup hook. Never flash that artifact.
+
+`tools/firmware/build_owner_rootfs.sh` is now a *new, untested* offline build entrypoint for an **owner-only verification library** plus the existing LAN-only SSH startup script. It takes five explicit arguments:
+
+```sh
+sh tools/firmware/build_owner_rootfs.sh \
+  EXTRACTED_OFFICIAL_1_5_0_ROOTFS OWNER_SIGNING_PUBLIC_PEM \
+  SSH_PUBLIC_KEY tools/ax12-ssh PRIVATE_WORKDIR
+```
+
+The SSH key input must be the user's **current authorized RSA-3072 public key**, obtainable from the user's Mac via `ssh-keygen -y -f ~/.ssh/ax12_root` (avoid copying the private SSH key to the VPS). No device-specific SSH key has been committed to the repository. This script has **not** yet passed a full test-build or runtime check; do not call its output flashable.
+
+The next indispensable gates before first actual Flash write are:
+
+1. Build a 1.5.0 owner-only RootFS with the **real** existing SSH public key and confirm the private key still opens a root session via the expected LAN-only port after startup. Retain a recovery copy of the unmodified factory library and full 16-MiB Flash.
+2. Verify the **current 1.1.22** upgrade path accepts or can safely install the newly owner-signed 1.5.0 package *without* losing SSH, and independently verify the package's bootloader and new Flash partition transition. A successful Python/C self-signature test does not verify this upgrade step.
+3. Validate writable metadata fields, partition bounds, vendor-specific checks and recovery procedure. The 1.5.0 `nm_checkSoftVer` routine has a static path compatible with equality; this alone does **not** prove that full same-version reinstalls work.
+4. **Only after** all checks pass should the first hardware firmware update be considered. No authorization for actual flashing is implied here.
+
 ## Persistence research
 
 Live SSH inspection found:
