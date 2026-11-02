@@ -164,7 +164,7 @@ The **live AX12 runs RU 1.1.22**, not 1.2.0. The existing flashed SSH keypair wa
 
 The initial dual-library 1.5.0 offline lab build is **not boot-ready**: inspection confirmed it contains neither `root/.ssh/authorized_keys` nor the previously proven `etc_ro/init.d/ax12-ssh` startup hook. Never flash that artifact.
 
-`tools/firmware/build_owner_rootfs.sh` is now a *new, untested* offline build entrypoint for an **owner-only verification library** plus the existing LAN-only SSH startup script. It takes five explicit arguments:
+`tools/firmware/build_owner_rootfs.sh` is now a tested **offline build entrypoint** for an **owner-only verification library** plus the existing LAN-only SSH startup script. It takes five explicit arguments:
 
 ```sh
 sh tools/firmware/build_owner_rootfs.sh \
@@ -172,7 +172,7 @@ sh tools/firmware/build_owner_rootfs.sh \
   SSH_PUBLIC_KEY tools/ax12-ssh PRIVATE_WORKDIR
 ```
 
-The SSH key input must be the user's **current authorized RSA-3072 public key**, obtainable from the user's Mac via `ssh-keygen -y -f ~/.ssh/ax12_root` (avoid copying the private SSH key to the VPS). No device-specific SSH key has been committed to the repository. This script has **not** yet passed a full test-build or runtime check; do not call its output flashable.
+The SSH key input must be the user's **current authorized RSA-3072 public key**, obtainable from the user's Mac via `ssh-keygen -y -f ~/.ssh/ax12_root` (avoid copying the private SSH key to the VPS). No device-specific SSH key has been committed to the repository. The script has now passed a complete offline test-build using a **disposable test-only SSH public key**, with both SSH authorization files and their permissions checked, the autostart symlink verified, and the original RSA-2048 trust anchor replaced in the single default library. The sealed RootFS length is `0xAE4003`, leaving **147,453 bytes** in the new `0xB08000` Flash RootFS partition. The owner-signed Cloud test package was validated and decrypted by an independent C implementation, and its RootFS was byte-for-byte identical to the offline build. **It has not used the user's real SSH public key, has not executed the full upgrader, and is NOT approved for Flash.**
 
 The next indispensable gates before first actual Flash write are:
 
