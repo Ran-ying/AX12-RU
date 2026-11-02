@@ -140,6 +140,21 @@ Decision recorded 2026-11-02:
 - Lower-risk interim approach: hot-edit via RAM bind mounts, store version-controlled changes on the owner's Mac mini, and restore changes by SSH after reboot. This avoids repeated firmware flashing but depends on that host; it is not autonomous router persistence.
 - **Do not flash the current offline experiment package:** although self-signed RSA-PSS/AES and SquashFS rebuild are independently validated, the proprietary on-device upgrade and new Bootloader/Flash layout transition are still unverified.
 
+
+## Same-version 1.5.0 reinstallation and first-upgrade plan (2026-11-02)
+
+The preferred workflow is **one custom 1.5.0 baseline upgrade, followed by repeated owner-signed 1.5.0 rebuilds** for future Web/backend changes. This avoids requiring a persistently writable whole `/www` filesystem.
+
+Evidence:
+- The official RU 1.5.0 `soft-version` payload advertises `soft_ver:1.5.0 Build 20260605 Rel. 41062`, and the existing offline owner-signed test package preserves that value exactly.
+- The new `libnvrammanager.so` exports `nm_checkSoftVer` at virtual address `0x43d4`. Static MIPS disassembly of the version tuple comparisons (`0x45e8..0x46c0`) includes an equality-accepting path; there is **no explicit equality-rejection in that routine**. This suggests (but does not prove) that same-version installs can pass its version comparison. Other gates (`nm_checkUpgradeMode`, signature, platform support list, Flash write) remain untested.
+- TP-Link's [AX12 RU download page](https://www.tp-link.com/kz/support/download/archer-ax12/) offers 1.5.0 without documenting a mandatory intermediary for RU 1.1.22, but carries warnings of irreversible version upgrades for other releases. Do not infer safe rollback.
+- The initial router runs **1.1.22**, with the stock vendor-only verifier. An owner-signed 1.5.0 image is **not directly accepted** by this stock verifier. Installing the unmodified official 1.5.0 first would likely remove the existing custom root SSH and does not install the owner trust anchor. The initial transition therefore requires a separately validated root-authorized upgrade path or a recovery-enabled one-time Flash procedure.
+- The upgrade must deliver an **owner-key** verification library and working root SSH as part of the first custom 1.5.0 RootFS. Future updates can keep `1.5.0` as the firmware version while changing only custom build metadata; the physical Flash update still rewrites relevant NOR sectors and cannot be performed indefinitely without wear.
+- 1.5.0 changes the RootFS Flash offset from `0x440000` to `0x400000` and contains an `fs-uboot` payload. Do not assume that the old bootloader can safely boot the new partition table. Verify the exact pre-upgrade Flash map, upgrade operations, recovery path, and preservation of the radio/calibration/config partitions before the first write.
+
+**Status: planned, not deployed.** No same-version reinstallation was attempted on real hardware, and no live upgrade is authorized by this note.
+
 ## Persistence research
 
 Live SSH inspection found:
