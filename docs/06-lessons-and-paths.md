@@ -12,9 +12,9 @@
 
 | 绝对路径 | 功能 |
 | --- | --- |
-| `/Users/ranying/Desktop/ax12_uart_send.py` | 经过实测的 UART Loader V2 发送器（**原文件未归档到本仓库**） |
-| `/Users/ranying/Desktop/receiver.bin` | 992 字节 MIPS V2 RAM 接收器（原文件未归档） |
-| `/Users/ranying/Desktop/receiver.S` | 接收器汇编源码（原文件未归档） |
+| `/Users/ranying/Desktop/ax12_uart_send.py` | 经过实测的 UART Loader V2 发送器（现已归档为 [tools/ax12_uart_send.py](../tools/ax12_uart_send.py)） |
+| `/Users/ranying/Desktop/receiver.bin` | 992 字节 MIPS V2 RAM 接收器（现已归档为 [tools/receiver.bin](../tools/receiver.bin)） |
+| `/Users/ranying/Desktop/receiver.S` | 接收器汇编源码（现已归档为 [tools/receiver.S](../tools/receiver.S)） |
 | `/Users/ranying/Desktop/receiver.elf` | 其 ELF 产物（原文件未归档） |
 | `/Users/ranying/Desktop/eb_upload.py` | 早期 `EB` 上传工具（原文件未归档） |
 | `/Users/ranying/Desktop/ax12_flash_dump.py` | 早期 Flash 备份脚本（源码现已归档为 [tools/ax12_flash_dump.py](../tools/ax12_flash_dump.py)） |
@@ -63,6 +63,18 @@
 /etc/shadow
 /dev/net/tun
 ```
+
+## 尚未归档但已确认存在于 Mac mini 的构建材料
+
+| Mac mini 路径 | 用途 | 是否必须 |
+| --- | --- | --- |
+| `/Users/ranying/Desktop/build.sh` | 接收器构建脚本 | **重编译并复现接收器**需要；运行现有 `receiver.bin` 不需要 |
+| `/Users/ranying/Desktop/link.ld` | 接收器链接脚本 | **重编译并复现接收器**需要；运行现有 `receiver.bin` 不需要 |
+| `/Users/ranying/Desktop/eb_upload.py` | 早期 `EB` 上传工具 | 可选，历史研究 |
+| `/Users/ranying/Desktop/xmod_send.py` | XMODEM 测试工具 | 可选，记录失败路线 |
+| `/Users/ranying/Desktop/ax12_capture.py` | 串口采集工具 | 可选，辅助研究 |
+
+这五个文件均出现在 Mac mini 的真实桌面清单，但**尚未通过本次会话上传原件**，因此不把它们当成已归档工具。接收器的最终实际使用版本已以源码和 992 字节二进制归档，直接复用不需要它们。
 
 ## 已确认使用的工具和命令
 
