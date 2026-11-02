@@ -20,8 +20,11 @@
 | [`tools/ax12_flash_dump.py`](tools/ax12_flash_dump.py) | 通过 `FLR` + `DB` 从 UART 读取整片 16 MiB SPI NOR；无 Flash 写操作 | 使用过的源代码 |
 | [`tools/ax12_seal_realtek_rootfs.py`](tools/ax12_seal_realtek_rootfs.py) | 离线添加 AX12 RootFS 厂商长度字段及 16 位校验字 | 实际完成过封装并成功启动 |
 | [`tools/ax12-ssh`](tools/ax12-ssh) | 已在 RootFS 内使用的自定义 Dropbear 开机脚本 | 实机成功运行 |
+| [`tools/ax12_uart_send.py`](tools/ax12_uart_send.py) | UART V2 发送器；通过 EB/DB 验证接收器、块 CRC32、整段 RAM CRC32 | **Mac mini 原件已归档** |
+| [`tools/receiver.S`](tools/receiver.S) | UART V2 MIPS32 汇编接收器源码 | **原件已归档** |
+| [`tools/receiver.bin`](tools/receiver.bin) | UART V2 992 字节接收器，可直接给发送器使用 | **原件已归档** |
 
-UART V2 发送脚本、MIPS 接收器源码和接收器二进制，**已确认保存在本次实验所用 Mac mini 的桌面**（见[真实路径索引](docs/06-lessons-and-paths.md)），但其完整源码/二进制没有作为可读原件提供到本次仓库归档环境，因此**暂不伪造或替换上传**。后续可从 Mac mini 将原文件单独提交。
+三个 UART V2 文件已从本次会话实际上传的原件保存到仓库，并核对文件大小、哈希。可直接按[UART V2 传输文档](docs/04-uart-v2-flashing.md)使用。**构建脚本 `build.sh`、链接脚本 `link.ld` 尚未归档**，因此从汇编源码完整重现 `receiver.bin` 的构建链仍待补齐；实际传输不需要重新编译。
 
 ## 设备与范围
 
