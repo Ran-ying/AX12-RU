@@ -57,3 +57,49 @@
 4. **正式更新时明确授权**：不能从“继续研究”推断允许擦写运行中的 AX12。
 
 **当前结论：仍然不能安全地执行首次 `nvrammanager -u`。** 已完成的工作是支持自签名校验、分区尺寸及静态写入路径的验证。
+
+
+## 后续追加：无 Flash 操作的启动格式检查与虚拟升级（2026-11-02）
+
+### 两代 `cr6c` 内核头与校验和
+
+执行 `tools/firmware/check_kernel_boot_compat.py` 检查**两代官方镜像**：
+
+```text
+1.1.22: cr6c load=0x80c20000, burn=0x40000,
+        data=0x380c02, package=0x380c13, checksum=PASS
+1.5.0:  cr6c load=0x80c20000, burn=0x40000,
+        data=0x393c02, package=0x393c13, checksum=PASS
+PASS: kernel load address and Flash destination are unchanged
+```
+
+对于这两份 `os-image`，Realtek 16 字节大端头均标注同一 RAM 加载地址、内核 Flash 地址；对应数据部分按 16 位大端累加校验都等于零。这是**保留旧 Bootloader 的积极静态证据**，但不能证明实际内核能够执行及挂载新版 RootFS，也不能证明旧 Bootloader 的 RootFS 搜索配置与新版兼容。
+
+旧 Bootloader 与新固件携带的 `fs-uboot` 开头均具有相同的复位代码布局，首处不同偏移约为 `0x124`；而后者仍有大量变化。不能因此跳过 UART 验收。
+
+### 从真实设备备份创建“只读虚拟 Flash 升级”模型
+
+`tools/firmware/virtual_first_upgrade.py` 读取 Mac mini 上先前核验的原始 **16 MiB Flash 备份**及当前经自有公钥验签的 1.5.0 Cloud 包，将新版清单中的 **10 个非 Bootloader 分区**按**新版分区表**写入一个普通磁盘文件，**仅为假设性的保留原 Bootloader 升级模型**，并检查保留内容。
+
+实际在 Mac mini 上通过：
+
+```text
+PASS: 10 target partitions modeled, old bootloader preserved
+New kernel header at 0x40000 and RootFS magic at 0x400000: PASS
+User config, product identity, MAC and radio calibration retained: PASS
+Virtual image size: 16777216
+Virtual image SHA256:
+7f4c3bb48c54ea1a865d75f88eff4fede3d8c6b799caae4ddface32773bc19a9
+```
+
+包含设备唯一内容的虚拟 Flash 镜像只保留在用户 Mac mini：`~/Desktop/AX12-RU-1.5.0-owner/VIRTUAL-FIRSTUPGRADE-NOT-FOR-FLASH.bin`。**不可上传公开仓库或整片刷写此测试镜像**。此模型验证所提议布局没有越界、且指定原始设备分区原样保留；它**不**复现原厂 `nvrammanager -u` 实际写入顺序，也不能证明固件可启动。
+
+### 外部恢复与无写入测试路线
+
+- 2026-10-03 发布的 [Archer AX12 V1 韩版救砖记录](https://thisok.org/board/Program/15) 报告通过 Realtek UART 提示符，使用 `AUTOBURN 0` 将 TFTP 文件仅加载到 RAM，再以显式 Flash 命令恢复 0x40000 内核分区和 0x400000 RootFS 分区，最终启动成功。案例与新版分区地址相符，但属于**他人其他地区板卡的报告**，不应直接当作我们 RU 机器上的实测结果，也不能使用韩版原始镜像覆盖俄版或设备专属区域。
+- [Realtek 旧型号引导命令参考](https://jbit.net/Elecom_WRC-733FEBK_Part1/) 提供 `AUTOBURN`、`LOADADDR`、`J`、`FLR` 等命令背景；必须先在本机串口 `HELP` 中确认命令实际存在。
+- **仅向 RAM 传入新版普通 `os-image`，即使成功执行，也可能尝试从 Flash 挂载其预期的新 RootFS；现有 Flash 仍是 1.1.22 布局，因此不能通过这种方法独立证明完整 1.5.0 系统启动兼容。** 若要全程不擦写测试新系统，需验证是否有适合 AX12 的专用 initramfs/RAM 启动构建及内存布局。
+- Mac mini 上检测到 FT232R USB UART 设备，但串口与 AX12 的 TX/RX/GND 接线、Realtek 引导提示符都没有实机验证。不能把“USB 设备已枚举”视为“救砖功能已通过”。
+
+**当前状态：离线内核头验证与假设性 16 MiB 虚拟迁移全部通过；实际 Bootloader 兼容性、Flash 写入顺序、UART 恢复还未通过。没有触碰真实 Flash。**
+
