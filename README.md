@@ -284,6 +284,14 @@ Linux Akronite 4.4.176 #1 Mon Mar 11 19:51:57 CST 2024 mips GNU/Linux
 
 此补丁仍属于 **RAM 临时改造**，未集成进永久 RootFS，重启后将失效；前端文字还需要人工术语校对。
 
+## 8 · 从原始 16 MiB Flash 解密官方 RU 1.5.0（已验证）
+
+2026-11-02，已从原始 Flash 备份的旧版 `nvrammanager` 提取 RSA-2048 **公钥**，配合 [robbins/tp-link-decrypt](https://github.com/robbins/tp-link-decrypt) 在 VPS 离线完成 RU 1.5.0 官方固件验证和解密；成功恢复 `fwup-ptn` 明文分区清单，提取新版 SquashFS 文件系统（2533 inode）。新版系统改用新的前端打包架构，并附带简体中文 JS 模块。
+
+**重要：新版物理 Flash 分区位置发生变化**，RootFS 从旧版 `0x440000` 改为新版 `0x400000`。不可沿用旧版直接写入地址。当前尚未获得重新签署定制固件的能力；这次全程未写路由器 Flash，未升级或重启。
+
+完整验证证据、只读工具与注意事项见 [tools/firmware/README.md](tools/firmware/README.md)。
+
 ## 安全与保存原则
 
 - 不提交原厂 16 MiB Flash 备份、完整可刷写固件、设备校准数据、SSH 私钥、authorized_keys、公钥身份信息、设备 host key、`/etc/shadow`、个人配置或原始串口日志。
