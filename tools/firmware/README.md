@@ -181,6 +181,36 @@ The next indispensable gates before first actual Flash write are:
 3. Validate writable metadata fields, partition bounds, vendor-specific checks and recovery procedure. The 1.5.0 `nm_checkSoftVer` routine has a static path compatible with equality; this alone does **not** prove that full same-version reinstalls work.
 4. **Only after** all checks pass should the first hardware firmware update be considered. No authorization for actual flashing is implied here.
 
+
+## First owner-signed 1.5.0 candidate status (2026-11-02)
+
+**The original SSH RSA-3072 private key was disclosed in a conversation and should be revoked/rotated. Do not copy a private key into this repository, send one to the VPS, or reuse that exposed RSA-3072 key as the Cloud signer.** The Cloud RSA-PSS signature slot is exactly 256 bytes and the offline tools currently support RSA-2048.
+
+A fresh RSA-2048 keypair was generated **on the owner's Mac mini only**, intended for both new root SSH authorization and owner-only firmware signing. Its **public** OpenSSH and PEM encodings were provided to the private VPS build environment; the new private key has not been uploaded. The old live SSH authorization is unchanged until an independently validated migration, so treat the old key as exposed in the meantime.
+
+The new single-key build was tested via `build_owner_rootfs.sh` with a mandatory signing-key-vs-SSH-key equality check. The resulting sealed 1.5.0 RootFS is `0xAE4003` bytes, **147,453 bytes below the 1.5.0 file-system partition ceiling**. It contains the owner RSA-2048 public key in the default `libnvrammanager.so`, the existing LAN-only root SSH autostart script, and the same owner's SSH public key in both `authorized_keys` locations. No private key is embedded.
+
+A **matching 1.1.22 nvrammanager test copy** was patched with the owner's public RSA-2048 key, keeping its ELF size unchanged. The old program starts under MIPS QEMU but, like the unmodified binary, fails at device initialization due to missing proprietary `/dev/flash_chrdev`. **This does not prove `nvrammanager -c` passes the complete package checks** and is not a hardware upgrade approval.
+
+### Sign the test Cloud package without exporting the private key
+
+`prepare_owner_cloud.py` prepares the AES-encrypted, signature-slot-zeroed Cloud payload and a **256-byte PSS encoded message** on the VPS. `sign_em_local.py` performs only the raw RSA private operation on the owner's machine; `finalize_owner_cloud.py` installs the resulting 256-byte signature and verifies RSA-PSS, AES-decrypted Cloud manifest, and exact RootFS bytes.
+
+The isolated procedure passed an end-to-end rehearsal using a separate **disposable test signing key**, yielding the expected full `0xEA8ADC`-byte Cloud container. The fresh owner's own PSS signature **has not yet been produced**: an automated attempt to use the Mac local private key was blocked. Do not represent the prepared unsigned Cloud container as a signed firmware.
+
+Private VPS staging root: `/var/lib/linux-panel/ax12-firmware-work/owner-2026-build-v2` (unsigned `unsigned.bin`, PSS `em.bin`, sealed `rootfs.sealed`). A corresponding 256-byte `em-final.bin` and local-only `sign_em_local.py` were staged on the Mac mini under `~/Desktop/AX12-RU-1.5.0-owner/`. The caller may **run the local signing script directly on Mac mini**, without sending any private key to an assistant or server.
+
+Only a 256-byte RSA signature needs to be returned to finalize; it does not reveal the private key. After that, all checks must be repeated before even considering installation. Keep firmware packages, signatures, and device-specific credentials in private workspaces, not public GitHub.
+
+### Hard stop before flashing
+
+- The stock **1.1.22** updater has not been confirmed to accept the owner's 1.5.0 package, even with a temporary public-key-patched binary.
+- The 1.5.0 `fs-uboot` content is different, and the firmware changes RootFS Flash start from `0x440000` to `0x400000`. Bootloader transition, kernel handoff, Flash partition-table commit ordering, and UART recovery have not passed end-to-end verification.
+- The Cloud outer-header digest/metadata at `0x04..0x13` has not yet been independently validated for a modified image.
+- The eventual SSH startup and full upgrade checks have not been verified on actual 1.5.0 hardware. A QEMU loader start and independent signature check are necessary but insufficient.
+
+**Status: offline build and sign-preparation only. No Flash write, firmware upgrade or router reboot was performed.**
+
 ## Persistence research
 
 Live SSH inspection found:
