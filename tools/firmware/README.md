@@ -89,6 +89,44 @@ The stock platform upgrade script's `platform_check_image()` returns success unc
 
 Keep the actual BINs, reconstructed AES material and device Flash backups private. This repository publishes reproducible code only.
 
+
+## Self-signed Cloud repackage and independent verification (2026-11-02)
+
+The following steps **now work on offline copies of RU 1.5.0**. No router Flash was modified.
+
+### Test-only signing and AES encryption
+
+1. Generate an **ephemeral RSA-2048 keypair** outside the repository. Keep the private key private. `tools/firmware/self_sign_lab.py` independently performs RSA-PSS/SHA256 with caller-controlled 48-byte salt. The first 32 salt bytes are a new AES-128 key and CBC IV; AES encrypts the Cloud payload. The RSA signature is encoded as little-endian bytes at `0x130..0x22F`.
+2. A subtle CBC requirement: the 256-byte signature slot must encrypt to **all-zero ciphertext** before inserting the RSA signature, because the decryptor first zeros those bytes. The test generates the slot's temporary plaintext by decrypting 256 zero bytes with the **new** AES key and IV. Without this adjustment, the region following the signature cannot be recovered exactly.
+3. `self_sign_lab.py` passes the owner's RSA-PSS check, verifies that the vendor key rejects the new signature, and verifies that tampering is rejected. The community C implementation `robbins/tp-link-decrypt`, rebuilt with the test **owner public key**, independently reports `Firmware verification successful`. After decrypting, all bytes outside the unused signature slot match the official plaintext payload.
+
+### Preserve vendor upgrades without changing the verifier's machine code
+
+- `patch_trust_anchor.py` creates an offline copy of `libnvrammanager.so` with only its RSA-2048 **PUBLICKEYBLOB** replaced by an owner public key of equal encoded length. The vendor's original RSA-2048 and RSA-1024 public-key formats are preserved correctly, including the `060200000c240000` PUBLICKEYBLOB prefix. A patched **single-owner-key** library is not in itself a dual-trust verifier.
+- `build_test_rootfs.sh` keeps the *original* `/usr/lib/libnvrammanager.so`, adds the owner-only test library under `/usr/lib/ax12-owner/libnvrammanager.so`, and creates a **check-only** wrapper `/usr/sbin/ax12-owner-check` using `LD_LIBRARY_PATH`. It contains no special firmware-write commands and has not been installed on a router.
+- MIPS user-mode QEMU, with the extracted 1.5.0 RootFS as its sysroot, was used to observe that `nvrammanager` actually opens `/usr/lib/ax12-owner/libnvrammanager.so` when the owner library path is configured. The process subsequently stopped at `/dev/flash_chrdev` because the isolated environment has no simulated AX12 Flash. This is **loader proof**, not an end-to-end device upgrade acceptance test.
+
+### Rebuild a modified complete image, still offline
+
+- `seal_rootfs.py` applies the Realtek SquashFS header length and 16-bit checksum, plus the trailing zero observed on both official 1.1.22 and 1.5.0 Cloud `file-system` entries. Both official entries have length `padded_rootfs + 3`, with the vendor length field exactly 643 bytes less than the final entry.
+- `build_test_rootfs.sh` repacks the extracted RootFS using XZ, 256-KiB blocks and the original SquashFS options. The verified offline test image is `0xAED003` bytes after sealing, **110,589 bytes under the 1.5.0 partition capacity `0xB08000`**. It contains the two libraries and a read-only check wrapper.
+- `repack_cloud_lab.py` replaces the Cloud `file-system` payload, updates its manifest entry length and subsequent partition offsets by `+0x7000`, updates the overall file length, AES-encrypts and owner-signs the new Cloud package. The test container was `0xEB1ADC` bytes long.
+- The independent C decryptor with the owner public key verified this complete newly signed package. Its decrypted `file-system` exactly matched the generated RootFS entry, and the manifest offsets and file length were checked independently.
+
+Reproduction overview (all commands run on your **offline copies**, not the router):
+
+```sh
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out test-private.pem
+openssl pkey -in test-private.pem -pubout -out test-public.pem
+python3 tools/firmware/self_sign_lab.py official.bin original-nvrammanager \
+  test-private.pem original-content-self-signed-test.bin
+sh tools/firmware/build_test_rootfs.sh EXTRACTED_OFFICIAL_ROOTFS test-public.pem WORKDIR
+python3 tools/firmware/repack_cloud_lab.py official.bin original-nvrammanager \
+  test-private.pem WORKDIR/rootfs.sealed WORKDIR/selfsigned-custom-test.bin
+```
+
+**Remaining blockers:** the running AX12 has not accepted the custom package, and 1.5.0's bootloader/Flash layout transition has not been validated. The extracted `nvrammanager -c` cannot complete in QEMU without its proprietary Flash device. The 16-byte header at file offset `0x04` and any additional vendor checks must be validated before attempting a write. The test images are **not validated flashable upgrades**. No signed packages, extracted proprietary RootFS, device backups or private keys have been pushed to GitHub.
+
 ## Persistence research
 
 Live SSH inspection found:
