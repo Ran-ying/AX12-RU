@@ -56,6 +56,39 @@ These are **not free space**; configuration and calibration data may live there.
 - A RSA public key suitable for verification/decryption of this vendor container is **not** a private signing key. Do not conclude that a modified image can be accepted by a production upgrader.
 - Do not publish decrypted proprietary firmware, device Flash backups, device credentials, cryptographic key blobs or other extracted contents. Scripts and metadata only.
 
+
+## Can the modified 1.5.0 image be repacked and accepted? (2026-11-02)
+
+**AES encryption can be reproduced, but vendor RSA-2048-PSS signing remains a blocker for a stock, accepted upgrade.** This is verified experimentally rather than an assumption.
+
+Reproduce the zero-write, offline test (requires `cryptography`):
+
+```sh
+python3 tools/firmware/repack_proof.py /path/to/official-1.5.0.bin /path/to/original/nvrammanager
+```
+
+Test results on RU 1.5.0:
+
+```text
+Original firmware: RSA-2048-PSS verified
+Decrypted SquashFS magic at: 0x3b8d64
+Unmodified AES re-encryption: exact byte-for-byte original
+Modified payload: RSA-PSS verification FAILED (expected)
+```
+
+Independent implementation details:
+
+- The vendor RSA-2048 public-key blob is a little-endian Microsoft PUBLICKEYBLOB. The firmware signature is stored in little-endian order, at file offset `0x130..0x22F`. Verify its **reversed** 256-byte representation using standard RSA-PSS/SHA256 (salt length encoded in PSS).
+- Validation hashes the firmware starting at `0x14` with the 256-byte signature field temporarily zeroed. The PSS salt recovered from the signed message contains a 16-byte AES key and a 16-byte CBC IV followed by additional salt. We verified the PSS signature independently using Python `cryptography` — no reliance solely on the community decryptor's success message.
+- AES-128-CBC decrypts the 16-byte-aligned span starting at `0x130`, with the signature bytes zeroed first. We independently reproduced byte-for-byte the open-source decryptor's output prefix. Re-encrypting the untouched plaintext and restoring the same 256-byte signature produces a **byte-for-byte copy of the official encrypted BIN**.
+- Changing even one payload byte after decryption and re-encryption invalidates the RSA-PSS signature. We separately flipped a byte in an official encrypted BIN and observed `RSA PSS Verify Error 3!` in the TP-Link decryptor. RSA public keys extracted from Flash **cannot generate a new valid signature**.
+
+The stock platform upgrade script's `platform_check_image()` returns success unconditionally, but actual flashing is handed to `nvrammanager -u` where vendor verification is implemented. Consequently, `sysupgrade -F` is **not established as a signature bypass** and must not be attempted as a shortcut.
+
+**Next engineering path:** audit the complete on-device upgrader and Flash mapping offline, and evaluate a root-authorized, controlled installation of a custom 1.5.0 image with exact partition map and verified recovery plan. This would bypass the need to create a vendor-signed update package, but it is **not** yet tested, and must **not** be treated as safe flashing instructions. 1.5.0 includes `fs-uboot` in its update manifest and moves RootFS to Flash offset `0x400000` (instead of `0x440000`), so the bootloader and transition compatibility require special attention before any Flash operation.
+
+Keep the actual BINs, reconstructed AES material and device Flash backups private. This repository publishes reproducible code only.
+
 ## Persistence research
 
 Live SSH inspection found:
