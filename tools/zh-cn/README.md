@@ -31,6 +31,17 @@ ssh ax12 'test -s /www/webpages/locale/zh_CN/lan.js && tail -4 /etc/config/local
 curl -I http://192.168.0.1/webpages/locale/zh_CN/lan.js
 ```
 
+## 不刷机的跨重启恢复（Mac mini）
+
+`tools/zh-cn/ensure.sh` 是从 Mac mini 运行的幂等检查脚本：先通过 `ssh ax12` 检查简体中文文件与 `ZH_CN` 注册；若已经存在，则直接退出；若路由器重启导致它们消失，则重新生成、上传并挂载到 RAM。**不会写入 AX12 Flash。**
+
+```sh
+# 在克隆好的 AX12-RU 仓库目录
+sh tools/zh-cn/ensure.sh
+```
+
+已在当前运行中的实机验证 **已有补丁时不重复部署**。尚未进行路由器重启后的恢复试验，也尚未安装任何 macOS 自动任务。以后可用用户级 `launchd` 定时运行此脚本（例如每 120 秒），自动恢复仍依赖 Mac mini 在线且该用户已登录；这不等同于路由器自身的持久化。
+
 ## 回滚
 
 本仓库 `activate.sh` 新部署的版本：
