@@ -158,7 +158,7 @@ Evidence:
 
 ## First-upgrade preflight: owner-only 1.5.0 + SSH (2026-11-02)
 
-The **live AX12 runs RU 1.1.22**, not 1.2.0. The existing flashed SSH keypair was generated on the owner's MacBook and its **RSA-3072 private key** is kept on the Mac mini under `~/.ssh/ax12_root`. Its SHA256 public-key fingerprint, derived from the Mac mini private key in a read-only check, is `SHA256:rXNBCRUiTLSt2Q0d1BUmSjvafQ7sAgVYJIsZnQUPWtQ`. The historical successful-flash README documents `authorized_keys` being integrated into the 1.1.22 RootFS and tested root SSH login; this recent check did not directly read current runtime `authorized_keys`.
+The **live AX12 runs RU 1.1.22**, not 1.2.0. The existing flashed SSH keypair was generated on the owner's MacBook and its **RSA-3072 private key** is kept on the Mac mini under `~/.ssh/ax12_root`. The local Mac mini key fingerprint was checked without publishing the public key or its identifier. The historical successful-flash README documents `authorized_keys` being integrated into the 1.1.22 RootFS and tested root SSH login; this recent check did not directly read current runtime `authorized_keys`.
 
 **Do not mix the SSH RSA-3072 key with the firmware RSA-2048 signer.** The latter used so far is a disposable experiment key on the VPS and must be replaced with a backed-up long-term *owner* signing key before any actual firmware installation.
 
