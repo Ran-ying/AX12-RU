@@ -288,7 +288,7 @@ Linux Akronite 4.4.176 #1 Mon Mar 11 19:51:57 CST 2024 mips GNU/Linux
 
 2026-11-02，已从原始 Flash 备份的旧版 `nvrammanager` 提取 RSA-2048 **公钥**，配合 [robbins/tp-link-decrypt](https://github.com/robbins/tp-link-decrypt) 在 VPS 离线完成 RU 1.5.0 官方固件验证和解密；成功恢复 `fwup-ptn` 明文分区清单，提取新版 SquashFS 文件系统（2533 inode）。新版系统改用新的前端打包架构，并附带简体中文 JS 模块。
 
-**重要：新版物理 Flash 分区位置发生变化**，RootFS 从旧版 `0x440000` 改为新版 `0x400000`。不可沿用旧版直接写入地址。当前尚未获得重新签署定制固件的能力；这次全程未写路由器 Flash，未升级或重启。
+**重要：新版物理 Flash 分区位置发生变化**，RootFS 从旧版 `0x440000` 改为新版 `0x400000`。不可沿用旧版直接写入地址。目前已经通过离线实验生成自签名 Cloud 测试包，并重新封装了加入自有公钥验证库的 1.5.0 RootFS；独立解密工具验证成功。**这不等于原厂升级程序已接受该包，更不意味着可以安全刷写。** 本次全程未写路由器 Flash，未升级或重启。
 
 完整验证证据、只读工具与注意事项见 [tools/firmware/README.md](tools/firmware/README.md)。
 
