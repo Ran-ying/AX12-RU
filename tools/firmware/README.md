@@ -253,6 +253,10 @@ The payload lengths fit the stated new partition capacities, but the new `fs-ubo
 
 **HARD STOP: hardware upgrade/flash operation has not been authorized or performed. The present candidate is for research and dry-run validation, not direct flashing.**
 
+## First-upgrade firmware write-chain audit
+
+See [first-upgrade-audit.md](first-upgrade-audit.md) for the verified old/new MIPS writer loop locations, the old 28-slot and new 32-slot entry limits, manifest ordering, exact Flash map changes and recovery blockers. A successful `nvrammanager -c` on 1.1.22 proves only **owner-signature acceptance**; it does not validate the actual firmware write/update sequence. The unchanged live router is not approved for flashing at this point.
+
 ## Persistence research
 
 Live SSH inspection found:
