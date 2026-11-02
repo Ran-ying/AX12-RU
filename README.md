@@ -19,6 +19,8 @@
 | [`tools/build.sh`](tools/build.sh) | 编译接收器 |
 | [`tools/receiver.bin`](tools/receiver.bin) | **实机使用的 992 字节接收器** |
 | [`tools/zh-cn/README.md`](tools/zh-cn/README.md) | 简体中文语言包生成、轻量 RAM 挂载、回滚（实机验证） |
+| [`tools/firmware/README.md`](tools/firmware/README.md) | 官方 1.1.22 与 1.5.0 Cloud 固件结构比较、非刷机持久化研究 |
+| [`tools/firmware/inspect_cloud.py`](tools/firmware/inspect_cloud.py) | Cloud 固件只读头部、manifest、分区表检查工具 |
 
 这三个文件已在当前构建环境实际重建并确认**逐字节一致**：`receiver.S` + `link.ld` + `build.sh` → `receiver.bin`。
 
