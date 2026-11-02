@@ -1,0 +1,29 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=01
+
+start() {
+    lan_ip=$(/usr/sbin/ip -4 -o addr show dev br-lan |
+        awk '{split($4,a,"/"); print a[1]; exit}')
+
+    if [ -z "$lan_ip" ]; then
+        echo "ax12-ssh: LAN address unavailable" >&2
+        return 1
+    fi
+
+    /usr/sbin/iptables -I INPUT 1 \
+        -p tcp --dport 2222 ! -i br-lan -j DROP || return 1
+
+    /usr/sbin/dropbear \
+        -L -6 \
+        -P /var/run/ax12-ssh.pid \
+        -r /etc/dropbear/dropbear_rsa_host_key \
+        -p "${lan_ip}:2222"
+}
+
+stop() {
+    kill "$(cat /var/run/ax12-ssh.pid)"
+    /usr/sbin/iptables -D INPUT \
+        -p tcp --dport 2222 ! -i br-lan -j DROP
+}
