@@ -1,5 +1,6 @@
 # Private device dumps, configurations, host keys and credentials
 *.bin
+!tools/receiver.bin
 *.img
 *.sqfs
 *.tgz
