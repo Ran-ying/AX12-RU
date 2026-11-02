@@ -1,0 +1,20 @@
+# Private device dumps, configurations, host keys and credentials
+*.bin
+*.img
+*.sqfs
+*.tgz
+*.zip
+*.log
+*.pcap
+*.pem
+*.key
+*.pub
+*known_hosts*
+*authorized_keys*
+*shadow*
+*passwd.backup*
+*config*.backup
+*.elf
+*.o
+.DS_Store
+__pycache__/
