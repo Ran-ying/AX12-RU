@@ -211,6 +211,34 @@ Only a 256-byte RSA signature needs to be returned to finalize; it does not reve
 
 **Status: offline build and sign-preparation only. No Flash write, firmware upgrade or router reboot was performed.**
 
+
+## VERIFIED live 1.1.22 owner-signature check (2026-11-02)
+
+**Machine mapping correction:** `linuxpanel` and `linveo` are separate servers. Linux Panel holds the firmware build artifacts; the user's new RSA-2048 **private key remains on the Mac mini**. The owner generated a 256-byte signature locally, which was copied from Mac mini to Linux Panel to finalize the owner-signed 1.5.0 candidate. No private key was transferred.
+
+Owner-signed firmware candidate was generated in the private Linux Panel staging directory `/var/lib/linux-panel/ax12-firmware-work/owner-2026-build-v2/AX12-RU-1.5.0-owner-CANDIDATE.bin`; length `15,370,972` bytes (`0xEA8ADC`), SHA256 `c5a66492c4dac14a5731b9cbaa6298678414e30d7a50b83c703fa49180e3b542`. RSA-PSS/SHA256 with the new owner public key, AES-128-CBC, and the exact rebuilt owner-only RootFS all verified. An independent C decryptor rebuilt with the owner public key also reported `Firmware verification successful`. The SSH authorized key and the firmware RSA verification key match.
+
+The signed package was transferred in SHA256-verified chunks to the Mac mini and then copied over SSH to the live AX12's **RAM-only** `/tmp`. Two **check-only** runs were performed on the live 1.1.22 system:
+
+| Program | Command flag | Observed result |
+|---|---|---|
+| Stock 1.1.22 `/usr/bin/nvrammanager` | `-c` | `RSA PSS Verify Error 1!`, exit `255`; the stock tool removed the temporary image after this failure |
+| Temporary owner-public-key-patched 1.1.22 `nvrammanager` copy, running from `/tmp` | `-c` | `RSA2048 PSS`, `md5 or cloud-func verify ok!`, `Check RSA2048 FW, no need analysis firmware, return OK.`, `chekc firmware file success!`; exit **0** |
+
+The owner-patched test ELF was the exact size of the stock executable (114,056 bytes), with only its embedded RSA-2048 public-key blob modified. The stock installed `/usr/bin/nvrammanager` was **never overwritten**. The signature check did **not** call `-u`/`--upgrade`, reboot, or write Flash. All temporary candidate/package and executable files were removed from the router's `/tmp` following the tests.
+
+**Critical qualification:** the stock `-c` success message explicitly says **"no need analysis firmware, return OK"**. Therefore the test establishes that the owner public key allows a successful **pre-upgrade signature check**, **not** that the subsequent vendor `upgradeFirmware` process can safely migrate bootloader, kernel, rootfs and partition tables.
+
+### Still required before any actual upgrade
+
+- The new Cloud manifest **contains a changed `fs-uboot` payload** in addition to `os-image`, `file-system` and a revised partition table. The 1.5.0 layout moves RootFS from `0x440000` to `0x400000`; `os-image` shrinks to `0x3C0000` and `file-system` expands to `0xB08000`.
+- Validate whether the existing 1.1.22 vendor updater rewrites the bootloader first, and whether it can safely handle the `fs-uboot` entry and atomicity/recovery. The old `nvrammanager` contains `fs-uboot` and emits errors when partition bases change, but the `-c` fast path does not exercise the actual writer.
+- **Prefer a first-upgrade strategy that preserves the known-recoverable existing bootloader**, if compatibility with the new 1.5.0 kernel and rootfs can be verified. Do not assume the old loader can boot the new kernel merely because signatures pass.
+- Preserve the full 16 MiB Flash recovery image and the device-unique radio and configuration partitions. Confirm a viable hardware-level recovery path before writing bootloader/kernel/RootFS sectors.
+- Retire the previously exposed RSA-3072 root SSH key after the new owner key is verified on a running updated router. The old key is still active on the current router.
+
+**HARD STOP: hardware upgrade/flash operation has not been authorized or performed. The present candidate is for research and dry-run validation, not direct flashing.**
+
 ## Persistence research
 
 Live SSH inspection found:
