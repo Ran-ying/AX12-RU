@@ -58,7 +58,7 @@ if args.old_cloud:
     old_table = {
         m[1].decode(): (int(m[2], 16), int(m[3], 16))
         for m in re.finditer(
-            rb"partition ([\\w-]+) base 0x([0-9a-f]+) size 0x([0-9a-f]+)",
+            rb"partition ([\w-]+) base 0x([0-9a-f]+) size 0x([0-9a-f]+)",
             old[0x1818:0x2014]
         )
     }
