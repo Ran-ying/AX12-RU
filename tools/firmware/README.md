@@ -127,6 +127,19 @@ python3 tools/firmware/repack_cloud_lab.py official.bin original-nvrammanager \
 
 **Remaining blockers:** the running AX12 has not accepted the custom package, and 1.5.0's bootloader/Flash layout transition has not been validated. The extracted `nvrammanager -c` cannot complete in QEMU without its proprietary Flash device. The 16-byte header at file offset `0x04` and any additional vendor checks must be validated before attempting a write. The test images are **not validated flashable upgrades**. No signed packages, extracted proprietary RootFS, device backups or private keys have been pushed to GitHub.
 
+## Single-owner-key upgrade policy and writable Web development strategy
+
+Decision recorded 2026-11-02:
+
+- **Owner-only public key is sufficient for a private router.** New official RU images may be decrypted and re-signed by the owner offline, provided the owner build tools understand that exact future Cloud/boot format. Vendor signatures will not be accepted by the owner-only updater; retain original vendor firmware, key fingerprints and hardware UART recovery. The owner private signing key must remain off-router, uncommitted, and backed up securely.
+- The extracted **1.5.0** firmware contains approximately **4,832 KiB** under `/www` and **2,188 KiB** under `/usr/lib/lua/luci`. The latter contains the Lua controllers and models used by LuCI. The filesystem is **SquashFS**, read-only, as in the live 1.1.22.
+- **Writable vs persistent are different requirements.** A startup `tmpfs` and bind-mounted writable copies (either full copies or an original-file symlink tree) can expose edit-in-place `/www` and Lua-backend paths over SSH immediately, but these RAM modifications disappear on reboot. This mechanism has been tried in principle with the live language-only patch, but **a full new-1.5.0 writable Web/backend mount has not been tested on hardware**. Lua/module caches and the Web server may need reloads for edits to appear.
+- **On-device reboot persistence requires nonvolatile storage.** The current AX12's `/overlay` is tmpfs, `/etc` is ramfs and `/tmp` is tmpfs. The live 1.1.22 `/proc/filesystems` lists SquashFS/ramfs/tmpfs but **not JFFS2 or OverlayFS**. The 1.5.0 extracted `/lib/modules` contains no obvious JFFS2/OverlayFS/NFS client modules; this does not conclusively establish the new kernel's built-in support. Boot scripts reference JFFS2 generically but no `/storage` or `/data` partition is mounted on current hardware.
+- The official 1.5.0 Flash `file-system` partition is **`0xB08000` bytes**; official RootFS payload is `0xAE6003`, leaving only **139,261 bytes** of headroom. Our offline owner-library test RootFS `0xAED003` leaves **110,589 bytes**. This cannot hold copies of the full Web frontend and Lua backend. TP-Link proprietary `user-config`, `router-config` and wireless/calibration partitions are **not free space**.
+- For self-contained persistent editing, investigate **reserving a separate small wear-aware writable Flash partition** (e.g. JFFS2), modifying the kernel/partition table as required and keeping only **changed files** there. This necessarily alters Flash layout and boot assumptions and is not yet safe to implement. A truly independent writable whole `/www` + LuCI tree would need far more Flash space or additional storage.
+- Lower-risk interim approach: hot-edit via RAM bind mounts, store version-controlled changes on the owner's Mac mini, and restore changes by SSH after reboot. This avoids repeated firmware flashing but depends on that host; it is not autonomous router persistence.
+- **Do not flash the current offline experiment package:** although self-signed RSA-PSS/AES and SquashFS rebuild are independently validated, the proprietary on-device upgrade and new Bootloader/Flash layout transition are still unverified.
+
 ## Persistence research
 
 Live SSH inspection found:
