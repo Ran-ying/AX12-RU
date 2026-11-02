@@ -29,7 +29,26 @@
 
 `receiver.bin` 大小 **992 字节**，`ax12_uart_send.py` 的帮助信息包含 `--port`、`--receiver`、`--image`、`--allow-large`；其常量有 `LOADER_ADDR=0xA0800000`、`PAYLOAD_ADDR=0xA4000000`、`MAX_PAYLOAD=0xB00000`。
 
-**归档完整性声明：上述 UART V2 发送器、接收器原件当前仍位于 Mac mini，并未上传到本 GitHub 仓库。** 本文只归档它们已经实际执行的路径、参数和协议，不用未经校验的重写版本冒充原件。若后续将其原件提交，才标记为“源码已归档”。
+**已归档原件：** [`../tools/ax12_uart_send.py`](../tools/ax12_uart_send.py)、[`../tools/receiver.S`](../tools/receiver.S)、[`../tools/receiver.bin`](../tools/receiver.bin)。三者均来自 Mac mini 原文件上传，没有重写。
+
+| 文件 | SHA256 |
+| --- | --- |
+| `tools/ax12_uart_send.py` | `48ed8fa4ce00ac214798a271d11ab64a48e572c4483f515b181f354915436ace` |
+| `tools/receiver.S` | `af4bdc0e94cdc0d44b25da144fe0c75a9de20072c490e97bd40dbc9fa66bd557` |
+| `tools/receiver.bin` | `7d10d6e6a149eb6ae41ced851db26f0f26da85de3f0b6944438f7a7ab814903f` |
+
+从仓库在 Mac 上运行（先 `python3 -m pip install pyserial`，以实际串口设备和镜像为准）：
+
+```bash
+cd ~/AX12-RU
+python3 tools/ax12_uart_send.py \
+  --port /dev/cu.usbserial-2120 \
+  --receiver tools/receiver.bin \
+  --image ~/Desktop/rootfs-ssh-pubkey-flash.bin \
+  --allow-large
+```
+
+`build.sh`、`link.ld` 仍在本次 Mac mini 桌面文件清单中，但尚未上传；要从 `receiver.S` **重新生成**与原件逐字节相同的 `receiver.bin`，还需要这两份构建资料。
 
 ## 本次新镜像：大小、SHA256
 
