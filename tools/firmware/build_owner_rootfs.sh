@@ -1,0 +1,41 @@
+#!/bin/sh
+# Offline owner-only AX12 RU 1.5.0 RootFS build. No device access.
+set -eu
+
+if [ "$#" -ne 5 ]; then
+    echo "Usage: $0 OFFICIAL_ROOTFS OWNER_SIGNING_PUBLIC_PEM SSH_PUBLIC_KEY SSH_INIT_SCRIPT WORKDIR" >&2
+    exit 2
+fi
+
+source_rootfs=$1
+signing_public=$2
+ssh_public=$3
+ssh_init=$4
+workdir=$5
+here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+
+mkdir -p "$workdir"
+if [ -e "$workdir/rootfs" ]; then
+    echo "Refusing to overwrite existing workdir/rootfs" >&2
+    exit 1
+fi
+cp -a "$source_rootfs" "$workdir/rootfs"
+root="$workdir/rootfs"
+
+python3 "$here/patch_trust_anchor.py" \
+    "$root/usr/lib/libnvrammanager.so" \
+    "$signing_public" \
+    "$workdir/libnvrammanager-owner.so"
+cp "$workdir/libnvrammanager-owner.so" "$root/usr/lib/libnvrammanager.so"
+
+install -m 755 "$ssh_init" "$root/etc_ro/init.d/ax12-ssh"
+ln -s ../init.d/ax12-ssh "$root/etc/rc.d/S99zzzzzzzzssh"
+
+install -d -m 700 "$root/root/.ssh"
+install -m 600 "$ssh_public" "$root/root/.ssh/authorized_keys"
+install -m 600 "$ssh_public" "$root/etc/dropbear/authorized_keys"
+
+mksquashfs "$root" "$workdir/rootfs.sqfs" \
+    -noappend -comp xz -b 262144 -always-use-fragments \
+    -exports -all-root -no-progress -processors 2
+python3 "$here/seal_rootfs.py" "$workdir/rootfs.sqfs" "$workdir/rootfs.sealed"
