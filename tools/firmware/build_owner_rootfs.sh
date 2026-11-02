@@ -22,6 +22,21 @@ fi
 cp -a "$source_rootfs" "$workdir/rootfs"
 root="$workdir/rootfs"
 
+# One-key mode: firmware signing and SSH must use the identical RSA-2048 public key.
+python3 - "$signing_public" "$ssh_public" <<'PY'
+import sys
+from pathlib import Path
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+
+signing = serialization.load_pem_public_key(Path(sys.argv[1]).read_bytes())
+ssh = serialization.load_ssh_public_key(Path(sys.argv[2]).read_bytes())
+if not isinstance(signing, rsa.RSAPublicKey) or signing.key_size != 2048:
+    raise ValueError("Cloud signing requires RSA-2048")
+if signing.public_numbers() != ssh.public_numbers():
+    raise ValueError("SSH and firmware signing public keys are different")
+PY
+
 python3 "$here/patch_trust_anchor.py" \
     "$root/usr/lib/libnvrammanager.so" \
     "$signing_public" \
