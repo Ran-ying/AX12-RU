@@ -40,6 +40,7 @@ def main():
 
     patched = blob[:current.start()] + owner_encoded + blob[current.end():]
     args.output.write_bytes(patched)
+    args.output.chmod(args.vendor_elf.stat().st_mode & 0o777)
     print("Original ELF SHA256:", hashlib.sha256(blob).hexdigest())
     print("Owner-key ELF SHA256:", hashlib.sha256(patched).hexdigest())
     print("Replaced one 2048-bit public key at ELF offset:", hex(current.start()))
