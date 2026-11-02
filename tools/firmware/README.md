@@ -229,6 +229,20 @@ The owner-patched test ELF was the exact size of the stock executable (114,056 b
 
 **Critical qualification:** the stock `-c` success message explicitly says **"no need analysis firmware, return OK"**. Therefore the test establishes that the owner public key allows a successful **pre-upgrade signature check**, **not** that the subsequent vendor `upgradeFirmware` process can safely migrate bootloader, kernel, rootfs and partition tables.
 
+### Structural migration preflight (read-only)
+
+`tools/firmware/migration_preflight.py` was run against the independently decrypted owner-signed 1.5.0 candidate and the previously verified original 256-KiB SPI Flash bootloader dump:
+
+```text
+fs-uboot       Flash 0x000000..0x040000, payload 0x2313d
+os-image       Flash 0x040000..0x400000, payload 0x393c13
+file-system    Flash 0x400000..0xf08000, payload 0xae4003
+partition-table Flash 0xf40000..0xf41000, payload 0x800
+Existing vs image fs-uboot: 106,984 differing bytes in 143,677-byte payload
+```
+
+The payload lengths fit the stated new partition capacities, but the new `fs-uboot` is **not** the existing bootloader. Both official old and new `os-image` entries begin with the same `cr6c`-format 16-byte header pattern, which alone is **insufficient** to prove compatibility. The first upgrade must explicitly address whether to preserve the old bootloader or safely install the new one, and how the old updater transitions the rootfs boundary. **Do not invoke `nvrammanager -u` on the current router.**
+
 ### Still required before any actual upgrade
 
 - The new Cloud manifest **contains a changed `fs-uboot` payload** in addition to `os-image`, `file-system` and a revised partition table. The 1.5.0 layout moves RootFS from `0x440000` to `0x400000`; `os-image` shrinks to `0x3C0000` and `file-system` expands to `0xB08000`.
