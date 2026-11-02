@@ -18,6 +18,7 @@
 | [`tools/link.ld`](tools/link.ld) | 接收器链接地址 `0xA0800000` |
 | [`tools/build.sh`](tools/build.sh) | 编译接收器 |
 | [`tools/receiver.bin`](tools/receiver.bin) | **实机使用的 992 字节接收器** |
+| [`tools/zh-cn/README.md`](tools/zh-cn/README.md) | 简体中文语言包生成、轻量 RAM 挂载、回滚（实机验证） |
 
 这三个文件已在当前构建环境实际重建并确认**逐字节一致**：`receiver.S` + `link.ld` + `build.sh` → `receiver.bin`。
 
@@ -271,11 +272,21 @@ Linux Akronite 4.4.176 #1 Mon Mar 11 19:51:57 CST 2024 mips GNU/Linux
 
 可在 Mac mini 的 `~/.ssh/config` 设置专用 `Host ax12` 并将上面的 RSA 兼容参数只限定到这一台路由器，以后执行 `ssh ax12`。
 
+## 7 · Web 后台简体中文（已实机验证）
+
+2026-11-02，保留 AX12 原厂 Web 后台，在登录页面成功增加 **简体中文** 选项并完成选择验证。采用 `zh_TW` 资源的繁简转换和常用术语替换，不提交原厂网页与翻译内容。语言注册不依赖目录扫描：必须同时在 `/etc/config/locale` 新增 `config langinfo 'ZH_CN'` / `option value 'zh_CN'`。
+
+该设备 `/www` 是只读 SquashFS，`/etc` 是 RAMFS。初次直接复制整个 `locale` 目录的 bind mount 方案导致管理页面 `Operation failed`，已撤回。成功版本将原始 `locale` bind 到只读引用路径，用符号链接构成视图，只新增 `zh_CN` 并 mount 到 `/www/webpages/locale`，减少约 6 MiB 的额外 RAM 占用；俄语和英语资源正常。
+
+在 Mac mini 上复现的构建与部署步骤，以及临时挂载回滚方式详见 **[tools/zh-cn/README.md](tools/zh-cn/README.md)**。其中生成脚本在 Mac mini 测试后输出 `lan.js` 的 SHA256 与实际成功版本一致：`064d7d923a88deb91c34d473968d3b8b7d71787d1a80630c698b333ee2758f2f`。
+
+此补丁仍属于 **RAM 临时改造**，未集成进永久 RootFS，重启后将失效；前端文字还需要人工术语校对。
+
 ## 安全与保存原则
 
 - 不提交原厂 16 MiB Flash 备份、完整可刷写固件、设备校准数据、SSH 私钥、authorized_keys、公钥身份信息、设备 host key、`/etc/shadow`、个人配置或原始串口日志。
 - 目前密码 SSH 登录实测**失败**；公钥登录成功不等于密码登录成功。未来有需要才单独研究密码认证。
 - 该设备的 `/etc` 是 RAMFS，普通运行时改动重启会消失；本次 SSH 脚本及公钥已固化进 RootFS。
-- 即使拥有 root Shell，原厂 Web 后台改造、Tailscale 安装等也不属于本次已经验证的流程。
+- 简体中文 Web 语言选项已经在 RAM 中验证；**永久固件集成**、其他隐藏功能的启用，以及 Tailscale 安装仍未经验证。
 
 记录范围：2026-10-31 至 2026-11-02。
