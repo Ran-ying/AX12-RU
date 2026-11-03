@@ -18,7 +18,7 @@ def linux_image(cloud):
     match = KERNEL_ENTRY.search(cloud[0x1014:0x1814])
     start = 0x1014 + int(match[1], 16)
     image = cloud[start:start + int(match[2], 16)]
-    if not image.startswith(b"cr6c"):
+    if image[:4] not in (b"cr6c", b"cs6c"):
         raise ValueError("Expected Realtek cr6c kernel")
     marker = image.index(b"\x5d\x00\x00\x80\x00")
     decoder = lzma.LZMADecompressor(format=lzma.FORMAT_ALONE)
