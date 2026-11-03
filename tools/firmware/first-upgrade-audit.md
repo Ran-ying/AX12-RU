@@ -356,3 +356,20 @@ Realtek 1.1.22 Bootloader `fs-uboot` 的首阶段在原始 Flash 镜像偏移 `0
 
 
 **回归负例：** 同一 Linux Panel 本地审计脚本用真实旧 `nvrammanager`、旧内核和 `cs6c` 明文作为正例（退出 0）；在临时目录仅修改用户态 `0x40263C` 这一条 mode=1 指令，则以 `expected 24070001, got 24070000` 显式失败（退出 1）；仅将测试 Cloud 的内核魔数改回 `cr6c`，也以 `Candidate is not a cs6c bridge at 0x40000` 失败（退出 1）。负例文件未提交、未导出为固件且临时目录已清理。脚本确认能够拦截关键偏差，但负例同样不等于完整的 `-u` 实测。
+
+
+## 2026-11-03: Pre-SSH → post-SSH reconstructed baseline equivalence
+
+The user ran the local SHA-checked reconstruction of the exact pre-SSH 16 MiB backup and the previously flashed `rootfs-ssh-pubkey-flash.bin`. Reported 16 MiB reconstructed output SHA-256:
+
+`c8976dfe2afc9a7d6c98e6d57b6246f74e23bdcaac365c51d29297cf7bcb3957`
+
+The reconstruction replaces only `[0x440000,0xDE6000)`, leaving everything else byte-for-byte copied from the pre-SSH backup. Both source files were SHA-checked by the reconstruction script; however, this is **a historical modeled snapshot, not live Flash readback**.
+
+**New verified range observation:** target cs6c Cloud `file-system` update writes `[0x400000,0xEE4003)` (`0xAE4003` bytes). This contains the entire historical SSH replacement interval. Consequently the two baselines must produce identical modeled post-upgrade bytes **if the old updater actually writes this entire payload to that physical address**. Any live configuration changes outside the reconstructed interval are not accounted for.
+
+Added [audit_reconstructed_flash.py](audit_reconstructed_flash.py), to run locally with both real images. It checks their exact SHA-256, partition header and 24 records, unchanged bytes outside the SSH interval, and the old Realtek SquashFS checksum on both. The uploaded pre-SSH image's checksum was independently checked and yields BE16 sum zero over the reported length `0x9A8002`. The reconstructed image must still undergo this local read check; do not claim it has been verified solely because its SHA was reported.
+
+Updated [simulate_cs6c_driver_writes.py](simulate_cs6c_driver_writes.py) with `--compare-flash`: the simulator compares both baselines after the same ten target Cloud operations and rejects source differences not fully covered by target payload writes. This was actually tested with synthetic 16 MiB Flash baselines: a change at the old RootFS base was overwritten and final model hashes matched; a negative control modifying the ART region `0xFF0000` produced an explicit error. These tests never accessed the router.
+
+The user has not supplied the reconstructed 16 MiB image to the offline server or this assistant's runtime. Running the **real-baseline pair** through `--compare-flash` remains pending. Neither test establishes successful `nvrammanager -u`, real old-bootloader boot compatibility, or write-failure recovery.
