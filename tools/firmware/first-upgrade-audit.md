@@ -240,3 +240,23 @@ Virtual RMW SHA256: 4fb23d4836c5ecb41cc6f104dd165428117417c5b94206d83ceb82cb7194
 **Why this SHA differs from the earlier virtual upgrade model:** the earlier [virtual_first_upgrade.py](virtual_first_upgrade.py) models clearing each **entire target partition** to `0xFF` before writing, whereas the present sector-RMW model replaces only the **explicit manifest payload bytes** and retains all unchanged trailing bytes within partitions. The difference is expected, and **neither SHA can predict the true post-upgrade Flash bitstream without full `nvrammanager -u` control flow and driver execution**.
 
 **Still open:** full vendor update `-u` invocation and rollback/error path, proof that the existing Bootloader loads 1.5.0 Linux and that it mounts the new RootFS, and repeatable hardware recovery including interruption scenarios. No Flash writes, real upgrades or router reboots performed for this analysis.
+
+
+## 2026-11-03: confirmed AX12 1.5.0 kernel RootFS offset from binary MTD structures
+
+**Strong new positive finding:** directly extracted the actual `struct mtd_partition` definitions from both Linux 4.4.176 kernel images, not just the TP-Link Cloud update manifest. The actual 1.1.22 MIPS kernel image (12,215,964 bytes) contains the four 32-byte MTD records at virtual `0x80a5c408`; the official-stock-derived owner 1.5.0 Linux image (12,561,504 bytes) contains them at `0x80aac208`. Their string-name pointers (`uboot`, `uImage`, `rootfs`, `ART`) each resolve into the exact respective kernel image, and the 64-bit size and offset fields were decoded little-endian.
+
+| Embedded kernel MTD definition | 1.1.22 | 1.5.0 |
+|---|---|---|
+| `uboot` | base `0x0`, size `0x40000` | unchanged |
+| `uImage` | base `0x40000`, size `0x400000` | base `0x40000`, size **`0x3c0000`** |
+| `rootfs` | base **`0x440000`**, size `0xb00000` | base **`0x400000`**, size `0xb10000` |
+| `ART` | nominal base `0x1000000`, size `0x10000` | same nominal definition |
+
+The `rtkxxpart_parse` kernel parser is the same substantive MIPS instruction sequence between versions (relocated from `0x801dc4b0` to `0x801dd600`). The parser adjusts some MTD sizes / terminal boundaries dynamically: on the live 1.1.22 system, `/sys/class/mtd/mtd{0..3}/offset` reports `0, 262144, 4456448, 16711680`, confirming the old kernel's actual rootfs `0x440000` and final ART `0xff0000` despite its nominal `0x1000000` table marker. The old runtime rootfs size is `0xaf0000`, rather than its nominal `0xb00000`. New offsets after runtime adjustment are **not proven** until a real boot, but the kernel's actual static new RootFS base is definitively `0x400000`.
+
+A new readonly, reproducible tool [inspect_kernel_partitions.py](inspect_kernel_partitions.py) decompresses each Cloud `os-image` LZMA kernel, follows actual embedded name pointers, and decodes all four 32-byte MTD records. The tool passed both exact images.
+
+To check safe physical capacity, parsed actual SquashFS superblocks from each Cloud's `file-system` payload. Stock 1.1.22 `bytes_used=0x9a73c4`, ending at `0xde73c4` when based at `0x440000`. Owner 1.5.0 `bytes_used=0xae3a0c`, ending at **`0xee3a0c`**, before the conservative `0xf00000` boundary; new target `file-system` partition starts at `0x400000` with capacity `0xb08000`. No RootFS end overlap is indicated by this size check.
+
+**Meaning:** the specific feared mismatch “new Linux still tries the old 0x440000 RootFS base” is now ruled out at the **compiled static MTD layout** level. This substantially improves the preserve-old-Bootloader migration case. It still does not demonstrate old Bootloader → new Linux boot, runtime MTD partition parsing, successful SquashFS mount, or driver error handling. No router reboot or Flash write was performed.
