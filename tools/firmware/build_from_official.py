@@ -6,10 +6,8 @@ Requires squashfs-tools, Python cryptography, and owner RSA public verifier.
 """
 import argparse
 import hashlib
-import lzma
 import re
 import shutil
-import struct
 import subprocess
 import sys
 from pathlib import Path
@@ -17,14 +15,15 @@ from pathlib import Path
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 
-from patches import v1_5_1, v1_5_2, v1_5_3
+from patches import v1_5_0, v1_5_1, v1_5_2, v1_5_3
 from repack_cloud_lab import repack
 from self_sign_lab import cloud_decrypt
-from build_owner_153 import prepare_unsigned
+from cloud_signing import prepare_unsigned
 
 REPO = Path(__file__).resolve().parents[2]
 OFFICIAL_SHA256 = '50b09cbc1f18140cd18ebf7fbe611851ab98e21b05d67303307673b5de5003c9'
 VERSIONS = {
+    '1.5.0': b'soft_ver:1.5.0 Build 20260605 Rel. 41062',
     '1.5.1': b'soft_ver:1.5.1 Build 20261103 Rel. 41063',
     '1.5.2': b'soft_ver:1.5.2 Build 20261103 Rel. 41064',
     '1.5.3': b'soft_ver:1.5.3 Build 20261103 Rel. 41065',
@@ -44,7 +43,7 @@ def run(*args):
     subprocess.run(args, check=True)
 
 
-def rootfs_diff(pristine, patched):
+def rootfs_diff(pristine, patched, version):
     def index(base):
         result = {}
         for p in base.rglob('*'):
@@ -60,13 +59,12 @@ def rootfs_diff(pristine, patched):
     allowed_added = {
         'etc/dropbear/authorized_keys', 'etc/rc.d/S99zzzzzzzzssh',
         'etc_ro/init.d/ax12-ssh', 'root/.ssh/authorized_keys',
-        'www/webpages/locale/zh_CN/index-AX12r2.js.gz',
     }
-    allowed_changed = {
-        'usr/lib/libnvrammanager.so', 'www/cgi-bin/luci',
-        'www/webpages/js/update-store-DnZhtCy9.js.gz',
-    }
-    if 'www/webpages/locale/zh_CN/index-AX12r3.js.gz' in added:
+    allowed_changed = {'usr/lib/libnvrammanager.so', 'www/cgi-bin/luci'}
+    if version != '1.5.0':
+        allowed_added.add('www/webpages/locale/zh_CN/index-AX12r2.js.gz')
+        allowed_changed.add('www/webpages/js/update-store-DnZhtCy9.js.gz')
+    if version == '1.5.3':
         allowed_added.add('www/webpages/locale/zh_CN/index-AX12r3.js.gz')
     if removed or added != allowed_added or changed != allowed_changed:
         raise ValueError(f'Unexpected RootFS patch diff: added={sorted(added)} removed={sorted(removed)} changed={sorted(changed)}')
@@ -111,15 +109,16 @@ def main():
         shutil.rmtree(stock)
     shutil.copytree(root, stock, symlinks=True)
 
-    # v1.5.1: owner trust, SSH, Chinese and Web CGI fixes; cs6c bootstrap bridge.
-    v1_5_1.apply(root, args.owner_public, workdir, REPO)
-    kernel = bytearray(original_kernel)
-    kernel[:4] = b'cs6c'
+    # Apply the immutable official-base patch chain up to the selected version.
+    v1_5_0.apply(root, args.owner_public, workdir, REPO)
+    kernel = v1_5_0.apply_kernel(original_kernel)
+    if args.version != '1.5.0':
+        v1_5_1.apply(root)
     if args.version in ('1.5.2', '1.5.3'):
-        kernel = bytearray(v1_5_2.apply(bytes(kernel)))
+        kernel = v1_5_2.apply(kernel)
     if args.version == '1.5.3':
         v1_5_3.apply(root)
-    rootfs_diff(stock, root)
+    rootfs_diff(stock, root, args.version)
 
     sqfs = workdir / 'rootfs.sqfs'
     if sqfs.exists():
@@ -163,7 +162,7 @@ def main():
         raise ValueError('Cloud size field or Flash capacity invalid')
     (workdir / 'unsigned.bin').write_bytes(unsigned)
     (workdir / 'em-for-owner-signing.bin').write_bytes(em)
-    print(f'PASS: original official 1.5.0 -> patch chain 1.5.1..{args.version}')
+    print(f'PASS: original official 1.5.0 -> owner patch chain 1.5.0..{args.version}')
     print('PASS: owner trust, boot bridge, kernel/RootFS partition, no Bootloader update')
     print('PASS: unsigned AES roundtrip, 256-byte RSA-PSS EM')
     print('RootFS size',len(new_rootfs),'free',0xB00000-len(new_rootfs))

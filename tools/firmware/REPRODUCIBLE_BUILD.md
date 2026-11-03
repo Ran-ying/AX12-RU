@@ -30,19 +30,23 @@ sudo apt-get install squashfs-tools python3 python3-venv
 python3 -m venv .venv
 . .venv/bin/activate
 pip install cryptography
-python3 build.py --version 1.5.3
+python3 build.py --version 1.5.0  # Only owner trust, SSH and boot bridge
+python3 build.py --version 1.5.3  # All four patch levels
 # Equivalent explicit input: python3 build.py --official inputs/official-1.5.0.bin --version 1.5.3
 ```
 
-Possible versions: **1.5.1, 1.5.2, 1.5.3**. The patches are applied from 1.5.1 through the selected target, never by incremental mutation of an already customized firmware image.
+Possible versions: **1.5.0, 1.5.1, 1.5.2, 1.5.3**. The patches are applied from owner 1.5.0 through the selected target, never by incremental mutation of an already customized firmware image.
 
 | Patch | Contents | File |
 |---|---|---|
-| 1.5.1 | owner RSA verifier library, LAN SSH service, Chinese r2 Web interface, executable CGI, cs6c Bootloader bridge, omit U-Boot update | `tools/firmware/patches/v1_5_1.py` and assets |
+| 1.5.0 | owner RSA verifier, LAN root SSH, executable CGI, cs6c boot bridge, omit U-Boot update | `tools/firmware/patches/v1_5_0.py` and shared builder |
+| 1.5.1 | zh_CN r2, Web CGI locale registration and language loader | `tools/firmware/patches/v1_5_1.py` and assets |
 | 1.5.2 | WAN port1 ASIC/VLAN MIPS BNE→NOP, kernel compressed wrapper and checksum | `tools/firmware/patches/v1_5_2.py`, `patch_wan_port1.py` |
 | 1.5.3 | Chinese v3 terminology improvements and lazy loader | `tools/firmware/patches/v1_5_3.py` and assets |
 
 The `--workdir` defaults to `build/ax12-from-official-<version>/`; outputs: fresh `rootfs/`, `rootfs.sqfs`, `rootfs.sealed`, `unsigned.bin` and `em-for-owner-signing.bin`. `unsigned.bin` is **NOT flashable**.
+
+The minimal custom 1.5.0 is **not byte-identical to the historical first-flashed custom 1.5.0**, which also included early Chinese UI adjustments. Its soft-version text is the same as stock 1.5.0, so identify it by signer/key, file hash and build provenance—not the displayed version string alone. Neither the newly rebuilt custom 1.5.0 nor 1.5.3 has been approved by live boot tests. See [M12 refactor regression](M12-owner-1.5.0-versioned-refactor.md).
 
 The builder verifies the official SHA and RSA-PSS signature, decrypts AES, validates vendor verifier bytes, checks the patch file-level diff, applies the known-good WAN kernel patch, checks the real RootFS/Flash limits, rewrites the Cloud manifest and version, drops the U-Boot write entry, re-encrypts and prepares a new PSS EM. The gzip/mksquashfs output may vary in nondeterministic metadata, so **do not compare encrypted BIN SHA values across builds**; compare original input hashes, target inner kernel, file-level RootFS content, and final RSA/AES/partition verification.
 
@@ -92,3 +96,17 @@ The original physical device started on **1.1.22 Build 20240311**, not 1.1.12. F
 ## Starting on original vendor 1.1.22 is a separate migration
 
 If the AX12 is still running vendor **1.1.22 Build 20240311**, first follow the [staged, hardware-gated migration guide](MIGRATE_STOCK_1.1.22_TO_OWNER.md). It covers old-RootFS SSH bootstrap, UART backup/write verification, RAM-only old upgrader public-key patching and the special self-signed 1.5.0 first upgrade with `cs6c` and no U-Boot write. The versioned `build.py` is intended for a system whose persistent updater already trusts the owner's key; it does **not** prove the old factory upgrader accepts direct 1.1.22→1.5.3. The new bootstrap helper and first-upgrade signing tooling have independently passed synthetic/offline tests (see [M11](M11-migration-kit-offline-tests.md)); the direct one-step 1.1.22→1.5.3 route and 1.5.3 real boot remain **untested**.
+
+## Version split verification (M12)
+
+The new `v1_5_0.py` isolates the initial owner trust and SSH layer. `v1_5_1.py` now only applies locale/Web language changes. The Cloud PSS/AES preparation code lives in `cloud_signing.py`, independent of the legacy `build_owner_153.py`. All four targets passed full offline builds and disposable-key RSA-PSS signing and AES decrypt checks. The 1.5.1 and 1.5.2 extracted RootFS trees are byte-for-byte/file-mode/symlink equivalent to the proven 1.5.2 RootFS. To re-run the file-level regression after building all four versions:
+
+```sh
+python3 tools/firmware/verify_patch_chain.py \
+  --workdir-150 build/ax12-from-official-1.5.0 \
+  --workdir-151 build/ax12-from-official-1.5.1 \
+  --workdir-152 build/ax12-from-official-1.5.2 \
+  --workdir-153 build/ax12-from-official-1.5.3
+```
+
+Optionally pass `--known-good-rootfs PATH` when an independent, locally extracted trusted 1.5.2 RootFS is available. Do not commit original extracted vendor files or device Flash.

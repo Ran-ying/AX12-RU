@@ -8,7 +8,6 @@ import argparse
 import hashlib
 import lzma
 import re
-import secrets
 import shutil
 import struct
 import subprocess
@@ -16,10 +15,10 @@ import sys
 from pathlib import Path
 
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from repack_cloud_lab import repack
-from self_sign_lab import aes_crypt, cloud_decrypt, mgf1
+from self_sign_lab import cloud_decrypt
+from cloud_signing import prepare_unsigned
 
 REPO = Path(__file__).resolve().parents[2]
 BASE_SHA256 = "1c8905d500e77cc5fc04addfb355aea4ec49d9bd67dccfe953f097eb46051136"
@@ -37,27 +36,6 @@ def partition(image, name):
 
 def run(*args):
     subprocess.run(args, check=True)
-
-
-def prepare_unsigned(plain):
-    salt = secrets.token_bytes(48)
-    key, iv = salt[:16], salt[16:32]
-    prepared = bytearray(plain)
-    decryptor = Cipher(algorithms.AES(key), modes.CBC(iv)).decryptor()
-    prepared[0x130:0x230] = decryptor.update(bytes(256)) + decryptor.finalize()
-    encrypted = aes_crypt(prepared, key, iv, True)
-    if encrypted[0x130:0x230] != bytes(256):
-        raise ValueError("RSA signature slot is not zero")
-    digest = hashlib.sha256(encrypted[0x14:]).digest()
-    h = hashlib.sha256(bytes(8) + digest + salt).digest()
-    db = bytes(223 - len(salt) - 1) + b"\x01" + salt
-    masked = bytearray(a ^ b for a, b in zip(db, mgf1(h, 223)))
-    masked[0] &= 0x7F
-    em = bytes(masked) + h + b"\xBC"
-    restored = aes_crypt(encrypted, key, iv, False)
-    if restored[:0x130] != plain[:0x130] or restored[0x230:] != plain[0x230:]:
-        raise ValueError("Unsigned AES roundtrip failed")
-    return encrypted, em
 
 
 def main():

@@ -8,20 +8,21 @@
 
 ## 新版入口：官方 1.5.0 + 顺序补丁（2026-11-03）
 
-**当前正式构建规范**：使用官方 AX12 RU v1.0 `1.5.0 Build 20260605`（SHA256 `50b09cbc1f18140cd18ebf7fbe611851ab98e21b05d67303307673b5de5003c9`）作为唯一不可变构建基线，依次应用 `1.5.1` 公钥/SSH/中文补丁、`1.5.2` WAN 内核修复补丁、`1.5.3` 中文翻译 v3 补丁。**不再使用旧的 1.5.2 BIN 作为新版本构建输入**；它仅用于差异验收和回滚。
+**当前正式构建规范**：使用官方 AX12 RU v1.0 `1.5.0 Build 20260605`（SHA256 `50b09cbc1f18140cd18ebf7fbe611851ab98e21b05d67303307673b5de5003c9`）作为唯一不可变构建基线，按需应用 `1.5.0` 自有公钥/SSH/旧 Bootloader 兼容补丁、`1.5.1` 简体中文/Web 语言补丁、`1.5.2` WAN 内核修复补丁、`1.5.3` 中文 v3 补丁。**不再使用旧的 1.5.2 BIN 作为新版本构建输入**；它仅用于差异验收和回滚。
 
 ```sh
-python3 build.py --version 1.5.3
+python3 build.py --version 1.5.0  # 首次 owner 固件（默认待签名）
+python3 build.py --version 1.5.3  # 完整补丁链（默认待签名）
 ```
 
-这一步会完成解包、补丁、重新封装和生成签名输入；输出的 `unsigned.bin` **不能刷机**。完成 RSA 签名后使用 `tools/firmware/finalize_owner_cloud.py` 封装并验签；也可显式加上 `--sign-key keys/ax12_owner_2026_private.pem`，在运行构建器的本机完成签名并最终验签。详情参见 **[tools/firmware/REPRODUCIBLE_BUILD.md](tools/firmware/REPRODUCIBLE_BUILD.md)**、[AGENTS.md](AGENTS.md) 和 [M10 实验记录](tools/firmware/M10-official-1.5.0-patch-chain.md)。三条版本链均已离线重建通过；从官方原包重新生成的 1.5.2 内核与实机成功版逐字节完全一致；1.5.3 尚未实机测试。
+这一步会完成解包、补丁、重新封装和生成签名输入；输出的 `unsigned.bin` **不能刷机**。完成 RSA 签名后使用 `tools/firmware/finalize_owner_cloud.py` 封装并验签；也可显式加上 `--sign-key keys/ax12_owner_2026_private.pem`，在运行构建器的本机完成签名并最终验签。详情参见 **[tools/firmware/REPRODUCIBLE_BUILD.md](tools/firmware/REPRODUCIBLE_BUILD.md)**、[AGENTS.md](AGENTS.md) 和 [M10 实验记录](tools/firmware/M10-official-1.5.0-patch-chain.md)。四条版本链和本地测试密钥签名均已离线验证；重构后的 1.5.1/1.5.2 RootFS 与已验证版本一致，1.5.2 内核逐字节匹配；新构建的最小化 1.5.0 和 1.5.3 仍未实机测试。[M12 验收记录](tools/firmware/M12-owner-1.5.0-versioned-refactor.md)。
 
 官方 1.5.0 的 [下载地址、验证过的 ZIP/BIN SHA-256 和解包命令](firmware/OFFICIAL-1.5.0.sources.md) 已正式归档。最初设备运行的是 **RU 1.1.22 Build 20240311**（不是 1.1.12）；第一次迁移的 [UART、RAM 临时验签升级器和原 Bootloader 保留记录](tools/firmware/FIRST_MIGRATION_1.1.22.md) 已单独归档。
 
 > 下方旧版 UART、SSH 与 M5/M6/M7 章节为历史阶段记录，其当时的“当前状态”描述不代表项目最新构建规范。
 
 
-**本仓库只保留最终验证成功的路线。** 从 UART 接入、备份 16 MiB SPI Flash、离线构建携带 RSA 公钥的 RootFS、修正 Realtek 校验、UART V2 传输与回读，到在 Mac mini 上以私钥取得 `uid=0(root)`。不使用实验中失败的 TFTP、XMODEM、BusyBox 登录补丁或密码猜测路线。
+**下方 UART→SSH 章节是早期实机验证成功的操作记录；较新的固件版本仍按上方的阶段性验收状态使用。** 从 UART 接入、备份 16 MiB SPI Flash、离线构建携带 RSA 公钥的 RootFS、修正 Realtek 校验、UART V2 传输与回读，到在 Mac mini 上以私钥取得 `uid=0(root)`。不使用实验中失败的 TFTP、XMODEM、BusyBox 登录补丁或密码猜测路线。
 
 最终实机：RTL8197F / MIPS32 little-endian、Linux 4.4.176、SquashFS v4 XZ、Dropbear 2019.78，TP-Link 原厂 Web 后台正常，自定义 Dropbear 在 `192.168.0.1:2222` 提供 **公钥登录**。密码登录**没有验证成功**。
 

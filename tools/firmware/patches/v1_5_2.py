@@ -7,7 +7,7 @@ KNOWN_TESTED_KERNEL = '773b66e574a11b4cf6ce8962f83541272df69a0e0cc0084571a104ed5
 
 def apply(kernel):
     if kernel[:4] != b'cs6c':
-        raise ValueError('1.5.2 requires 1.5.1 boot-format patch first')
+        raise ValueError('1.5.2 requires the 1.5.0 cs6c boot-format bridge')
     updated = patch(kernel)
     if hashlib.sha256(updated).hexdigest() != KNOWN_TESTED_KERNEL:
         raise ValueError('Result differs from 1.5.2 hardware-tested kernel')
