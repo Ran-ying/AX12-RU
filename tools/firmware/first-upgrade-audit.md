@@ -373,3 +373,12 @@ Added [audit_reconstructed_flash.py](audit_reconstructed_flash.py), to run local
 Updated [simulate_cs6c_driver_writes.py](simulate_cs6c_driver_writes.py) with `--compare-flash`: the simulator compares both baselines after the same ten target Cloud operations and rejects source differences not fully covered by target payload writes. This was actually tested with synthetic 16 MiB Flash baselines: a change at the old RootFS base was overwritten and final model hashes matched; a negative control modifying the ART region `0xFF0000` produced an explicit error. These tests never accessed the router.
 
 The user has not supplied the reconstructed 16 MiB image to the offline server or this assistant's runtime. Running the **real-baseline pair** through `--compare-flash` remains pending. Neither test establishes successful `nvrammanager -u`, real old-bootloader boot compatibility, or write-failure recovery.
+
+
+## 2026-11-03：M5 旧升级器动态执行完成（覆盖前文的“仅静态推测”）
+
+**最新结果以 [M5-acceptance-2026-11-03.md](M5-acceptance-2026-11-03.md) 为准。** 原版 1.1.22 `nvrammanager -u` 已在隔离 QEMU 中实际运行，使用一次性测试公钥签名的 `cs6c` 固件并由 GDB 完整接管 Flash ioctl。升级程序通过产品/版本兼容性检查，走完主体写入并打印 `upgradeFirmware success...`；末尾仍因隔离环境的 `pthread_cancel` 失败以 255 退出，实机启动和真实内核 SPI 驱动仍未测试。
+
+实际记录 **18 次 Flash 读取、247 次 Flash 写入 ioctl**（241 次 Cloud 更新、4 次新增分区初始化、2 次状态写）；涉及 **238 个独立 64 KiB 扇区**，其中 `0xF40000` 更新 7 次、`0xFE0000` 更新 4 次；未请求写入旧 Bootloader 或 ART。实际 `partition-table` 模式 1 写入长度 **0x540**，而非先前模型采用的 0x800。已修正文件模拟，使其在同一合成基线上与完整 QEMU ioctl 执行所得最终镜像 SHA-256 完全一致：`47bccd070878757a733f5ffcd3f2e21c71527dd5a1edfdff71f93e7abe29a032`。在内核首块及分区表写入失败的两次注入测试中，旧升级器均停止后续写入，但**没有自动回滚已完成的修改**。
+
+结论：**旧升级器动态写入路径的离线验收已完成**；后续集中于主人正式 RSA 签名的 cs6c 包及硬件 UART 恢复准备，不再把早期只有 10 条记录 / 237 扇区的文件模型当作完整真实升级轨迹。所有操作仍未写入或重启 AX12 实机。
