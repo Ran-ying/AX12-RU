@@ -25,6 +25,7 @@ p.add_argument("sealed_rootfs", type=Path)
 p.add_argument("unsigned_output", type=Path)
 p.add_argument("encoded_message_output", type=Path)
 p.add_argument("--omit-uboot", action="store_true", help="Experimental: omit fs-uboot from update manifest without deleting payload")
+p.add_argument("--kernel-magic", choices=("cr6c", "cs6c"), default="cr6c", help="Experimental: cs6c skips the old Bootloader rootfs probe")
 args = p.parse_args()
 
 original = args.official.read_bytes()
@@ -43,6 +44,16 @@ if args.omit_uboot:
     if b"fwup-ptn fs-uboot " in changed[start:end]:
         raise AssertionError("fs-uboot entry still present")
     print("Prepared test-only manifest without fs-uboot upgrade entry")
+if args.kernel_magic == "cs6c":
+    match = re.search(rb"fwup-ptn os-image base 0x([0-9a-f]+) size", changed[0x1014:0x1814])
+    if match is None:
+        raise ValueError("os-image missing from manifest")
+    os_offset = 0x1014 + int(match[1], 16)
+    if changed[os_offset:os_offset + 4] != b"cr6c":
+        raise ValueError("Expected original cr6c kernel")
+    changed[os_offset:os_offset + 4] = b"cs6c"
+    print("Experimental cs6c kernel magic at plaintext offset", hex(os_offset))
+
 
 salt = secrets.token_bytes(48)
 key, iv = salt[:16], salt[16:32]
