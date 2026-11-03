@@ -102,3 +102,12 @@
 **重要：** 该候选位于 VPS 的私有研究目录，**没有提交到公开 GitHub，也没有传给 AX12 实机**。绝不可在尚未通过恢复与首次实验授权前通过 Web 升级或 `nvrammanager -u` 烧写。
 
 **最新决策：离线 M5 全部通过；实机首次刷写仍为 NO-GO。**
+
+
+## M6 方案决定：单公钥信任（用户确认）
+
+用户明确选择保留当前的 **owner-only RSA-2048** 信任模式，不增加双公钥或官方密钥的默认信任分支。当前 `build_owner_rootfs.sh` 将默认 `/usr/lib/libnvrammanager.so` 的 RSA-2048 验签公钥替换为 owner 公钥，故**正式签名 cs6c 候选包无需为此重新构建**。
+
+长期升级策略：后续 TP-Link 新版固件应先逐版解包、核对格式及兼容性，再移植用户定制内容（包括 SSH 和 owner-only trust library）并由用户 Mac mini 上的私钥重新签名。直接升级未修改的官方固件通常会覆盖定制 RootFS，并且被单公钥验证器拒绝；保留旧 Bootloader 不意味着固件验证器自动成为硬件安全根或无法恢复官方固件。
+
+M6 用户最近只读实机输出：内核 `4.4.176`、旧 `/proc/mtd` 分区布局（0x40000 uboot、0x400000 uImage、0xAF0000 rootfs、0x10000 ART）、SSH 正常、Mac 枚举 UART `/dev/cu.usbserial-2120`，`df -h /tmp` 报 tmpfs 0/0（尚不能据此判断实际可用内存）。`/proc/uptime` 约 229.98 秒。需进一步在当前运行状态下只读核对 `/proc/meminfo`、mount 实际情况，以及 UART 实际接线/恢复能力；**本设计决定本身不授权 Flash 写入、升级或重启。**
