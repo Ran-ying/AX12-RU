@@ -353,3 +353,6 @@ Realtek 1.1.22 Bootloader `fs-uboot` 的首阶段在原始 Flash 镜像偏移 `0
 对现有 `cs6c` 实验 Cloud 的静态分派共 10 项：9 项使用模式 0，独立的 `partition-table` 使用模式 1；无 `fs-uboot` 更新记录。新分区表中的内核基址 `0x40000`、RootFS 基址 `0x400000` 和清单范围检查通过。物理 `0xF40000` 的 64 KiB 扇区承载 5 次元数据更新（`partition-table`、`soft-version`、`extra-para`、`support-list`、`profile`），必须验证后续四次更新不会覆盖先前分区表提交。
 
 **明确收窄模拟模型结论：** `virtual_first_upgrade.py` 与 `simulate_sector_rmw.py` 都属于文件级假设性布局检查，尚未准确实现 mode-1 附加 8 字节的实际头部/写入语义，既不能以其 SHA-256 预测实机 Flash，也不能以「10 项模拟更新通过」作为升级器安全证明。旧升级器是否在前置校验中接受 `cs6c`、是否按目标新表正确映射、以及实机启动与恢复能力仍未通过。下一项应是把内核 mode-1 的最终字节布局和旧升级器完整错误处理链解出，再建立有隔离 Flash 后端的实际 `-u` 测试。**禁刷状态保持不变。**
+
+
+**回归负例：** 同一 Linux Panel 本地审计脚本用真实旧 `nvrammanager`、旧内核和 `cs6c` 明文作为正例（退出 0）；在临时目录仅修改用户态 `0x40263C` 这一条 mode=1 指令，则以 `expected 24070001, got 24070000` 显式失败（退出 1）；仅将测试 Cloud 的内核魔数改回 `cr6c`，也以 `Candidate is not a cs6c bridge at 0x40000` 失败（退出 1）。负例文件未提交、未导出为固件且临时目录已清理。脚本确认能够拦截关键偏差，但负例同样不等于完整的 `-u` 实测。
