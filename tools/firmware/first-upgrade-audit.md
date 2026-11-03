@@ -120,3 +120,16 @@ The original Mac mini Flash backup at `0x440000` instead starts with `hsqs`, ino
 The USB-UART is now `/dev/cu.usbserial-A5069RR4`. The already-proven read-only `tools/ax12_flash_dump.py` was staged on Mac mini under `~/Desktop/AX12-RU-1.5.0-owner/ax12_flash_dump.py`; `pyserial 3.5` was installed in `~/Desktop/ax12-owner-venv`. Neither the backup script nor Flash-writing commands were executed during this inspection. Recommended next step is a distinct **current-state** full 16 MiB read-only backup (different filename from the original factory-state backup).
 
 **Status:** UART monitor and per-partition readback proven. Full live-state backup, recovery after write failure, and old-Bootloader/new-kernel runtime compatibility remain separate checks.
+
+
+## Bootloader-preserving Cloud trial (2026-11-03)
+
+A new **experimental offline** option in [prepare_owner_cloud.py](prepare_owner_cloud.py) is `--omit-uboot`. It removes **only** the `fwup-ptn fs-uboot` update descriptor from the encrypted Cloud manifest before preparing a new RSA-PSS signing request; the original `fs-uboot` payload bytes remain in the Cloud container, but are not listed as an update target. **This is not permission to flash.**
+
+A format-test package was built using a **disposable** signing key, not the owner's private key. Its RSA-PSS/SHA256 signature, AES decryption and exact custom RootFS check passed. Compared to the already signed owner 1.5.0 candidate, all decrypted Cloud bytes except the signature slot and update manifest are unchanged. The resulting manifest order is:
+
+`os-image → file-system → re-def-config → partition-table → soft-version → extra-para → support-list → profile → default-config → ap-def-config`
+
+Test-only staging on Linux Panel `10.7.0.1`: `/var/lib/linux-panel/ax12-firmware-work/owner-2026-no-uboot/`. The owner-signing input is `em.bin` (256 bytes) and has also been copied to Mac mini as `~/Desktop/AX12-RU-1.5.0-owner/em-no-uboot.bin`. **No new owner signature has been produced yet**; the 15-MB `unsigned.bin` is not a signed firmware. The owner's RSA-2048 private key stays exclusively on Mac mini.
+
+**Caveat:** this is a structurally valid owner-signing request and disposable format-test only. We have NOT demonstrated that the proprietary 1.1.22 `nvrammanager -u` honors the missing bootloader update entry, correctly switches to the new partition table, or can boot 1.5.0 with the existing Bootloader. Do not execute `-u` or write any Flash sectors based on this result.
