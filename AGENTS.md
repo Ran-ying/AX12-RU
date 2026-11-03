@@ -22,3 +22,5 @@ This repository targets **TP-Link Archer AX12 RU hardware v1.0** (RTL8197F, MIPS
 - Backend/UI feature presence alone does not imply the AX12's runtime feature flags support it.
 
 All future modifications should be small, explicit, and testable. Do not hide failures with optional fallbacks. Maintain this file and version evidence whenever the pipeline changes.
+
+Initial-device migration (`1.1.22` → owner-signed `1.5.0`) is historically documented at `tools/firmware/FIRST_MIGRATION_1.1.22.md`; it is distinct from the current official-1.5.0-base **build** workflow. Do not claim direct 1.1.22→owner 1.5.2 was tested, and do not assume UART whole-Flash rewrite is required for every upgrade.

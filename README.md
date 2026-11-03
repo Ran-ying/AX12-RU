@@ -10,6 +10,8 @@ python3 build.py --version 1.5.3
 
 这一步会完成解包、补丁、重新封装和生成签名输入；输出的 `unsigned.bin` **不能刷机**。完成 RSA 签名后使用 `tools/firmware/finalize_owner_cloud.py` 封装并验签；也可显式加上 `--sign-key keys/ax12_owner_2026_private.pem`，在运行构建器的本机完成签名并最终验签。详情参见 **[tools/firmware/REPRODUCIBLE_BUILD.md](tools/firmware/REPRODUCIBLE_BUILD.md)**、[AGENTS.md](AGENTS.md) 和 [M10 实验记录](tools/firmware/M10-official-1.5.0-patch-chain.md)。三条版本链均已离线重建通过；从官方原包重新生成的 1.5.2 内核与实机成功版逐字节完全一致；1.5.3 尚未实机测试。
 
+官方 1.5.0 的 [下载地址、验证过的 ZIP/BIN SHA-256 和解包命令](firmware/OFFICIAL-1.5.0.sources.md) 已正式归档。最初设备运行的是 **RU 1.1.22 Build 20240311**（不是 1.1.12）；第一次迁移的 [UART、RAM 临时验签升级器和原 Bootloader 保留记录](tools/firmware/FIRST_MIGRATION_1.1.22.md) 已单独归档。
+
 > 下方旧版 UART、SSH 与 M5/M6/M7 章节为历史阶段记录，其当时的“当前状态”描述不代表项目最新构建规范。
 
 

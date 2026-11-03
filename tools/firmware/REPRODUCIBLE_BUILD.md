@@ -12,6 +12,11 @@ It has size **15,379,164 bytes**, SHA-256:
 
 `50b09cbc1f18140cd18ebf7fbe611851ab98e21b05d67303307673b5de5003c9`
 
+- **Direct TP-Link RU 1.5.0 ZIP:** https://static.tp-link.com/upload/firmware/2026/202606/20260609/ver1-5-0-P1%5B20260605-rel41062%5D.zip
+- **Official regional firmware list:** https://www.tp-link.com/kz/support/download/archer-ax12/v1.80/
+- **Verified ZIP SHA-256:** `45374b326f5bcada7fb7b297ebf8cd140a5d384c8288310603ba60a414c06a6a` (ZIP size 15,850,056 bytes). On 2026-11-03 the embedded BIN digest exactly matched the verified build baseline.
+- Download/unpack/check instructions: [Official 1.5.0 source record](../../firmware/OFFICIAL-1.5.0.sources.md).
+
 Save it locally as `inputs/official-1.5.0.bin` (this file is not required to be checked into Git). **RU vs EU/US packages are not interchangeable just because their version strings match**. The build rejects any file with a different digest.
 
 The original verification *public* key is `keys/tplink_official_verifier_public.pem`, extracted from the original official vendor library and tested against the original Cloud signature. The owner public key is `keys/ax12_owner_2026_public.pem`.
@@ -79,3 +84,7 @@ The following **were executed** from the original official 1.5.0 image on 2026-1
 - 1.5.3 unsigned Cloud with zh_CN r3: PASS; previous 1.5.2 files retained and exactly two expected additions/changes in JS resources. RootFS **11,509,763 bytes**, leaving **24,573 bytes** under `0xB00000`.
 
 Neither the newly built 1.5.3 nor a rebuilt 1.5.2 Cloud has been reflashed for live verification. The older `tools/firmware/build_owner_153.py` remains only as a legacy compatibility experiment and must not replace this official-base workflow.
+
+## Initial 1.1.22 migration is a separate historical workflow
+
+The original physical device started on **1.1.22 Build 20240311**, not 1.1.12. First migration used UART for backup and early SSH provisioning, a **RAM-only owner-public-key-patched `nvrammanager`** for its first owner-signed Cloud upgrade, and a persistent owner verifier embedded in the new 1.5.0 RootFS. **No blanket UART rewrite of the complete Flash to install a public key was needed for that actual first major-version upgrade.** The original Bootloader was preserved, with `cs6c` and no `fs-uboot` write entry. Do not conflate this with an untested direct 1.1.22→1.5.2 update. See [FIRST_MIGRATION_1.1.22.md](FIRST_MIGRATION_1.1.22.md) and [M6 real hardware record](M6-first-flash-2026-11-03.md).
