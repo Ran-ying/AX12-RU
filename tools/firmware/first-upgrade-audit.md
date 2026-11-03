@@ -317,3 +317,18 @@ Realtek 1.1.22 Bootloader `fs-uboot` 的首阶段在原始 Flash 镜像偏移 `0
 将其解密数据与先前正式签名的 `NO-UBOOT-CANDIDATE` 解密数据作逐字节比较：在签名和随机盐位置之后，**仅偏移 `0x25152` 一个字节不同**（`cr6c` → `cs6c`），其余全部一致，且更新清单仍不含 `fs-uboot`。改动前后 kernel load=`0x80c20000`、burn=`0x40000`、payload=`0x393c02`、16 位数据校验和全部通过。修订后的 `inspect_kernel_partitions.py` 接受 `cs6c` 并确认 RootFS MTD 基址仍为 `0x400000`。
 
 **研究状态：** 此方案可能利用类型 1 内核加载路径绕过旧 Bootloader 的 `0x440000` RootFS 预验证；但不等于已证明能启动，而且还没有对真实旧版升级器的 `-u` 行为进行完整仿真。**现有 owner 签名 NO-UBOOT 固件仍为禁刷状态。新实验未实际写 Flash、未重启 AX12。**
+
+
+### 2026-11-03：旧 Bootloader 的 `cs6c` → 内核跳转路径复核
+
+**新增独立证据来自 Realtek 开源 SDK（相关型号，非 AX12 原厂精确源码）：** [`rtk.h`](https://github.com/jameshilliard/WECB-VZ-GPL/blob/master/rtl819x/bootcode/boot/init/rtk.h) 明确定义 `cs6c` 为 `FW_SIGNATURE`、`cr6c` 为 `FW_SIGNATURE_WITH_ROOT`。[同仓库 `utility.c`](https://github.com/jameshilliard/WECB-VZ-GPL/blob/master/rtl819x/bootcode/boot/init/utility.c) 的 `check_system_image` 把前者映射为返回值 1、后者映射为 2；`check_image_header` 仅在返回值为 2 时执行 `check_rootfs_image`；成功后 `goToLocalStartMode` 读取镜像头、复制内核到 RAM 并跳转到其 `startAddr`。这与 AX12 上一轮反汇编结论一致，但不能用相关设备源码直接代替本机验证。
+
+为避免仅依据类比，重新在 **Linux Panel 的原始 AX12 RU 1.1.22 Bootloader 二进制** `/tmp/ax12-uboot-original.bin` 上核查了第二阶段（223,232 B，SHA256 `304776874874547f63f34134e511bd9f1c92dfb64ba1f337c1b35e2ad00de60c`）：
+
+- `0x80029438` / `0x80029450` 分别指向 `cs6c` / `cr6c` 字符串；`0x80017A5C` 与 `0x80017A78` 将匹配类型分别设为 1 / 2。
+- `0x80017B94` 返回已验证的镜像类型；`0x80017C84` / `0x80017C88` 将类型 2 送入独立 RootFS 校验，类型 1 则跳过。旧根文件系统硬编码地址仍是 `0x80017D08: lui a0,0xB044`。
+- 在调用链下游，`0x80017D78` 调用镜像校验函数 `0x80017BC8`，返回非零时 `0x80017D90` 调用共同加载函数 `0x800173B4`。后者在 `0x80017490` 调用数据复制函数，并在 `0x80017528..0x8001752C` 执行 `move t9,s0; jalr t9`，跳转至从头部取得的 RAM 加载地址。
+
+新增只读回归工具 [`audit_cs6c_boot_path.py`](audit_cs6c_boot_path.py)，对原始 Bootloader 的魔数位置与 **16 个**关键 MIPS 指令逐一验证。已在 Linux Panel 使用 GitHub 精确提交 `9e117b77ab59df6b4a7a0c66d3d12407405873f9` 的脚本运行，16 项全部 PASS，退出码 0。该测试既不接触路由器，也不修改固件。
+
+**更新后的边界：** 已经有 AX12 自身的二进制证据表明 `cs6c` 类型 1 能沿正常的检查成功路径到达共同的内核复制 / 跳转代码，且不会因旧的 `0x440000` 独立 RootFS 预检查被拒绝；**尚未证明**实际执行新内核后能够挂载 `0x400000` 的 RootFS，更没有证明旧 `nvrammanager -u` 会接受或正确写入这种镜像。当前无可刷写的 `cs6c` 正式候选包；禁止运行任何真实 Flash 写入或升级命令，直到升级器全路径仿真、当前 Flash 只读备份与恢复能力验证完成。
