@@ -30,3 +30,7 @@ All 3 emit unsigned Cloud images and owner RSA-PSS encoded messages; AES roundtr
 ## Additional complete signed dry run (throwaway key)
 
 The new `--sign-key` flow was executed with a newly generated disposable RSA-2048 key pair, with the official 1.5.0 firmware as input. The pipeline rebuilt the 1.5.1→1.5.2→1.5.3 patch chain, signed the pre-encoded RSA-PSS EM, passed signature verification, AES decryption and sealed RootFS extraction, and compared the signed plaintext to the patched plaintext outside the signature slot. **PASS.** This disposable-key signed image is not the owner's trusted firmware and must not be flashed. No owner private key was accessed for this test.
+
+## Fresh Git checkout permissions regression
+
+A later review found that Git stores executable/non-executable modes, not the exact SquashFS `0600`/`0700` modes. Version 1.5.1 patching now explicitly restores `0600` on `index-AX12r2.js.gz` and `0700` on the `update-store` gzip chunk; version 1.5.3 preserves those same modes for the r3 files. A fresh-checkout simulated build with Git-standard asset modes **PASSED**: the rebuilt 1.5.2 RootFS matches all 2,309 files and symlinks (paths, SHA-256 content, symlink targets, and permissions) in the hardware-tested image. A fresh-checkout 1.5.3 build also PASSED, changing only the two expected locale-related files relative to 1.5.2, with modes `0600`/`0700` verified.

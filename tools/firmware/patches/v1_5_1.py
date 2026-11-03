@@ -44,10 +44,13 @@ def apply(rootfs, owner_public, workdir, repo):
                                           b'require "luci.sgi.cgi"\n' + CGI_INSERT))
     cgi.chmod(0o755)
 
-    for relative in ('www/webpages/locale/zh_CN/index-AX12r2.js.gz',
-                     'www/webpages/js/update-store-DnZhtCy9.js.gz'):
+    for relative, mode in (
+        ('www/webpages/locale/zh_CN/index-AX12r2.js.gz', 0o600),
+        ('www/webpages/js/update-store-DnZhtCy9.js.gz', 0o700),
+    ):
         source = ROOT / 'assets/1.5.1' / relative
         dest = rootfs / relative
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, dest)
+        dest.chmod(mode)
     print('APPLIED 1.5.1: owner verifier, SSH, CGI, zh_CN r2')
