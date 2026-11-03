@@ -74,3 +74,16 @@ wc -c ~/Desktop/ax12-1.5.1-r3.sig
 ```
 
 签名应为 256 字节，之后必须在 VPS 通过 owner 公钥校验 RSA 原语结果与 r3 的 `em.bin` 完全一致，再完成 Cloud 封装和校验。**此记录不代表该签名已生成。**
+
+
+## r3 正式签名、最终离线验收和 Mac mini 交付完成
+
+- 连接 Mac mini 成功；在本地 Mac 桌面发现 `~/Desktop/ax12-1.5.1-r3.sig`，256 字节。
+- 仅传回该签名到 VPS：`owner-2026-r3/sig-owner-r3.big`，SHA-256 `4f9ac635a1981850d37b3b6e3597dfccc58fa385eb6ada18953abfe44f0c4846`。
+- 以最终 owner 公钥执行 RSA 原语验签：`sig^e mod n` **逐字节等于** r3 的 256 字节 `em.bin`，PASS。无上传、转移、导出 Mac 本地私钥。
+- 用 `finalize_owner_cloud.py` 正式封装最终 `owner-2026-r3/AX12-RU-1.5.1-owner-signed-CS6C.bin`，RSA-PSS、AES 解密、清单 RootFS 一致性 PASS。
+- 解密后的 `os-image` 与实机成功引导的 M6 原始 `cs6c` 内核 **逐字节相同**，无 `fs-uboot` 更新条目，RootFS 与 r3 `rootfs.sealed` 逐字节相同，soft-version 含自定义 1.5.1，PASS。
+- 固件长度 **15,416,028 字节**，SHA-256 **`e2c5c4b6168b5742944e50db45b559e0c339c1304357270a530eb072900b866c`**。
+- 正式固件复制到 **Mac mini 桌面 `~/Desktop/AX12-RU-1.5.1-owner-signed-CS6C.bin`**，在 Mac 上独立运行 `shasum -a 256`，与 VPS 最终摘要一致，PASS。
+- 完整 `rootfs.sqfs` 中 LuCI CGI mode `0755`，内含后端 `zh_CN` 运行时白名单扩展及简体语言前端模块；JavaScript 语法检查、CGI LuaJIT bytecode 编译离线 PASS。实际网页切换中文尚待下一次实机验收。
+- **实机未执行升级/写 Flash/重启**；不能将离线签名和数据校验视为实机刷写成功。下次正式升级前需另行确认授权与恢复条件。
