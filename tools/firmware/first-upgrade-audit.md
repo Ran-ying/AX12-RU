@@ -151,3 +151,23 @@ Final candidate **local VPS only**:
 - At last user-reported status, AX12 remained at the live `<RealTek>` Bootloader prompt, not running 1.1.22 Linux. No live `nvrammanager -c` test was run on this new image, and no Flash write or reboot occurred.
 
 **Remaining first-flash blockers:** full 1.1.22 `-u` write-path target mapping and behavior with missing `fs-uboot` descriptor; old Bootloader booting the new kernel/rootfs; validated recovery strategy, especially if a write crosses Flash partition boundaries. A successful `-c` at a later time would check signature but **not** these blockers.
+
+
+## 2026-11-03: 1.1.22 更新模式静态推演（无 Flash 写入）
+
+新增可重复运行的只读脚本 [plan_no_uboot_upgrade.py](plan_no_uboot_upgrade.py)，读取原始 1.1.22 Cloud 明文及已经正式签名验签后的 no-uboot 1.5.0 Cloud 明文，按 **1.1.22 `nvrammanager` 的相关 MIPS 反汇编**推演各分区模式。这个工具**没有执行**官方升级程序，也**没有**模拟 Flash I/O。
+
+反汇编证据：旧版 `0x403c54..`（近似 `nm_getDataFromNvram`）在 Cloud 未提供某分区更新内容时，若当前 NVRAM 与目标分区的 Flash 基址相同，就设置记录偏移 `+0x2c` 为 **3**；否则会把原 Flash 内容读入内存并设置模式 **2**。旧版写入循环从 `0x403010` 开始，按 48 字节的分区记录遍历，检查模式并在模式 3 的情况下跳过写入。显式出现在 Cloud 更新清单中的分区对应模式 **1**；新表中但旧表里不存在、也没有 Cloud 载荷的分区为模式 **0**，数据大小为零。以上由静态代码和数据结构推断，未进行运行时 MTD 追踪。
+
+对完整的正式签名 no-uboot Cloud 解密后运行脚本，结果：
+
+| 推断模式 | 数量 | 内容 |
+|---|---:|---|
+| 1 — Cloud 载荷覆盖 | 10 | `os-image`、`file-system`、`re-def-config`、`partition-table`、`soft-version`、`extra-para`、`support-list`、`profile`、`default-config`、`ap-def-config` |
+| 2 — 从旧 Flash 搬迁内容 | **0** | 无 |
+| 3 — 原基址不变、跳过写入 | **14** | 包括 `fs-uboot`、`user-config`、`ap-config`、`router-config`、`product-info`、`default-mac`、`pin`、`device-id`、`radio` 等 |
+| 0 — 新增、无升级内容 | **4** | `wireless-key`、`https_cert`、`uboot_env`、`login-key` |
+
+在用户 Mac mini 的**原始 16 MiB Flash 备份**上逐段检查，这四个新增地址范围（`0xFE0700..0xFE2A00`）全部是 `0xFF`。这是旧备份的证据，不应假定现有 Flash 经过运行后仍完全一致；如果后续需要证明实机当前状态，应只读复查。
+
+**重要限制**：这份模式推演不是 `nvrammanager -u` 运行实测，且未包含旧版升级器的所有条件和报错路径（例如固件策略、时序、Flash 擦除边界）。旧 Bootloader 能否启动新内核和新 RootFS 也未实测。首次升级必须满足这两项验证以及恢复能力要求，不能仅凭签名成功、模式推演成功就进行 Flash 写入。
