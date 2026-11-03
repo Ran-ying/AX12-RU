@@ -332,3 +332,24 @@ Realtek 1.1.22 Bootloader `fs-uboot` 的首阶段在原始 Flash 镜像偏移 `0
 新增只读回归工具 [`audit_cs6c_boot_path.py`](audit_cs6c_boot_path.py)，对原始 Bootloader 的魔数位置与 **16 个**关键 MIPS 指令逐一验证。已在 Linux Panel 使用 GitHub 精确提交 `9e117b77ab59df6b4a7a0c66d3d12407405873f9` 的脚本运行，16 项全部 PASS，退出码 0。该测试既不接触路由器，也不修改固件。
 
 **更新后的边界：** 已经有 AX12 自身的二进制证据表明 `cs6c` 类型 1 能沿正常的检查成功路径到达共同的内核复制 / 跳转代码，且不会因旧的 `0x440000` 独立 RootFS 预检查被拒绝；**尚未证明**实际执行新内核后能够挂载 `0x400000` 的 RootFS，更没有证明旧 `nvrammanager -u` 会接受或正确写入这种镜像。当前无可刷写的 `cs6c` 正式候选包；禁止运行任何真实 Flash 写入或升级命令，直到升级器全路径仿真、当前 Flash 只读备份与恢复能力验证完成。
+
+
+### 2026-11-03：旧升级器 `-u` 分区写入分派与内核 ioctl 双侧核对
+
+新只读工具 [`audit_old_updater_dispatch.py`](audit_old_updater_dispatch.py) 使用原始 1.1.22 `nvrammanager` ELF、解压的同版 Linux 内核和仅离线的 `cs6c` Cloud 明文，核对 **21 条升级器 MIPS 指令及 12 条内核指令**。Linux Panel 本地执行均通过；只读取已保存文件，未执行 `nvrammanager -u`、未调用真实 `/dev/flash_chrdev`，也未触碰 AX12。
+
+**用户态实际分派：**
+
+- `0x4031B0`：模式 3 跳过写入；`0x403388..0x4033C4`：16 字节分区名称匹配 `partition-table` 时选择 `0x404408`，否则选 `0x4043D4`。
+- 普通写入经 `0x402620` 设置 ioctl 参数模式 **0**，分区表专用写入经 `0x402638` 设置模式 **1**；两者均汇入 `0x40236C`，通过请求 **`0x8001B302`** 使用 `/dev/flash_chrdev`。
+- ioctl 结构字段从偏移 0 起依次是 Flash 目的地址、payload 长度、payload 指针、payload 长度副本和模式参数；这些字段转发由用户态指令和下面的内核处理同时交叉核对。
+
+**内核实际分派：**
+
+- `tp_flash_ioctl` 的 `0x801E1F98..0x801E1FAC` 把模式作为第二参数、Flash 目的地址作为第三参数、payload 指针作为第四参数、长度作为第五参数传给共同处理函数 `0x801E18F8`。
+- `0x801E193C: beqz a1,0x801E1BB0`：模式 **0** 进入普通路径；模式 **1** 顺序执行 `0x801E1944: addiu s4,s4,8`，对传入长度 **额外计入 8 字节**，并执行另一套头部/扇区处理。两个分支最终都使用 SPI NOR 读、擦除和写入相关助手，但**不表示两种模式产生相同的 Flash 字节布局**。
+- 这 8 字节属于驱动行为，并未体现在 Cloud 清单 `partition-table size 0x800` 中。尚未还原特殊模式最终写入的所有头部字节和失败路径；任何按原始 Cloud payload 直接覆盖模拟分区表的模型，都不得视为真实驱动写入结果的逐字节预测。
+
+对现有 `cs6c` 实验 Cloud 的静态分派共 10 项：9 项使用模式 0，独立的 `partition-table` 使用模式 1；无 `fs-uboot` 更新记录。新分区表中的内核基址 `0x40000`、RootFS 基址 `0x400000` 和清单范围检查通过。物理 `0xF40000` 的 64 KiB 扇区承载 5 次元数据更新（`partition-table`、`soft-version`、`extra-para`、`support-list`、`profile`），必须验证后续四次更新不会覆盖先前分区表提交。
+
+**明确收窄模拟模型结论：** `virtual_first_upgrade.py` 与 `simulate_sector_rmw.py` 都属于文件级假设性布局检查，尚未准确实现 mode-1 附加 8 字节的实际头部/写入语义，既不能以其 SHA-256 预测实机 Flash，也不能以「10 项模拟更新通过」作为升级器安全证明。旧升级器是否在前置校验中接受 `cs6c`、是否按目标新表正确映射、以及实机启动与恢复能力仍未通过。下一项应是把内核 mode-1 的最终字节布局和旧升级器完整错误处理链解出，再建立有隔离 Flash 后端的实际 `-u` 测试。**禁刷状态保持不变。**
