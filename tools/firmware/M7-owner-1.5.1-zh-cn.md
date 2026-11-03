@@ -59,3 +59,18 @@ Mac mini 中的 `~/.ssh/ax12_owner_2026` 是唯一 owner 私钥。任何情况�
 - r3 正式签名及最终验签**尚未完成**。签名远程命令被安全检查阻止，不能将 r2 已签名结果视为 r3 的结果；不得使用 r2 固件代替。实机刷写也未进行。
 
 将 r3 的 256 字节 encoded message 在 Mac 通过 `openssl pkeyutl -sign -pkeyopt rsa_padding_mode:none -inkey ~/.ssh/ax12_owner_2026 -in /tmp/ax12-1.5.1-final-em.bin -out sig-owner-r3.big` 签署后，仅传回 `sig-owner-r3.big`，通过 `finalize_owner_cloud.py` 正式封装并校验。执行真正的升级写入仍需另行确认。
+
+
+## macOS LibreSSL 签名命令更正
+
+macOS 系统自带 LibreSSL 3.3.6 的 `openssl pkeyutl -sign -pkeyopt rsa_padding_mode:none` 会拒绝 256 字节 PSS encoded message，报 `non-raw input data length 256 is too long - max supported hashed size is 64`。正确的原始 RSA 私钥运算应使用：
+
+```bash
+openssl rsautl -sign -raw \
+  -inkey ~/.ssh/ax12_owner_2026 \
+  -in /tmp/ax12-1.5.1-final-em.bin \
+  -out ~/Desktop/ax12-1.5.1-r3.sig
+wc -c ~/Desktop/ax12-1.5.1-r3.sig
+```
+
+签名应为 256 字节，之后必须在 VPS 通过 owner 公钥校验 RSA 原语结果与 r3 的 `em.bin` 完全一致，再完成 Cloud 封装和校验。**此记录不代表该签名已生成。**
