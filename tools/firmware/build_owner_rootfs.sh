@@ -51,10 +51,9 @@ install -m 600 "$ssh_public" "$root/root/.ssh/authorized_keys"
 install -m 600 "$ssh_public" "$root/etc/dropbear/authorized_keys"
 
 # Fix uhttpd CGI execution and add a complete zh_CN Web UI locale.
-chmod 755 "$root/www/cgi-bin/luci"
 python3 "$here/patch_ax12_zh_cn.py" "$root"
 
 mksquashfs "$root" "$workdir/rootfs.sqfs" \
     -noappend -comp xz -b 262144 -always-use-fragments \
     -exports -all-root -no-progress -processors 2
-python3 "$here/seal_rootfs.py" "$workdir/rootfs.sqfs" "$workdir/rootfs.sealed"
+python3 "$here/seal_rootfs.py" "$workdir/rootfs.sqfs" "$workdir/rootfs.sealed" --partition-size 0xb00000
