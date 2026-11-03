@@ -382,3 +382,12 @@ The user has not supplied the reconstructed 16 MiB image to the offline server o
 实际记录 **18 次 Flash 读取、247 次 Flash 写入 ioctl**（241 次 Cloud 更新、4 次新增分区初始化、2 次状态写）；涉及 **238 个独立 64 KiB 扇区**，其中 `0xF40000` 更新 7 次、`0xFE0000` 更新 4 次；未请求写入旧 Bootloader 或 ART。实际 `partition-table` 模式 1 写入长度 **0x540**，而非先前模型采用的 0x800。已修正文件模拟，使其在同一合成基线上与完整 QEMU ioctl 执行所得最终镜像 SHA-256 完全一致：`47bccd070878757a733f5ffcd3f2e21c71527dd5a1edfdff71f93e7abe29a032`。在内核首块及分区表写入失败的两次注入测试中，旧升级器均停止后续写入，但**没有自动回滚已完成的修改**。
 
 结论：**旧升级器动态写入路径的离线验收已完成**；后续集中于主人正式 RSA 签名的 cs6c 包及硬件 UART 恢复准备，不再把早期只有 10 条记录 / 237 扇区的文件模型当作完整真实升级轨迹。所有操作仍未写入或重启 AX12 实机。
+
+
+## 2026-11-03：已收到 Owner 签名，M5 最终 Cloud 候选验收完成
+
+已实际校验用户上传的 **256 字节 RSA 签名**与此前 `cs6c` signing request 和已有 owner 公钥一致，随后在独立 Linux Panel 上组装 owner-signed `cs6c` 包，独立验证 RSA-PSS/AES 解密、RootFS、Cloud 清单（10 项、无 `fs-uboot`）及精确 `cs6c` 内核格式。**完整候选 SHA-256 为 `ddf9880b29715a9189666a5256d86b3f2d8daec342219704a01edce0f696bf7c`；大小 15,370,972 字节**。用户私钥仍仅在 Mac mini，没有上传。
+
+使用此**正式 owner 签名候选**在隔离 QEMU 上实际运行旧版 MIPS `nvrammanager -c`（成功正常退出，零写入）及 `-u`（硬件/版本认可，打印成功日志，**247 次截获 Flash ioctl 写入**，238 个扇区，Bootloader/ART 无写请求）。模拟最终 SHA-256 与一次性测试包完全一致：`47bccd070878757a733f5ffcd3f2e21c71527dd5a1edfdff71f93e7abe29a032`。`-u` 末尾隔离环境仍报线程清理失败、退出 255；**此项不算正常退出 0**。
+
+**M5 离线环节已结案；真实 AX12 首次刷写仍是 NO-GO**，原因是尚未完成 UART/外部恢复条件的现场验证以及实际新内核启动测试（后者不可能靠 QEMU 用户态升级程序替代）。完整步骤和限制见 [M5-acceptance-2026-11-03.md](M5-acceptance-2026-11-03.md)。**没有对实机执行 Flash 写入、重启或正式升级**。
