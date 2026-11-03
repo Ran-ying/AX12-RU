@@ -43,6 +43,8 @@ def load_layout(old_cloud, new_cloud):
         "default-config", "ap-def-config"
     }:
         raise ValueError("Unexpected update selection")
+    if [n for n, _, _ in updates] != [n for n in new if n in {u[0] for u in updates}]:
+        raise ValueError("Manifest order differs from the updater's partition iteration")
     if old["file-system"][0] != 0x440000 or new["file-system"][0] != 0x400000:
         raise ValueError("Unexpected old or new RootFS address")
     if new["os-image"][0] != 0x40000 or new["partition-table"][0] != 0xF40000:
