@@ -64,11 +64,25 @@ def rootfs_diff(pristine, patched, version):
     if version != '1.5.0':
         allowed_added.add('www/webpages/locale/zh_CN/index-AX12r2.js.gz')
         allowed_changed.add('www/webpages/js/update-store-DnZhtCy9.js.gz')
+    allowed_removed = set()
     if version == '1.5.3':
-        allowed_added.add('www/webpages/locale/zh_CN/index-AX12r3.js.gz')
-    if removed or added != allowed_added or changed != allowed_changed:
+        allowed_added.discard('www/webpages/locale/zh_CN/index-AX12r2.js.gz')
+        allowed_added.update({
+            'www/webpages/locale/zh_CN/index-AX12r3.js.gz',
+            'etc_ro/init.d/ax12-owner-locale',
+            'etc/rc.d/S95ax12-owner-locale',
+        })
+        allowed_changed.add('etc/config/locale')
+        allowed_removed = {
+            k for k in a
+            if (k.startswith('www/webpages/locale/') and
+                not k.startswith('www/webpages/locale/zh_CN/'))
+            or (k.startswith('usr/lib/lua/luci/i18n/') and
+                k.rsplit('/', 1)[-1] not in ('base.en.lmo', 'firewall.zh-cn.lmo'))
+        }
+    if removed != allowed_removed or added != allowed_added or changed != allowed_changed:
         raise ValueError(f'Unexpected RootFS patch diff: added={sorted(added)} removed={sorted(removed)} changed={sorted(changed)}')
-    print('PASS: RootFS file-level diff, added',len(added),'changed',len(changed),'removed=0')
+    print('PASS: RootFS file-level diff, added', len(added), 'changed', len(changed), 'removed', len(removed))
 
 
 def main():

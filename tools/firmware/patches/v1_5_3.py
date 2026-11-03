@@ -3,6 +3,8 @@ import hashlib
 import shutil
 from pathlib import Path
 
+from . import zh_cn_en
+
 ROOT = Path(__file__).resolve().parent
 BASE_CHUNK_SHA = 'b3552388b8c4'
 
@@ -21,4 +23,5 @@ def apply(rootfs):
         mode = existing.stat().st_mode & 0o777
         shutil.copy2(source, target)
         target.chmod(mode)
-    print('APPLIED 1.5.3: zh_CN r3 and matching JS loader')
+    zh_cn_en.apply(rootfs)
+    print('APPLIED 1.5.3: zh_CN r3 plus optional English')

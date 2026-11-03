@@ -42,7 +42,7 @@ Possible versions: **1.5.0, 1.5.1, 1.5.2, 1.5.3**. The patches are applied from 
 | 1.5.0 | owner RSA verifier, LAN root SSH, executable CGI, cs6c boot bridge, omit U-Boot update | `tools/firmware/patches/v1_5_0.py` and shared builder |
 | 1.5.1 | zh_CN r2, Web CGI locale registration and language loader | `tools/firmware/patches/v1_5_1.py` and assets |
 | 1.5.2 | WAN port1 ASIC/VLAN MIPS BNE→NOP, kernel compressed wrapper and checksum | `tools/firmware/patches/v1_5_2.py`, `patch_wan_port1.py` |
-| 1.5.3 | Chinese v3 terminology improvements and lazy loader | `tools/firmware/patches/v1_5_3.py` and assets |
+| 1.5.3 | Chinese v3; zh_CN default, selectable en_US; remove 27 unused Web locale packs; one-time UCI migration | `tools/firmware/patches/v1_5_3.py`, `zh_cn_en.py` and assets |
 
 The `--workdir` defaults to `build/ax12-from-official-<version>/`; outputs: fresh `rootfs/`, `rootfs.sqfs`, `rootfs.sealed`, `unsigned.bin` and `em-for-owner-signing.bin`. `unsigned.bin` is **NOT flashable**.
 
@@ -110,3 +110,9 @@ python3 tools/firmware/verify_patch_chain.py \
 ```
 
 Optionally pass `--known-good-rootfs PATH` when an independent, locally extracted trusted 1.5.2 RootFS is available. Do not commit original extracted vendor files or device Flash.
+
+## M13 1.5.3 bilingual-only RootFS size optimization
+
+The latest 1.5.3 is **not** the original M9/M12 multi-language dry-run build. It keeps `zh_CN` as the default and `en_US` as an explicit setting, retains all existing language selectors, uses the built-in English dictionary and removes 27 other Web language directories. Default `/etc/config/locale` is now `zh_CN`, and an `S95` one-shot UCI boot hook migrates the inherited 1.5.2 English default exactly once while preserving subsequent intentional choices. `verify_bilingual.py` checks those invariants. **Exact RootFS size 10,121,219 bytes, 1,413,117 bytes free** (saving 1,388,544 bytes vs the historical 1.5.3 with all locales). All values were measured after SquashFS + Realtek sealing, not merely summed asset sizes.
+
+See [M13](M13-1.5.3-zh_CN-en_US-flash-optimization.md) for tests and limitations. 1.5.3 remains **unsigned by default**, and has *not* received actual router boot or factory-reset acceptance testing. The prior 11,509,763-byte M9/M12 numbers describe the **previous** multilingual 1.5.3 design.

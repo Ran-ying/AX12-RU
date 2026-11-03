@@ -52,3 +52,5 @@ python3 build.py --version 1.5.3
 - 1.5.2 的内核校验仍使用实机通过的**固定已知 SHA-256**。
 
 **验收边界：** 当前这次重构没有执行路由器 Flash 写入或启动测试。第一次从旧版原厂 `1.1.22` 升级使用新的、最小化 owner 1.5.0 镜像的实机兼容性尚未单独通过；不能用以上离线构建成功推断这一首次迁移必然安全。历史成功记录仍应以 [M6](M6-first-flash-2026-11-03.md) 和 [FIRST_MIGRATION](FIRST_MIGRATION_1.1.22.md) 为准。
+
+> **Historical result / superseded 1.5.3:** This table records the pre-M13 multilingual 1.5.3. A later 1.5.3 patch keeps only Chinese + English for the router Web UI and changes the RootFS size to **10,121,219 bytes**. The 1.5.0–1.5.2 implementation and regression data here are unchanged. See [M13](M13-1.5.3-zh_CN-en_US-flash-optimization.md).
