@@ -54,7 +54,7 @@ def load_layout(old_cloud, new_cloud):
 
 def operations(new_cloud, new, updates):
     result = [("upgrade-flag-before", 0xF42000,
-               struct.pack(">II", 2, 0) + b"\\x01\\x00")]
+               struct.pack(">II", 2, 0) + b"\x01\x00")]
     for name, source_offset, length in updates:
         start, capacity = new[name]
         payload = new_cloud[0x1014 + source_offset:0x1014 + source_offset + length]
@@ -77,7 +77,7 @@ def operations(new_cloud, new, updates):
         base, capacity = new[name]
         result.append((name, base, bytes(capacity)))
     result.append(("upgrade-flag-after", 0xF42000,
-                   struct.pack(">II", 2, 0) + b"\\x01\\x01"))
+                   struct.pack(">II", 2, 0) + b"\x01\x01"))
     return result
 
 
@@ -111,7 +111,7 @@ def emulate(initial, ops, old, new):
     assert image[:0x40000] == initial[:0x40000]
     assert image[0x040000:0x040004] == b"cs6c"
     assert image[0x400000:0x400004] == b"hsqs"
-    assert image[0xF42000:0xF4200A] == struct.pack(">II", 2, 0) + b"\\x01\\x01"
+    assert image[0xF42000:0xF4200A] == struct.pack(">II", 2, 0) + b"\x01\x01"
     assert image[0xFF0000:] == initial[0xFF0000:]
     n_written = sum(touched.values())
     shared = {hex(s): n for s, n in sorted(touched.items()) if n > 1}
