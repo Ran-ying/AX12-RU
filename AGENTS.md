@@ -24,3 +24,7 @@ This repository targets **TP-Link Archer AX12 RU hardware v1.0** (RTL8197F, MIPS
 All future modifications should be small, explicit, and testable. Do not hide failures with optional fallbacks. Maintain this file and version evidence whenever the pipeline changes.
 
 Initial-device migration (`1.1.22` → owner-signed `1.5.0`) is historically documented at `tools/firmware/FIRST_MIGRATION_1.1.22.md`; it is distinct from the current official-1.5.0-base **build** workflow. Do not claim direct 1.1.22→owner 1.5.2 was tested, and do not assume UART whole-Flash rewrite is required for every upgrade.
+
+## First-time owners migrating from stock 1.1.22
+
+Start with [`tools/firmware/MIGRATE_STOCK_1.1.22_TO_OWNER.md`](tools/firmware/MIGRATE_STOCK_1.1.22_TO_OWNER.md), not the versioned `build.py` alone. The `prepare_1122_ssh_bootstrap.py` tool only builds a local old-RootFS UART payload from **the new owner's own backup** plus a valid SSH **public key**; it does not interact with the router or require their private key. Old 1.1.22's first owner-signed Cloud upgrade historically used a RAM-only patched verification **public** key and a `cs6c` Bootloader bridge with no `fs-uboot` write. The new 1.5.3 patch-chain package is not evidence that direct 1.1.22→1.5.3 flashing was tested. Require separate authorization and per-device calibration/backups for all actual hardware writes; do not reuse the public repository's disclosed owner signing private key as an exclusive trust root for other owners. See [M11 tests](tools/firmware/M11-migration-kit-offline-tests.md).

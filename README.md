@@ -1,5 +1,11 @@
 # TP-Link Archer AX12 RU v1：UART → 持久 Root SSH
 
+## 从原厂 1.1.22 迁移到最新定制固件：从这里开始
+
+**[完整迁移指南](tools/firmware/MIGRATE_STOCK_1.1.22_TO_OWNER.md)** 记录 UART 只读备份自己的 16 MiB Flash、用自己的 SSH **公钥**生成旧版 RootFS、UART RAM 传输和人工 Flash 回读、旧版 root SSH、在 RAM 中运行临时 owner 公钥版升级器、使用 `cs6c` 和“不更新 Bootloader”的特制自签名 1.5.0，以及后续 1.5.1/1.5.2/1.5.3 版本验收。新增离线工具：[`prepare_1122_ssh_bootstrap.py`](tools/firmware/prepare_1122_ssh_bootstrap.py)；测试证据见 [M11](tools/firmware/M11-migration-kit-offline-tests.md)。
+
+**实际验证范围：** 历史 1.1.22 → 自签名特制 1.5.0 → 1.5.1 → 1.5.2 成功；**尚未验证：** 从 1.1.22 直接一步升级至 1.5.3，或 1.5.3 的实机启动。任何 Flash 写入必须由设备所有者逐项审计后单独执行；没有无人值守刷机。**不要上传 SSH 或固件签名私钥到路由器；路由器需要的是公钥。** 新设备所有者还应自行生成新的 RSA 签名密钥，不要使用仓库内已公开的项目原作者私钥。
+
 ## 新版入口：官方 1.5.0 + 顺序补丁（2026-11-03）
 
 **当前正式构建规范**：使用官方 AX12 RU v1.0 `1.5.0 Build 20260605`（SHA256 `50b09cbc1f18140cd18ebf7fbe611851ab98e21b05d67303307673b5de5003c9`）作为唯一不可变构建基线，依次应用 `1.5.1` 公钥/SSH/中文补丁、`1.5.2` WAN 内核修复补丁、`1.5.3` 中文翻译 v3 补丁。**不再使用旧的 1.5.2 BIN 作为新版本构建输入**；它仅用于差异验收和回滚。
@@ -26,6 +32,7 @@ python3 build.py --version 1.5.3
 | 文件 | 用途 |
 |---|---|
 | [`tools/ax12_flash_dump.py`](tools/ax12_flash_dump.py) | UART Bootloader `FLR` + `DB` 备份整片 16 MiB Flash（只读） |
+| [`tools/firmware/prepare_1122_ssh_bootstrap.py`](tools/firmware/prepare_1122_ssh_bootstrap.py) | 从自己 1.1.22 原始备份离线制作仅旧 RootFS 的 SSH 引导载荷（不写硬件） |
 | [`tools/ax12-ssh`](tools/ax12-ssh) | 已验证的 LAN Dropbear 启动脚本 |
 | [`tools/ax12_seal_realtek_rootfs.py`](tools/ax12_seal_realtek_rootfs.py) | RootFS 加厂商长度字段与 checksum |
 | [`tools/ax12_uart_send.py`](tools/ax12_uart_send.py) | UART V2 发送器（只写 RAM） |

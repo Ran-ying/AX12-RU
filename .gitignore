@@ -28,3 +28,6 @@ __pycache__/
 /inputs/
 /build/
 /.venv/
+
+# Device-private migration backup, RootFS extraction and signing workspace
+/private-work/

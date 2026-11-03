@@ -1,3 +1,5 @@
+> **历史状态说明（2026-11-03）：** 下方首行“安全阻断”的判断来自首次实机成功**之前**的研究阶段；之后 M6 已验证以 `cs6c` 启动格式、原 Bootloader 保留以及临时 owner 公钥版升级器完成了本机第一次升级。其他旧版设备仍需重新执行验证。最新完整迁移指南：[MIGRATE_STOCK_1.1.22_TO_OWNER.md](MIGRATE_STOCK_1.1.22_TO_OWNER.md)。请将下方原文中的时点性结论理解为**当时实验状态**，不要据此否认后续成功结果。
+
 > **安全阻断（2026-11-03）：已签名的 `NO-UBOOT-CANDIDATE.bin` 不得刷写。** 旧 Bootloader 的 `cr6c` 启动路径在 `0x440000` 寻找 RootFS，但 1.5.0 RootFS 已迁至 `0x400000`；新版本的旧地址不含 SquashFS 签名。详见 [first-upgrade-audit.md](first-upgrade-audit.md)。`cs6c` 仅完成一次性测试密钥的离线封包验证，尚未正式签名或实机启动，不是可刷写方案。\n\n# Archer AX12(RU) V1 firmware format notes (2026-11-02)
 
 Read-only offline firmware research. On 2026-11-02, AX12 RU V1 1.5.0 **was successfully decrypted and its SquashFS extracted**. No router firmware upgrade, flash write or device reboot was performed.
