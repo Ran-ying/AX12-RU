@@ -40,7 +40,7 @@ INSTRUCTIONS = {
 
 # 1.1.22 running kernel's tp_flash_ioctl and the common Flash handler.
 KERNEL_INSTRUCTIONS = {
-    0x801E1F98: (0x8E42000C, "load buffer pointer into fifth argument"),
+    0x801E1F98: (0x8E42000C, "load payload length into fifth argument"),
     0x801E1F9C: (0x8E470008, "load payload pointer into a3"),
     0x801E1FA0: (0x8E450010, "load mode into a1"),
     0x801E1FA4: (0x8E460000, "load Flash destination into a2"),
@@ -108,8 +108,8 @@ def audit(updater, cloud, kernel):
         raise ValueError(f"Unexpected multiply-updated sectors: {shared}")
     print(f"\nPASS: {len(updates)} operations, no fs-uboot update, cs6c at 0x40000")
     print("PASS: only sector 0xF40000 has multiple metadata updates")
-    print("PASS: partition-table uses ioctl mode 1; nine ordinary updates use mode 0")
-    print("NOT PROVEN: actual mode-1 output bytes; complete -u acceptance,")
+    print("PASS: partition-table uses ioctl mode 1 (length + 8); nine ordinary updates use mode 0")
+    print("NOT PROVEN: actual mode-1 header bytes; complete -u acceptance,")
     print("     physical writes, power-loss recovery, or boot success")
 
 def main():
