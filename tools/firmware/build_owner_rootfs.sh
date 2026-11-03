@@ -1,5 +1,5 @@
 #!/bin/sh
-# Offline owner-only AX12 RU 1.5.0 RootFS build. No device access.
+# Offline owner-only AX12 RU RootFS build. No device access.
 set -eu
 
 if [ "$#" -ne 5 ]; then
@@ -49,6 +49,10 @@ ln -s ../init.d/ax12-ssh "$root/etc/rc.d/S99zzzzzzzzssh"
 install -d -m 700 "$root/root/.ssh"
 install -m 600 "$ssh_public" "$root/root/.ssh/authorized_keys"
 install -m 600 "$ssh_public" "$root/etc/dropbear/authorized_keys"
+
+# Fix uhttpd CGI execution and add a complete zh_CN Web UI locale.
+chmod 755 "$root/www/cgi-bin/luci"
+python3 "$here/patch_ax12_zh_cn.py" "$root"
 
 mksquashfs "$root" "$workdir/rootfs.sqfs" \
     -noappend -comp xz -b 262144 -always-use-fragments \
