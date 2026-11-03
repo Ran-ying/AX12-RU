@@ -53,18 +53,31 @@ def load_layout(old_cloud, new_cloud):
 
 
 def operations(new_cloud, new, updates):
-    result = []
+    result = [("upgrade-flag-before", 0xF42000,
+               struct.pack(">II", 2, 0) + b"\\x01\\x00")]
     for name, source_offset, length in updates:
         start, capacity = new[name]
         payload = new_cloud[0x1014 + source_offset:0x1014 + source_offset + length]
         if len(payload) != length:
             raise ValueError(f"Truncated payload: {name}")
-        write = struct.pack(">II", len(payload), 0) + payload if name == "partition-table" else payload
+        if name == "partition-table":
+            # Actual 1.1.22 -u ioctl trace: 28 records x 48 bytes = 0x540.
+            table = payload[:0x540]
+            if len(records(table[4:], PART_RE)) != 28:
+                raise ValueError("Unexpected target partition-table entries")
+            write = struct.pack(">II", len(table), 0) + table
+        else:
+            write = payload
         if start + capacity > FLASH_SIZE or len(write) > capacity:
             raise ValueError(f"Write exceeds partition: {name}")
         result.append((name, start, write))
-    if result[0][2][:4] != b"cs6c" or result[1][2][:4] != b"hsqs":
+    if result[1][2][:4] != b"cs6c" or result[2][2][:4] != b"hsqs":
         raise ValueError("Not a cs6c bridge with SquashFS root")
+    for name in ("wireless-key", "https_cert", "uboot_env", "login-key"):
+        base, capacity = new[name]
+        result.append((name, base, bytes(capacity)))
+    result.append(("upgrade-flag-after", 0xF42000,
+                   struct.pack(">II", 2, 0) + b"\\x01\\x01"))
     return result
 
 
@@ -81,14 +94,10 @@ def emulate(initial, ops, old, new):
             old_sector = image[sector:sector + SECTOR_SIZE]
             new_sector = old_sector[:]
             new_sector[inside:inside + count] = payload[off:off + count]
-            if old_sector != new_sector:
-                image[sector:sector + SECTOR_SIZE] = new_sector
-                touched[sector] += 1
+            image[sector:sector + SECTOR_SIZE] = new_sector
+            touched[sector] += 1
             off += count
 
-    for name, address, payload in ops:
-        if image[address:address + len(payload)] != payload:
-            raise AssertionError(f"Readback mismatch: {name}")
     changed = {name for name, _, _ in ops}
     same_base = [n for n, (base, size) in old.items()
                  if n not in changed and n in new and new[n][0] == base]
@@ -97,21 +106,25 @@ def emulate(initial, ops, old, new):
         if image[base:base + length] != initial[base:base + length]:
             raise AssertionError(f"Unexpected modification: {name}")
 
-    assert image[0xF40000:0xF40008] == struct.pack(">II", 0x800, 0)
+    assert image[0xF40000:0xF40008] == struct.pack(">II", 0x540, 0)
     assert image[0xF40008:0xF4000C] == b"\x00\x04\x00\x00"
     assert image[:0x40000] == initial[:0x40000]
     assert image[0x040000:0x040004] == b"cs6c"
     assert image[0x400000:0x400004] == b"hsqs"
+    assert image[0xF42000:0xF4200A] == struct.pack(">II", 2, 0) + b"\\x01\\x01"
+    assert image[0xFF0000:] == initial[0xFF0000:]
     n_written = sum(touched.values())
     shared = {hex(s): n for s, n in sorted(touched.items()) if n > 1}
-    if shared != {"0xf40000": 5}:
+    if shared != {"0xf40000": 7, "0xfe0000": 4}:
         raise AssertionError(f"Unexpected repeated sector rewrites: {shared}")
-    print("PASS:", len(ops), "logical updates,", len(touched),
-          "different sectors,", n_written, "modeled sector rewrites")
+    if (len(ops), len(touched), n_written) != (16, 238, 247):
+        raise AssertionError("Model differs from observed 1.1.22 -u ioctl count")
+    print("PASS:", len(ops), "logical phases,", len(touched),
+          "different sectors,", n_written, "modeled Flash ioctl writes")
     print("PASS: partition-table Flash prefix =",
           image[0xF40000:0xF4000C].hex(" "))
     print("PASS:", len(same_base),
-          "same-base preexisting partitions unchanged")
+          "same-base preexisting partitions unchanged (including Bootloader and ART)")
     print("Multi-write sectors:", shared)
     digest = hashlib.sha256(image).hexdigest()
     print("In-memory image SHA256:", digest)
@@ -157,9 +170,11 @@ def main():
                                 ("byte-ramp", bytes(range(256)) * (FLASH_SIZE // 256))]:
             print("\nBaseline:", label)
             emulate(baseline, ops, old, new)
-    print("\nLIMIT: this is a modeled end-state, not actual ioctl execution.")
-    print("Not proven: update acceptance, error handling, interrupted writes,")
-    print("real SPI command sequence, boot success or working UART recovery.")
+    print("\nMODEL: operation order and counts are grounded in an actual 1.1.22 QEMU -u")
+    print("trace with a test-key-signed cs6c package and intercepted virtual Flash.")
+    print("LIMIT: mode-1 and SPI NOR sector behavior are separately modeled from")
+    print("kernel disassembly, not executed as the original vendor kernel driver.")
+    print("No hardware write, boot success or recovery test is implied.")
 
 
 if __name__ == "__main__":
