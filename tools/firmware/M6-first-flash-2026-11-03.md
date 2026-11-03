@@ -76,3 +76,14 @@ Freeing unused kernel memory: 180K
 ## 当前结论
 
 **实机刷写完成、厂商升级器返回 0、旧 Bootloader 成功加载新内核、新内核成功挂载新 RootFS。** 管理入口的可达性与定制 SSH 功能尚未验收。下一步是**恢复局域网直连与 SSH**，不是重新刷写，也不是重复备份。无额外 Flash 擦写或二次重启。
+
+
+## M6 后续：用户实机确认 SSH root 登录成功
+
+切换到实际可达的 LAN 端口后，Mac mini 对 `192.168.0.1` 的 ARP 恢复至 `5c:62:8b:f3:83:c0`，ICMP 2/2 成功；原先的 LAN 不通主要由端口映射或接线口选择导致。
+
+`ssh ax12` 原默认私钥指纹 `SHA256:rXNBCRUiTLSt2Q0d1BUmSjvafQ7sAgVYJIsZnQUPWtQ` 被定制 Dropbear 拒绝。已封装 RootFS 内的 `authorized_keys` 公钥指纹为 `SHA256:uk37qU02Omc8kre/ChPBGvKE+/ZH6CxuotWl0VursFQ`，为 owner 固件签名公钥。用户明确决定两项用途共用签名私钥 `~/.ssh/ax12_owner_2026`。
+
+新版 Dropbear 仅提供 `ssh-rsa` 主机密钥协商（OpenSSH 默认禁用）；在为 AX12 单主机显式允许 `HostKeyAlgorithms=+ssh-rsa` 与 `PubkeyAcceptedAlgorithms=+ssh-rsa`，并指定签名私钥后，**用户确认已成功以 root 登录真实 AX12**。故实机定制 SSH 功能已通过。
+
+**仍待验收：** Web UI 在浏览器内无限刷新。HTTP `GET /` 返回 200 OK，非 HTTP 3xx 重定向；应优先排查浏览器 JS、会话 cookie、后台 API 以及新旧持久化配置兼容。无需再刷写。
