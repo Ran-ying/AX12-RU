@@ -103,3 +103,20 @@ Virtual image SHA256:
 
 **当前状态：离线内核头验证与假设性 16 MiB 虚拟迁移全部通过；实际 Bootloader 兼容性、Flash 写入顺序、UART 恢复还未通过。没有触碰真实 Flash。**
 
+
+
+## Live UART verification: TFTP RAM and FLR flash reads (2026-11-03)
+
+From the user's live `<RealTek>` session, **AutoBurning=0** and `IPCONFIG` shows target `192.168.0.1`. A 64-byte test file was loaded by TFTP into `0x81000000`; `DB` readback verified all 64 bytes. Next `FLR` reads were confirmed successful without any Flash write:
+
+| Flash offset | 64-byte readback destination | Live magic/result |
+|---|---|---|
+| `0x000000` | `0x81001000` | `03 00 00 08`, matches original Bootloader backup |
+| `0x040000` | `0x81002000` | `cr6c`, load `0x80c20000`, Flash burn `0x00040000`, payload length `0x380c02` |
+| `0x440000` | `0x81003000` | `hsqs`, live inode count `0x09c4=2500` |
+
+The original Mac mini Flash backup at `0x440000` instead starts with `hsqs`, inode count `0x09bf=2495`. This is **expected**: that full 16 MiB backup predates the previously successful root-SSH RootFS modification, whose documented final SquashFS contained **2500** inodes. The original backup is valid, but it is **not a byte-for-byte snapshot of the current running firmware**.
+
+The USB-UART is now `/dev/cu.usbserial-A5069RR4`. The already-proven read-only `tools/ax12_flash_dump.py` was staged on Mac mini under `~/Desktop/AX12-RU-1.5.0-owner/ax12_flash_dump.py`; `pyserial 3.5` was installed in `~/Desktop/ax12-owner-venv`. Neither the backup script nor Flash-writing commands were executed during this inspection. Recommended next step is a distinct **current-state** full 16 MiB read-only backup (different filename from the original factory-state backup).
+
+**Status:** UART monitor and per-partition readback proven. Full live-state backup, recovery after write failure, and old-Bootloader/new-kernel runtime compatibility remain separate checks.
