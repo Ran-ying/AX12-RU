@@ -212,3 +212,31 @@ Both kernels use the same Realtek MSDK GCC 6.4.1 toolchain identifier. These sha
 **Independent virtual check repeated for the FINAL owner-signed no-uboot candidate** (not the original signed package), using original 16 MiB Flash backup **only on Mac mini** and [virtual_first_upgrade.py](virtual_first_upgrade.py): 10 target partitions, old Bootloader unchanged, `cr6c` at `0x40000`, `hsqs` at `0x400000`, original factory identity/radio/user partitions unchanged; output hash `7f4c3bb48c54ea1a865d75f88eff4fede3d8c6b799caae4ddface32773bc19a9`, identical to the previous virtual scenario. **This file must not be used for direct whole-chip flashing.**
 
 Remaining unproven before real flash: **flash_chrdev ioctl erase/partial-sector behavior, full `-u` control flow, and old Bootloader → 1.5.0 kernel → new RootFS real boot compatibility.** No destructive action was taken.
+
+
+## 2026-11-03: live-kernel Flash ioctl disassembly and sector-RMW file simulation
+
+New evidence from the exact extracted 1.1.22 Linux kernel image `/tmp/ax12-unpacked-linux-old.bin` (12,215,964 bytes), matched against AX12 live `/proc/kallsyms`:
+
+- `tp_flash_ioctl` at `0x801e1f00` dispatches ioctl **`0x8001b302`** to `0x801e18f8` and `0x4001b301` to `0x801e1818`.
+- `0x801e18f8` is a nontrivial 64 KiB read-modify-write handler. The disassembly uses `0x10000`-sized buffers/blocks, calls the SPI NOR read path `0x801df7f8`, incorporates new bytes via buffer-copy operations, then performs erase and write through MTD/NOR helper calls. Other branches directly call `spiflash_ioctl_erase` (`0x801e0d98`) and `spi_nor_write` (`0x801e06b4`). Thus there is concrete binary evidence for preservation of adjacent bytes during **partial-sector updates**. This does **not** prove all branches, power-failure behavior, or return-code handling.
+- Live `/proc/kallsyms` exports `spiflash_ioctl_read`, `spiflash_ioctl_write`, `spiflash_ioctl_erase`, `spi_nor_read`, `spi_nor_write`, `spi_nor_erase`; all four `/sys/class/mtd/mtd{0..3}/erasesize` report **65536** bytes.
+- The TP-Link [AX12 V1 GPL archive](https://static.tp-link.com/upload/gpl-code/2024/202410/20241022/GPL_AX12v1.tar.gz) is publicly listed and HTTP advertises **1,695,028,301 bytes (~1.6 GiB)**. It was not downloaded into the small VPS. The extracted shipped kernel and live symbol table give directly relevant evidence without requiring the full archive.
+
+To test the consequence of ordered, sector-preserving writes, created the read-only local file tool [simulate_sector_rmw.py](simulate_sector_rmw.py). This takes the **original 16 MiB Mac mini Flash backup** and the **fully verified owner-signed no-uboot Cloud**. It applies all 10 Cloud manifest updates in order as 64 KiB sector read-modify-erase-rewrite operations, never touches router interfaces, and does not generate a flashable image.
+
+Results **on Mac mini**:
+
+```
+PASS: all 10 Cloud updates applied in declared order
+PASS: 14 same-base legacy partitions unchanged, including fs-uboot and radio
+Touched sectors: 237 of 256
+Multiply-updated sectors: [('0xf40000', 5)]
+Virtual RMW SHA256: 4fb23d4836c5ecb41cc6f104dd165428117417c5b94206d83ceb82cb71947f00
+```
+
+`0xF40000` is the shared 64 KiB erase block for **partition-table**, **soft-version**, **extra-para**, **support-list**, and **profile**. The file model preserves earlier updates to that sector when later records change small subranges. This provides evidence that these five logically separate metadata updates need correct physical sector RMW behavior.
+
+**Why this SHA differs from the earlier virtual upgrade model:** the earlier [virtual_first_upgrade.py](virtual_first_upgrade.py) models clearing each **entire target partition** to `0xFF` before writing, whereas the present sector-RMW model replaces only the **explicit manifest payload bytes** and retains all unchanged trailing bytes within partitions. The difference is expected, and **neither SHA can predict the true post-upgrade Flash bitstream without full `nvrammanager -u` control flow and driver execution**.
+
+**Still open:** full vendor update `-u` invocation and rollback/error path, proof that the existing Bootloader loads 1.5.0 Linux and that it mounts the new RootFS, and repeatable hardware recovery including interruption scenarios. No Flash writes, real upgrades or router reboots performed for this analysis.
