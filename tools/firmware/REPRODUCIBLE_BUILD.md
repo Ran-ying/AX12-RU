@@ -1,6 +1,6 @@
 # AX12 RU v1 — Build strictly from official 1.5.0 plus versioned patches
 
-The only writable build input is the **pristine official firmware**. The owner-signed 1.5.2 image is kept as a hardware-tested reference, never as the base for new releases.
+The immutable source input is the **pristine official firmware**. The owner-signed 1.5.2 image is kept as a hardware-tested reference, never as the base for new releases.
 
 ## 1. Obtain exact official firmware
 

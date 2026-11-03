@@ -2,7 +2,7 @@
 """Build AX12 owner firmware by applying versioned patches to official RU 1.5.0.
 
 Example:
-    python3 build.py --official inputs/AX12-RU-1.5.0.bin --version 1.5.3
+    python3 build.py --version 1.5.3  # inputs/official-1.5.0.bin required
 """
 import sys
 from pathlib import Path

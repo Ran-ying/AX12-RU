@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """AX12 RU v1 patch-chain builder: pristine official 1.5.0 -> owner 1.5.x.
 
-No router access. Produces ONLY unsigned Cloud and encoded RSA-PSS message.
+No router access. Unsigned by default; optional local signing via --sign-key.
 Requires squashfs-tools, Python cryptography, and owner RSA public verifier.
 """
 import argparse
