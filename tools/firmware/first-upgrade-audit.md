@@ -171,3 +171,18 @@ Final candidate **local VPS only**:
 在用户 Mac mini 的**原始 16 MiB Flash 备份**上逐段检查，这四个新增地址范围（`0xFE0700..0xFE2A00`）全部是 `0xFF`。这是旧备份的证据，不应假定现有 Flash 经过运行后仍完全一致；如果后续需要证明实机当前状态，应只读复查。
 
 **重要限制**：这份模式推演不是 `nvrammanager -u` 运行实测，且未包含旧版升级器的所有条件和报错路径（例如固件策略、时序、Flash 擦除边界）。旧 Bootloader 能否启动新内核和新 RootFS 也未实测。首次升级必须满足这两项验证以及恢复能力要求，不能仅凭签名成功、模式推演成功就进行 Flash 写入。
+
+
+## 2026-11-03: full owner-signed no-uboot candidate delivered and live 1.1.22 RSA acceptance test passed
+
+**Complete Mac mini candidate**: `~/Desktop/AX12-RU-1.5.0-owner/AX12-RU-1.5.0-owner-NO-UBOOT-CANDIDATE.bin`. Independently checked on Mac mini: **15,370,972 bytes**, SHA-256 `617a691801cde764075e45cd1cf20dd11491f7d48c8e64725ab3bb72257a9df9`; matches the complete Linux Panel VPS file. The previously incomplete transfer is distinct and not used.
+
+AX12 was restarted into the previous 1.1.22 system: `ssh ax12 'id; uname -r'` yielded `uid=0(root)` and `4.4.176`. Dropbear on port 2222 presented a new host key, which the owner confirmed and added to known_hosts.
+
+For **read-only** live testing, the exact 15,370,972-byte candidate was copied via Mac mini into AX12's RAM-backed `/tmp/ax12-owner-no-uboot.bin`; its SHA-256 on the router matched exactly. A temporary 114,056-byte standalone copy of the 1.1.22 `nvrammanager` ELF with **only the embedded RSA-2048 verification public key** replaced by the owner public key was placed at `/tmp/nvrammanager-owner-check`. Its SHA-256 was `fa0b6a9388e952f07fe1f8193409d29b6bb2ab2c49dd9414b9db14c56c8776b2`. The installed `/usr/bin/nvrammanager` was unchanged.
+
+- `/tmp/nvrammanager-owner-check -c /tmp/ax12-owner-no-uboot.bin`: output `RSA2048 PSS`, `md5 or cloud-func verify ok!`, `Check RSA2048 FW, no need analysis firmware, return OK.`, `chekc firmware file success!`; **exit 0**.
+- **Negative control:** `/usr/bin/nvrammanager -c /tmp/ax12-owner-no-uboot.bin`: `RSA PSS Verify Error 1!`, `check firmware file failed!`; **exit 255**. This rejection is expected from the unmodified vendor RSA trust anchor.
+- Both RAM-backed temporary files were removed after testing, and AX12 returned to ~44.6 MiB available memory. No Flash write, upgrade `-u`, reboot, or persistent router file change was performed during this test.
+
+**Interpretation limit:** `-c` explicitly returns after RSA-PSS validation, without checking the full upgrade partition mapping or running any update writer. The old updater's real `-u` partition mapping and the old Bootloader's runtime ability to boot 1.5.0 remain unverified. Do not flash based on this positive signature result alone.
