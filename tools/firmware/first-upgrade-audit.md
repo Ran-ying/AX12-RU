@@ -1,5 +1,6 @@
 # AX12 RU 1.1.22 → 自签名 1.5.0：首次迁移静态审计
 
+> **关键阻断发现（2026-11-03）**：原版 1.1.22 Bootloader 在 `cr6c` 内核启动路径中会使用物理地址 **`0x440000`** 检查 SquashFS；1.5.0 的 RootFS 已迁到 **`0x400000`**。因此现有正式签名的 **`NO-UBOOT-CANDIDATE.bin` 不得刷写**。详见文末“旧 Bootloader RootFS 检查阻断”章节。候选包 RSA 验签和模拟升级通过不构成启动兼容性证明。\n\n
 更新：2026-11-02。**只读研究，无 Flash 写入、无重启。** 本文针对本机已验证的 RTL8197F / 16 MiB SPI Flash，不能直接推广到其他硬件版本。
 
 ## 已通过的实际验收
@@ -260,3 +261,31 @@ A new readonly, reproducible tool [inspect_kernel_partitions.py](inspect_kernel_
 To check safe physical capacity, parsed actual SquashFS superblocks from each Cloud's `file-system` payload. Stock 1.1.22 `bytes_used=0x9a73c4`, ending at `0xde73c4` when based at `0x440000`. Owner 1.5.0 `bytes_used=0xae3a0c`, ending at **`0xee3a0c`**, before the conservative `0xf00000` boundary; new target `file-system` partition starts at `0x400000` with capacity `0xb08000`. No RootFS end overlap is indicated by this size check.
 
 **Meaning:** the specific feared mismatch “new Linux still tries the old 0x440000 RootFS base” is now ruled out at the **compiled static MTD layout** level. This substantially improves the preserve-old-Bootloader migration case. It still does not demonstrate old Bootloader → new Linux boot, runtime MTD partition parsing, successful SquashFS mount, or driver error handling. No router reboot or Flash write was performed.
+
+
+## 2026-11-03: 旧 Bootloader RootFS 检查阻断（Critical blocker）
+
+**明确撤回原先仅凭一致的 `cr6c` 头、内核加载地址和新 MTD 表就推断旧 Bootloader 能正常启动 1.5.0 的乐观结论。现在有代码级反证。**
+
+Realtek 1.1.22 Bootloader `fs-uboot` 的首阶段在原始 Flash 镜像偏移 `0x8D60` 包含 gzip 第二阶段；解压完整 223,232 B。新版官方 1.5.0 `fs-uboot` 在相同压缩流偏移解出 257,184 B。两版第二阶段均包含 `cs6c`（Linux kernel）、`cr6c`（Linux kernel (root-fs)）、`hsqs` SquashFS 检查和 `no rootfs signature at %X!` 报错文本。
+
+对确切的 MIPS 小端指令进行逐条核对：
+
+- **旧 1.1.22：** `0x80017D04` 处调用 RootFS 检查函数 `0x800176D4`，延迟槽 `0x80017D08: lui a0,0xB044`，即 **`0xB0440000`** 映射的 Flash 地址 **`0x440000`**。
+- **新 1.5.0：** `0x8001CF50` 调用检查函数 `0x8001C920`，延迟槽 `0x8001CF54: lui a0,0xB040`，即 Flash **`0x400000`**。
+- 旧 `0x80017A28..0x80017A80` 根据 `cs6c` / `cr6c` 匹配设置不同图像类型：`cs6c` 对应类型 1，`cr6c` 对应类型 2。旧 `0x80017C84..0x80017C90` 的 `v0 == 2` 分支进一步进入独立 RootFS 检查。旧 `0x80015278` 的启动初始化链调用 `0x80017D48`，后者调用这些镜像检查逻辑并依据结果进入启动 / 恢复分支。
+- 正式签名的 `NO-UBOOT-CANDIDATE` Cloud 明文在目标 Flash `0x400000` 的文件头为 `68 73 71 73` (`hsqs`)，但目标 Flash `0x440000` 位置为 `62 53 62 66`，不满足旧 Bootloader 的 RootFS magic 检查。对其他固定回退地址 `0x260000`、`0x270000`、`0x2B0000` 也没有构造 RootFS 镜像。
+
+**结论：当前正式签名 `NO-UBOOT-CANDIDATE.bin` 与旧 Bootloader 的正常 `cr6c` 启动检查不兼容，禁止刷写。** 静态分析虽不是启动实测，但证据已经足以认定现有迁移方案存在高概率启动失败风险，不应进一步冒险实机升级。
+
+可重复运行的只读验证：[check_bootloader_rootfs_gate.py](check_bootloader_rootfs_gate.py)，已通过旧／新 Bootloader 原始镜像和正式新 Cloud 的三方核对。
+
+### 新的候选研究路线：`cs6c` 内核标记
+
+已建立 **仅离线明文实验** `prepare_cs6c_bridge.py`。该实验只把新 `os-image` 头部 **一个字节**从 `cr6c` 改为 `cs6c`，其余 15MB Cloud 明文完全不变；内核载入 `0x80c20000`、Flash 目标 `0x40000`、长度 `0x393c02` 和16位数据校验和全部维持有效。局部实验明文 SHA256 `bcacc976914ce8c3f9e4fc9dfff2c7c9653d9507cc00c9666bb6bbd0c9c8a1b7`，仅保存在 Linux Panel：
+
+`/var/lib/linux-panel/ax12-firmware-work/owner-2026-no-uboot/EXPERIMENT-CS6C-UNSIGNED-NOT-FOR-FLASH.dec`
+
+**理论依据：** 原 Bootloader 内核类型 1 (`cs6c`) 分支在 `0x80017C88` 绕过仅对类型 2 (`cr6c`) 执行的旧 RootFS 预检查；随后可由新的 1.5.0 Linux 内核通过其已证实的 `rootfs` `0x400000` MTD 定义挂载根文件系统。
+
+**不可跳过的验证：** 尚未实测旧 Bootloader 对修改后的 Linux 内核格式执行及解压结果，也未验证 1.1.22 `nvrammanager -u` 是否允许 `cs6c` 镜像或其真实写入流程。实验文件是 **未签名的解密明文，不能作为固件上传或写入**。不能据此认定 `cs6c` 技巧已解决启动兼容性问题。未执行任何路由器重启或 Flash 写入。
