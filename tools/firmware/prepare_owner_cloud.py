@@ -6,6 +6,7 @@ The RSA private-key operation must happen separately on the owner's computer.
 """
 import argparse
 import hashlib
+import re
 import secrets
 from pathlib import Path
 
@@ -23,6 +24,7 @@ p.add_argument("old_nvrammanager", type=Path)
 p.add_argument("sealed_rootfs", type=Path)
 p.add_argument("unsigned_output", type=Path)
 p.add_argument("encoded_message_output", type=Path)
+p.add_argument("--omit-uboot", action="store_true", help="Experimental: omit fs-uboot from update manifest without deleting payload")
 args = p.parse_args()
 
 original = args.official.read_bytes()
@@ -30,6 +32,17 @@ vendor = public_key_from_elf(args.old_nvrammanager)
 plain = cloud_decrypt(original, vendor)
 payload = args.sealed_rootfs.read_bytes()
 changed = repack(plain, payload)
+if args.omit_uboot:
+    start, end = 0x1014, 0x1814
+    manifest = bytes(changed[start:end])
+    lines = manifest.rstrip(b"\x00").splitlines(keepends=True)
+    kept = [line for line in lines if not line.startswith(b"fwup-ptn fs-uboot ")]
+    if len(kept) != len(lines) - 1:
+        raise ValueError("Expected one fs-uboot update entry")
+    changed[start:end] = b"".join(kept).ljust(end - start, b"\x00")
+    if b"fwup-ptn fs-uboot " in changed[start:end]:
+        raise AssertionError("fs-uboot entry still present")
+    print("Prepared test-only manifest without fs-uboot upgrade entry")
 
 salt = secrets.token_bytes(48)
 key, iv = salt[:16], salt[16:32]
