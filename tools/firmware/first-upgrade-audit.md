@@ -186,3 +186,29 @@ For **read-only** live testing, the exact 15,370,972-byte candidate was copied v
 - Both RAM-backed temporary files were removed after testing, and AX12 returned to ~44.6 MiB available memory. No Flash write, upgrade `-u`, reboot, or persistent router file change was performed during this test.
 
 **Interpretation limit:** `-c` explicitly returns after RSA-PSS validation, without checking the full upgrade partition mapping or running any update writer. The old updater's real `-u` partition mapping and the old Bootloader's runtime ability to boot 1.5.0 remain unverified. Do not flash based on this positive signature result alone.
+
+
+## 2026-11-03: MIPS write-loop branch, flash driver interface and decompressed kernel evidence
+
+**Exact old 1.1.22 write-loop disassembly evidence (offline ELF only):**
+
+- At `0x4031a0`, the mode field at record `+0x2c` is compared against 3; at `0x4031b0`, mode **3** branches directly to `0x403214` (advance to the next 48-byte record), bypassing the I/O calls. At `0x4031c0` mode 1 enters the source-to-Flash block, which calls wrapper `0x4043d4` and then `0x402620`. Thus **the actual old writer skips mode 3**; the inference that `fs-uboot` receives mode 3 remains based on its unchanged base, no Cloud payload and the old record-merging logic.
+- `0x40236c` opens **`/dev/flash_chrdev`**, sending an ioctl request `0x8001b302` with destination Flash address, size, source buffer and mode fields. This is a dedicated Realtek character device, **not equivalent to writing `/dev/mtd1`**. The exact kernel driver erase/preservation behavior is **not yet validated**. In particular, several late firmware metadata partitions are smaller than the 64 KiB SPI erase size and may share erase blocks.
+- Current AX12 Linux `/proc/cmdline`: `console=ttyS0,115200 root=/dev/mtdblock2 init=/etc/preinit`; `/proc/mtd` reports `uboot 0x40000`, `uImage 0x400000`, `rootfs 0xAF0000`, `ART 0x10000` with erase size `0x10000`. **MTD names/sizes do not independently prove actual physical offsets.** An independent RTL8197F vendor-kernel community report (https://github.com/adaasch/mr1500x-openwrt) cautions that its `rtkxxpart` driver misreports the `uImage` offset. That is a **related-device warning, not yet confirmed as an AX12-specific bug**.
+
+**Both official Cloud `os-image` payloads contain an LZMA kernel at relative `0x2818`.** New repeatable readonly script [inspect_kernel_mtd.py](inspect_kernel_mtd.py) extracted and verified the LZMA stream:
+
+| | Stock 1.1.22 | Stock-derived owner 1.5.0 |
+|---|---:|---:|
+| `cr6c` payload bytes | `0x380c13` | `0x393c13` |
+| Decompressed MIPS Linux image | **12,215,964** bytes | **12,561,504** bytes |
+| Linux version | 4.4.176, 2024-03-11 | 4.4.176-gd3618c8d0-dirty, 2026-06-05 |
+| Target SoC string | RTL8197F | RTL8197F |
+| MTD partition parser | `rtkxxpart` | `rtkxxpart` |
+| Default root cmdline | `root=/dev/mtdblock2` | `root=/dev/mtdblock2` |
+
+Both kernels use the same Realtek MSDK GCC 6.4.1 toolchain identifier. These shared driver/root conventions support the plausibility of a version-only kernel replacement, but **do not prove** the new kernel's partition offsets or the old Bootloader's ability to execute it.
+
+**Independent virtual check repeated for the FINAL owner-signed no-uboot candidate** (not the original signed package), using original 16 MiB Flash backup **only on Mac mini** and [virtual_first_upgrade.py](virtual_first_upgrade.py): 10 target partitions, old Bootloader unchanged, `cr6c` at `0x40000`, `hsqs` at `0x400000`, original factory identity/radio/user partitions unchanged; output hash `7f4c3bb48c54ea1a865d75f88eff4fede3d8c6b799caae4ddface32773bc19a9`, identical to the previous virtual scenario. **This file must not be used for direct whole-chip flashing.**
+
+Remaining unproven before real flash: **flash_chrdev ioctl erase/partial-sector behavior, full `-u` control flow, and old Bootloader → 1.5.0 kernel → new RootFS real boot compatibility.** No destructive action was taken.
