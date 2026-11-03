@@ -111,3 +111,17 @@
 长期升级策略：后续 TP-Link 新版固件应先逐版解包、核对格式及兼容性，再移植用户定制内容（包括 SSH 和 owner-only trust library）并由用户 Mac mini 上的私钥重新签名。直接升级未修改的官方固件通常会覆盖定制 RootFS，并且被单公钥验证器拒绝；保留旧 Bootloader 不意味着固件验证器自动成为硬件安全根或无法恢复官方固件。
 
 M6 用户最近只读实机输出：内核 `4.4.176`、旧 `/proc/mtd` 分区布局（0x40000 uboot、0x400000 uImage、0xAF0000 rootfs、0x10000 ART）、SSH 正常、Mac 枚举 UART `/dev/cu.usbserial-2120`，`df -h /tmp` 报 tmpfs 0/0（尚不能据此判断实际可用内存）。`/proc/uptime` 约 229.98 秒。需进一步在当前运行状态下只读核对 `/proc/meminfo`、mount 实际情况，以及 UART 实际接线/恢复能力；**本设计决定本身不授权 Flash 写入、升级或重启。**
+
+
+## M6：真实 AX12 对正式 owner 签名 cs6c 固件的只读检查通过（用户终端实测）
+
+用户已将完整正式候选包和临时 owner 公钥版旧升级器放入 AX12 RAM-backed `/tmp`，分别在 Mac mini 和 AX12 验证完全一致：
+
+- `ax12-cs6c.bin`：`ddf9880b29715a9189666a5256d86b3f2d8daec342219704a01edce0f696bf7c`
+- `nvrammanager-owner-check`：`fa0b6a9388e952f07fe1f8193409d29b6bb2ab2c49dd9414b9db14c56c8776b2`
+
+**实机只执行** `/tmp/nvrammanager-owner-check -c /tmp/ax12-cs6c.bin`。实际输出包括 `Reading Partition Table from NVRAM ... OK`、`Parsing Partition Table ... OK`、`RSA2048 PSS`、`md5 or cloud-func verify ok!`、`Check RSA2048 FW, no need analysis firmware, return OK.`、`chekc firmware file success!`，最终 `EXIT_CODE=0`。
+
+此实机测试**仅验证了 RSA 与分区表初始化，-c 明确跳过固件后续分析**。没有执行 `-u`、Flash 擦写、重启或新系统启动。M5 独立 QEMU 升级全流程测试依旧有效，但不能取代实机驱动或启动验证。
+
+**当前决策：软件预检结束；首次 Flash 写入仍需用户明确授权和接受剩余不可恢复风险。** 已备份历史镜像、已测 UART 双向通信；UART 接口连通性不等于在首次写入中断或 Linux 挂载失败后必然可恢复，尤其应避免误判 Bootloader 故障可通过 Bootloader 自己恢复。
