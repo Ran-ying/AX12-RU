@@ -133,3 +133,21 @@ A format-test package was built using a **disposable** signing key, not the owne
 Test-only staging on Linux Panel `10.7.0.1`: `/var/lib/linux-panel/ax12-firmware-work/owner-2026-no-uboot/`. The owner-signing input is `em.bin` (256 bytes) and has also been copied to Mac mini as `~/Desktop/AX12-RU-1.5.0-owner/em-no-uboot.bin`. **No new owner signature has been produced yet**; the 15-MB `unsigned.bin` is not a signed firmware. The owner's RSA-2048 private key stays exclusively on Mac mini.
 
 **Caveat:** this is a structurally valid owner-signing request and disposable format-test only. We have NOT demonstrated that the proprietary 1.1.22 `nvrammanager -u` honors the missing bootloader update entry, correctly switches to the new partition table, or can boot 1.5.0 with the existing Bootloader. Do not execute `-u` or write any Flash sectors based on this result.
+
+
+## 2026-11-03: owner-signed no-Bootloader Cloud built and independently verified
+
+The user executed the Mac mini RSA-2048 private-key signing of the 256-byte EM request. Only the **256-byte signature** was copied from Mac mini to Linux Panel `10.7.0.1`; the private key remained on Mac mini.
+
+Final candidate **local VPS only**:
+`/var/lib/linux-panel/ax12-firmware-work/owner-2026-no-uboot/signed.bin`
+
+- Full size: **15,370,972** bytes; SHA-256 `617a691801cde764075e45cd1cf20dd11491f7d48c8e64725ab3bb72257a9df9`.
+- `finalize_owner_cloud.py` passed owner RSA-PSS/SHA256 verification, AES-128-CBC decryption, and exact sealed RootFS comparison.
+- Independently compiled, owner-public-key-enabled **C** `tp-link-decrypt` printed `Firmware verification successful` and successfully decrypted. Its output matches the Python plaintext byte-for-byte across its full 15,370,952-byte output. This C tool omits the final 20 bytes of the original Cloud container.
+- `migration_preflight.py` confirms 10 manifest update entries starting with `os-image` and **no `fs-uboot` update descriptor**. The new 28-entry Flash partition table, new `os-image` at `0x40000` and `file-system` at `0x400000`, and partition capacities pass offline structural checks.
+- After decryption, comparison to the earlier **owner-signed** 1.5.0 Cloud candidate proves every byte except the signature slot `0x130..0x230` and manifest `0x1014..0x1814` is identical. The **bootloader payload remains inside the container** but has no manifest update descriptor; this is intentional to preserve subsequent payload offsets. This is not a proof that the old proprietary updater honors the omitted entry.
+- A direct 15-MB copy back to Mac mini **timed out** and the destination is therefore **not a valid completed firmware file**. Before any future use, independently verify a complete local copy's size and SHA-256 above. **Do not use an incomplete transferred file.**
+- At last user-reported status, AX12 remained at the live `<RealTek>` Bootloader prompt, not running 1.1.22 Linux. No live `nvrammanager -c` test was run on this new image, and no Flash write or reboot occurred.
+
+**Remaining first-flash blockers:** full 1.1.22 `-u` write-path target mapping and behavior with missing `fs-uboot` descriptor; old Bootloader booting the new kernel/rootfs; validated recovery strategy, especially if a write crosses Flash partition boundaries. A successful `-c` at a later time would check signature but **not** these blockers.
