@@ -113,7 +113,9 @@ def emulate(initial, ops, old, new):
     print("PASS:", len(same_base),
           "same-base preexisting partitions unchanged")
     print("Multi-write sectors:", shared)
-    print("In-memory image SHA256:", hashlib.sha256(image).hexdigest())
+    digest = hashlib.sha256(image).hexdigest()
+    print("In-memory image SHA256:", digest)
+    return digest
 
 
 def main():
@@ -121,6 +123,7 @@ def main():
     p.add_argument("official_1122_cloud", type=Path)
     p.add_argument("decrypted_cs6c_cloud", type=Path)
     p.add_argument("--old-flash", type=Path, help="Optional exact 16 MiB pre-upgrade dump")
+    p.add_argument("--compare-flash", type=Path, help="Optional second 16 MiB baseline")
     args = p.parse_args()
     old_cloud = args.official_1122_cloud.read_bytes()
     bridge_cloud = args.decrypted_cs6c_cloud.read_bytes()
@@ -131,8 +134,24 @@ def main():
         if len(baseline) != FLASH_SIZE:
             raise ValueError("Flash baseline must be exactly 16 MiB")
         print("Mode: supplied Flash backup")
-        emulate(baseline, ops, old, new)
+        first_digest = emulate(baseline, ops, old, new)
+        if args.compare_flash:
+            other = args.compare_flash.read_bytes()
+            if len(other) != FLASH_SIZE:
+                raise ValueError("Comparison baseline must be exactly 16 MiB")
+            covered = bytearray(other)
+            for name, start, payload in ops:
+                covered[start:start + len(payload)] = baseline[start:start + len(payload)]
+            if covered != baseline:
+                raise ValueError("Baselines differ outside complete target payload ranges")
+            print("\nMode: second supplied Flash baseline")
+            second_digest = emulate(other, ops, old, new)
+            if first_digest != second_digest:
+                raise AssertionError("Modeled upgrade outputs differ")
+            print("PASS: both baselines produce the same modeled post-upgrade image SHA256")
     else:
+        if args.compare_flash:
+            raise ValueError("--compare-flash requires --old-flash")
         print("Mode: SYNTHETIC; no genuine pre-upgrade Flash backup available")
         for label, baseline in [("all-FF", bytes([0xFF]) * FLASH_SIZE),
                                 ("byte-ramp", bytes(range(256)) * (FLASH_SIZE // 256))]:
