@@ -23,3 +23,8 @@ __pycache__/
 # Owner-signed AX12 reproducibility inputs (explicitly selected)
 !keys/ax12_owner_2026_public.pem
 !firmware/AX12-RU-1.5.2-owner-signed-WAN1.bin
+
+# Pristine official firmware and all generated scratch builds
+/inputs/
+/build/
+/.venv/

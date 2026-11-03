@@ -1,25 +1,24 @@
-# AX12-RU — instructions for future AI agents
+# AX12-RU — Instructions for AI coding agents
 
-Scope: TP-Link Archer AX12 RU hardware v1.0, Realtek RTL8197F, 16 MiB SPI NOR. This is an owner-controlled firmware-research project, **not** a generalized firmware builder for different models or regions.
+This repository targets **TP-Link Archer AX12 RU hardware v1.0** (RTL8197F, MIPS little endian, 16 MiB SPI NOR). Do not assume binary patches are compatible with other board revisions or regions.
 
-## Ground truth
+## Primary build contract
 
-- Tested on hardware: **1.5.2 owner-signed** image boots, zh_CN/Web works, WAN physical port1 is in VLAN 8, LAN ports0/2/3/4/8 in VLAN 9, WAN 1000 Full/`LOWER_UP`, DHCP address acquired, Internet and LAN work (owner's live acceptance on 2026-11-03).
-- Kernel repair is the 1.5.0 MIPS `0x80BE5548` instruction `BNE 0x14450023 -> NOP`, validated at runtime; the extracted kernel is under `cs6c` Cloud packaging.
-- 1.5.3 zh_CN-v3 builder is **offline tested through unsigned package/EM**, not yet owner signed or boot tested. Do not assert it is a validated release.
-- The public repo contains owner firmware signing **public** key. Private signing key is not managed by this repository; no signing private key is needed for the unsigned build.
+1. The immutable base is **official RU 1.5.0 Build 20260605 Rel. 41062**. Verify its full-file SHA-256 against `firmware/OFFICIAL-1.5.0.sha256` before decrypting or editing anything.
+2. Read `tools/firmware/REPRODUCIBLE_BUILD.md`, then use `python3 build.py --version 1.5.3 (with inputs/official-1.5.0.bin present; --official overrides path)` to create an unsigned Cloud firmware and a 256-byte RSA-PSS encoded message (EM).
+3. All changes must live in explicit versioned patches under `tools/firmware/patches/`: 1.5.1 owner verification key + LAN SSH + Web CGI + zh_CN r2 + `cr6c → cs6c` boot bridge, 1.5.2 WAN=port1 kernel patch, 1.5.3 professional zh_CN v3 locale.
+4. The builder must always start fresh from the official 1.5.0 image, applying patches sequentially through the requested version. **Do not** treat the previously owner-signed 1.5.2 image as the editable source for future versions.
+5. Only the exact MIPS patch site and known-good original SHA are supported. Check original bytes and known-good output digest. Re-evaluate offsets when upgrading to a different official base.
+6. Preserve the actual `0xB00000` mtd2 RootFS budget, special Realtek 16-bit checksum, Cloud partition manifest, owner RSA-PSS/AES wrapper, and **omit the `fs-uboot` update entry**. Never write device factory/calibration partitions.
+7. A valid RSA private key is required to sign; the default unsigned build never reads it, and the explicit `--sign-key PATH` option can sign and finalize on the local machine. Once a signature is supplied, use `tools/firmware/finalize_owner_cloud.py` and inspect all outputs. A valid signature is **not** proof of bootability.
+8. Never write Flash, apply a configuration change, or reboot the AX12 without explicit user instructions. Keep UART/Bootloader recovery available for any new firmware test.
 
-## Build and verification
+## Historical evidence and limitations
 
-1. Read `tools/firmware/REPRODUCIBLE_BUILD.md` and the latest `M8-...` / `M9-...` records before changing code.
-2. Use the exact `firmware/AX12-RU-1.5.2-owner-signed-WAN1.bin` baseline or explicitly verify the same SHA256. Do not substitute RU 1.1.22, RU 1.5.0 or other regional hardware images.
-3. Modify only required files in a copied RootFS or make an isolated kernel patch. Maintain the real `0xB00000` mtd2 limit, correct Realtek checksums, owner signing format, and **no** `fs-uboot` update entry.
-4. Build 1.5.3 with `python3 tools/firmware/build_owner_153.py --baseline firmware/AX12-RU-1.5.2-owner-signed-WAN1.bin`; this outputs unsigned package, encoded-message signing input, and the sealed RootFS to ignored `build/`.
-5. Sign the 256-byte EM locally with an owner-controlled RSA-2048 private key; use `tools/firmware/finalize_owner_cloud.py` to assemble and verify a signed package. Do not commit other private credentials or device-specific 16 MiB Flash dumps.
-6. Read back and verify the complete signed result before offering it for hardware testing. Never equate offline signature validation with successful boot, and never flash/restart the device unless the owner expressly requests that action.
+- **1.5.2 actual hardware PASS:** LAN Web/SSH, port1 WAN VLAN8, port2–4 LAN VLAN9, 1Gbps carrier, DHCP, DNS, routed Internet and Mac mini LAN client.
+- `firmware/AX12-RU-1.5.2-owner-signed-WAN1.bin` is a known-good **comparison/rollback artifact only**.
+- The 1.5.3 rebuild (zh_CN v3) has passed unsigned offline construction; it **has not been signed or boot-tested**.
+- Locale v3 changed 1,080/2,713 strings and preserved placeholders and JS module structure; complete human/UI review is still pending.
+- Backend/UI feature presence alone does not imply the AX12's runtime feature flags support it.
 
-## Security and source control
-
-The GitHub repository is public. Treat private keys, device calibration, admin credentials, Wi-Fi passwords and raw Flash dumps as sensitive. Do not add such material as an incidental side effect of debugging or packaging. The owner may separately choose to disclose signing material, but this does not imply permission to collect unrelated credentials.
-
-Keep scripts simple, expose failures instead of silently substituting defaults, and verify every changed binary segment and Flash partition size.
+All future modifications should be small, explicit, and testable. Do not hide failures with optional fallbacks. Maintain this file and version evidence whenever the pipeline changes.

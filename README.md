@@ -1,5 +1,18 @@
 # TP-Link Archer AX12 RU v1：UART → 持久 Root SSH
 
+## 新版入口：官方 1.5.0 + 顺序补丁（2026-11-03）
+
+**当前正式构建规范**：使用官方 AX12 RU v1.0 `1.5.0 Build 20260605`（SHA256 `50b09cbc1f18140cd18ebf7fbe611851ab98e21b05d67303307673b5de5003c9`）作为唯一不可变构建基线，依次应用 `1.5.1` 公钥/SSH/中文补丁、`1.5.2` WAN 内核修复补丁、`1.5.3` 中文翻译 v3 补丁。**不再使用旧的 1.5.2 BIN 作为新版本构建输入**；它仅用于差异验收和回滚。
+
+```sh
+python3 build.py --version 1.5.3
+```
+
+这一步会完成解包、补丁、重新封装和生成签名输入；输出的 `unsigned.bin` **不能刷机**。完成 RSA 签名后使用 `tools/firmware/finalize_owner_cloud.py` 封装并验签；也可显式加上 `--sign-key keys/ax12_owner_2026_private.pem`，在运行构建器的本机完成签名并最终验签。详情参见 **[tools/firmware/REPRODUCIBLE_BUILD.md](tools/firmware/REPRODUCIBLE_BUILD.md)**、[AGENTS.md](AGENTS.md) 和 [M10 实验记录](tools/firmware/M10-official-1.5.0-patch-chain.md)。三条版本链均已离线重建通过；从官方原包重新生成的 1.5.2 内核与实机成功版逐字节完全一致；1.5.3 尚未实机测试。
+
+> 下方旧版 UART、SSH 与 M5/M6/M7 章节为历史阶段记录，其当时的“当前状态”描述不代表项目最新构建规范。
+
+
 **本仓库只保留最终验证成功的路线。** 从 UART 接入、备份 16 MiB SPI Flash、离线构建携带 RSA 公钥的 RootFS、修正 Realtek 校验、UART V2 传输与回读，到在 Mac mini 上以私钥取得 `uid=0(root)`。不使用实验中失败的 TFTP、XMODEM、BusyBox 登录补丁或密码猜测路线。
 
 最终实机：RTL8197F / MIPS32 little-endian、Linux 4.4.176、SquashFS v4 XZ、Dropbear 2019.78，TP-Link 原厂 Web 后台正常，自定义 Dropbear 在 `192.168.0.1:2222` 提供 **公钥登录**。密码登录**没有验证成功**。
