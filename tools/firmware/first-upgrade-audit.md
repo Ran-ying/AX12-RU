@@ -306,3 +306,14 @@ Realtek 1.1.22 Bootloader `fs-uboot` 的首阶段在原始 Flash 镜像偏移 `0
 在旧第二阶段的 `0x80017A24..0x80017A80`，`cs6c` 对应类型 1，`cr6c` 对应类型 2；`0x80017C88` 对模式 2 执行旧 RootFS 预检查，模式 1 可以绕过并进入后续内核执行分支。两代 Bootloader 的对应跳转检查代码已人工核对。因此 **`cs6c` 是值得进一步验证的保留旧 Bootloader 路线**，但不是已经通过实机启动的解决方案。
 
 一次性、未签名实验通过 `prepare_cs6c_bridge.py` 只更改新版 Cloud 明文中内核魔数的第二个字节（明文偏移 `0x25152`），保持整个内核 body 和 checksum 不变。再用修订后的 `inspect_kernel_partitions.py` 检查，证明 `cs6c` 实验版本仍包含正确的 1.5.0 MTD 定义：`uImage` `0x40000`、`rootfs` `0x400000`。**未签名，未生成可供升级的 BIN，未执行任何路由器写入。**
+
+
+### 2026-11-03：`cs6c` 封包格式实验（仅一次性测试密钥）
+
+扩展 `prepare_owner_cloud.py`，新增可选 `--kernel-magic cs6c`（默认仍是 `cr6c`），可与 `--omit-uboot` 同时使用。新版完整官方 Cloud 与既有封存 RootFS 重新打包后，在无私钥环境产生仅供实验的待签名容器及 256-byte RSA-PSS encoded message。
+
+为避免误用，**未调用用户 Mac mini 上的正式私钥**。测试用一次性 RSA 密钥签名，产出 VPS 本地文件 `owner-2026-cs6c-bridge/TEST-KEY-ONLY-CS6C-NOT-FOR-FLASH.bin`。后续用对应公钥执行 RSA-PSS 验签、AES 解密和 RootFS 校验，均通过，**不能作为用户实际可升级的固件**。SHA256 `68bfe89d1be8e17542fa86ddca5f8eed474a9d334d49ff251d9a4d9c6c2c4a69`。
+
+将其解密数据与先前正式签名的 `NO-UBOOT-CANDIDATE` 解密数据作逐字节比较：在签名和随机盐位置之后，**仅偏移 `0x25152` 一个字节不同**（`cr6c` → `cs6c`），其余全部一致，且更新清单仍不含 `fs-uboot`。改动前后 kernel load=`0x80c20000`、burn=`0x40000`、payload=`0x393c02`、16 位数据校验和全部通过。修订后的 `inspect_kernel_partitions.py` 接受 `cs6c` 并确认 RootFS MTD 基址仍为 `0x400000`。
+
+**研究状态：** 此方案可能利用类型 1 内核加载路径绕过旧 Bootloader 的 `0x440000` RootFS 预验证；但不等于已证明能启动，而且还没有对真实旧版升级器的 `-u` 行为进行完整仿真。**现有 owner 签名 NO-UBOOT 固件仍为禁刷状态。新实验未实际写 Flash、未重启 AX12。**
