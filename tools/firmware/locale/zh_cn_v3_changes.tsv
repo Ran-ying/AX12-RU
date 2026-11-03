@@ -1,0 +1,1081 @@
+Key	Before	After
+common.add	增加	添加
+common.addDevices	增加设备	添加设备
+common.address	位址	地址
+common.block	阻挡	阻止
+common.blocked	封锁	已拦截
+common.blockUpper	封锁	拦截
+common.bytes	Bytes	字节
+common.current	目前	当前
+common.custom	自订	自定义
+common.deleteConfirmTip	你确定要删除吗？	确定要删除吗？
+common.deviceInfo	设备资讯	设备信息
+common.disable	停用	禁用
+common.disabled	停用	已禁用
+common.disconnect	中断连接	断开连接
+common.enabled	启用	已启用
+common.file	档案	文件
+common.interface	介面	接口
+common.ipAddress	IP 位址	IP 地址
+common.lan	区域网路(LAN)	局域网（LAN）
+common.macAddress	MAC 位址	MAC 地址
+common.operationSucceed	运作成功。	操作成功。
+common.operationFailed	运作失败。	操作失败。
+common.port	通讯埠	端口
+common.rebooting	重新启动中...	重启中...
+common.renew	更新	续租
+common.restoreUpper	复原	恢复
+common.revert	还原上次储存的设定	撤销尚未保存的更改
+common.saveUpper	储存	保存
+common.search	搜寻	搜索
+common.searchUpper	搜寻	搜索
+common.searching	搜寻中	搜索中
+common.support	支援	支持
+common.supportCenter	支援中心	支持中心
+common.supportUpper	支援	支持
+common.user	使用者名称	用户名
+common.userName	使用者名称	用户名
+common.wired	有线网路	有线网络
+common.currentMode	目前模式	当前模式
+operation.disable	停用	禁用
+operation.disableAlways	仍要停用	仍要禁用
+operation.reboot	重新启动	重启
+login.logOut	登出	退出登录
+login.logOutUpper	登出	退出登录
+login.logOutConfirm	确定要登出吗？	确定要退出登录吗？
+login.initLogin	建立使用者密码	建立用户密码
+login.initLoginNote	为了资讯安全，请在进行快速设定前建立一组本地登入密码。	为了信息安全，请在进行快速设置前建立一组本地登录密码。
+login.localLogin	以本地密码登入	以本地密码登录
+login.loginButtonText	登入	登录
+login.localSwitchToTpNoInternetTips	无网际网路连接，请以本地密码登入。	无互联网连接，请以本地密码登录。
+login.localPwdInfo	启用预设密码复原功能，可以让系统发送验证码到您的备用电子邮件地址，以重置密码。	启用默认密码恢复功能，可以让系统发送验证码到您的备用邮箱地址，以重置密码。
+login.localPwdNote	您也可以压按Reset按钮大约10秒，以重置路由器的密码。	您也可以按住Reset按钮大约10秒，以重置路由器的密码。
+login.restoreNote	压按路由器后方的Reset按钮约10秒再放开，路由器会将设定值清空回到原厂设定。	按住路由器后方的Reset按钮约10秒再放开，路由器会将设置清空回到出厂设置。
+login.forgetPwdSendFailed	寄送验证码失败！请检查您的网际网路连线是否正常？	寄送验证码失败！请检查您的互联网连接是否正常？
+login.resetPwdNote	请设定新的密码。	请设置新的密码。
+login.bindAccount	路由器未绑定目前的 TP-Link ID，请输入路由器的登入密码绑定后进行管理。	路由器未绑定当前的 TP-Link ID，请输入路由器的登录密码绑定后进行管理。
+login.userConflict	一次只有一个设备可以登入。您要继续并强迫其它设备登出吗？	一次只有一个设备可以登录。您要继续并强迫其它设备退出登录吗？
+login.multipleLogin	侦测到多个设备同时尝试登入此路由器。出于安全考虑，系统将自动锁定两个小时。请稍后重试。	检测到多个设备同时尝试登录此路由器。出于安全考虑，系统将自动锁定两个小时。请稍后重试。
+login.loginRemainTimes	登入失败 {failedTimes} 次后，剩余 {remainTimes} 次尝试登入机会。	登录失败 {failedTimes} 次后，剩余 {remainTimes} 次尝试登录机会。
+login.loginFailed	登入失败。	登录失败。
+login.incorrectPassword	密码错误（{times}/{maxTimes} 次尝试登入，{maxTimes} 次登入失败将锁定 {hour} 小时）。	密码错误（{times}/{maxTimes} 次尝试登录，{maxTimes} 次登录失败将锁定 {hour} 小时）。
+menu.networkMap	网路地图	网络拓扑
+menu.internet	网际网路	互联网
+menu.internetAp	网际网路基地台模式	互联网（AP 模式）
+menu.wireless	无线网路	无线网络
+menu.advanced	进阶	高级
+menu.network	网路	网络
+menu.lan	区域网路(LAN)	局域网（LAN）
+menu.dhcpServer	DHCP 伺服器	DHCP 服务器
+menu.wirelessSettings	无线网路设定	无线网络设置
+menu.guestNetwork	访客网路	访客网络
+menu.wirelessSchedule	网路使用时间表	Wi-Fi 定时开关
+menu.additionalSettings	额外设定	高级设置
+menu.usbDevicesStatus	USB设备状态	USB 设备状态
+menu.usbStorageDevice	USB储存设备	USB 存储设备
+menu.mediaServer	多媒体伺服器	媒体服务器
+menu.timeMachine	时光机	Time Machine 备份
+menu.printerServer	共用印表机	打印机共享
+menu.natForwarding	NAT 导向	NAT 转发
+menu.portForwarding	通讯埠转发	端口转发
+menu.portTriggering	通讯埠触发	端口触发
+menu.accessControl	存取管理	访问控制
+menu.vpnServer	VPN伺服器	VPN服务器
+menu.firmware	韧体升级	固件升级
+menu.backupRestore	备份与复原	备份与恢复
+menu.reboot	重新启动	重启
+menu.operationMode	运作模式	运行模式
+menu.cwmpSettings	CWMP 设定	TR-069（CWMP）管理
+menu.wakeOnLan	网路唤醒	网络唤醒（WoL）
+menu.quickSetup	快速设定	快速设置
+menu.networkCheck	检查网路	检查网络
+menu.advancedBoostStrategy	进阶设定	高级设置
+menu.iotNetwork	IoT 网路	IoT 网络
+menu.cwmp	CWMP 设定	TR-069（CWMP）
+connectStatus.connected	已连线	已连接
+connectStatus.disconnected	已中断连线	已中断连接
+connectStatus.unplugged	WAN连接埠未连接	WAN端口未连接
+connectStatus.poorConnected	不好的网路	不好的网络
+connectStatus.connecting	连线中	连接中
+connectStatus.disconnecting	断线中	断开连接中
+connectStatus.internetConnecting	正在连接网际网路	正在连接互联网
+connectStatus.internetConnected	网际网路连接	互联网连接
+connectStatus.internetDisconnected	网际网路断线	互联网断开连接
+network.internet	网际网路	互联网
+network.connectType	网际网路连线类型	互联网连接类型
+network.ip	IP 位址	IP 地址
+network.subnet	子网路遮罩	子网掩码
+network.customSubnet	自订子网路遮罩	自定义子网掩码
+network.defaultGateway	预设闸道	默认网关
+network.lan	区域网路(LAN)	局域网(LAN)
+network.dhcpServer	DHCP 伺服器	DHCP 服务器
+network.mac	MAC 位址	MAC 地址
+network.dynamic	浮动 IP	动态 IP
+network.static	固定 IP	静态 IP
+networkStatus.description	此页面为网际网路整体状态。	此页面为互联网整体状态。
+networkStatus.internetPortUnplugged	网路连接埠已拔除，请确认线路以连接至您选取的网际网路连接埠。	网络端口已拔除，请确认线路以连接至您选取的互联网端口。
+networkStatus.modemSignal	3G/4G 数据机讯号	3G/4G 数据机信号
+networkInternet.macClone	MAC 位址复制	MAC 地址克隆
+networkInternet.macCloneDescription	若您的网路业者设定只有特定的MAC位址才能使用网际网路再使用此功能。	如果运营商只允许指定的 MAC 地址接入互联网，可使用 MAC 地址克隆。
+networkInternet.routerMacAddress	路由器MAC位址	路由器MAC地址
+networkInternet.useDefaultMacAddress	使用预设的 MAC 位址	使用默认的 MAC 地址
+networkInternet.cloneCurrentDeviceMac	复制目前设备的 MAC 位址	复制当前设备的 MAC 地址
+networkInternet.useCustomMacAddress	使用自订的 MAC 位址	使用自定义的 MAC 地址
+networkInternet.portConfigTitle	网际网路连接埠	WAN 端口
+networkInternet.portConfigDescription	选择一连接埠供网际网路服务使用，请确认线路安全的连接您的路由器。	选择连接运营商网络的 WAN 端口，并确保网线已正确连接。
+networkInternet.portSpeedTitle	网际网路连接埠协商速度设定	WAN 端口速率与双工模式
+networkInternet.autoNegotiation	Auto Negotiation	自动协商
+networkInternet.halfDuplex	Mbps Half Duplex	Mbps 半双工
+networkInternet.fullDuplex	Mbps Full Duplex	Mbps 全双工
+networkInternet.portConfirmModalTitle	网际网路连接埠已断线	WAN 端口未连接
+networkInternet.portConfirmModalText	确认线已安全的连接至您选择的网际网路连接埠。	请检查网线是否已牢固插入所选 WAN 端口。
+networkInternet.compoPortTooltipText	Combo port 为 RJ45 连接埠与 SFP+ 连接埠结合，同时间只能使用其中一个连接埠。	Combo port 为 RJ45 端口与 SFP+ 端口结合，同时间只能使用其中一个端口。
+networkInternet.dynamicInstruction	若您的ISP没有提供任何连接网际网路的资讯，请选择此项。	如果运营商未提供固定 IP 地址等参数，请选择动态 IP。
+networkInternet.staticInstruction	若您的 ISP 提供特定的 IP 参数，请选择此类型。	如果运营商提供了固定 IP 地址、子网掩码和网关等参数，请选择静态 IP。
+networkInternet.pppoeInstruction	若您的ISP提供了一组使用者名称和密码，请选择此项。	如果运营商提供了宽带账号和密码，请选择 PPPoE。
+networkInternet.pptpInstruction	若您的ISP提供PPTP VPN伺服器资讯及一组帐户或是特定的IP参数，请选择此项。	若您的ISP提供PPTP VPN服务器信息及一组账户或是特定的IP参数，请选择此项。
+networkInternet.l2tpInstruction	若您的ISP提供L2TP VPN伺服器资讯及一组帐户或是特定的IP参数，请选择此项。	若您的ISP提供L2TP VPN服务器信息及一组账户或是特定的IP参数，请选择此项。
+networkInternet.v6PlusInstruction	您已从网路业者订阅 v6plus 服务。	您已从网络运营商订阅 v6plus 服务。
+networkInternet.dsLiteInstruction	如果您已经向网路业者(ISP)申请了DS-Lite服务	如果您已经向网络运营商(ISP)申请了DS-Lite服务
+networkInternet.portStatus	{portName}, status: {portStatus}.	{portName}，状态：{portStatus}
+networkInternet.noSupportThirdVPN	注意：可能不支援服务提供商提供的某些 VPN 服务。	注意：可能不支持服务提供商提供的某些 VPN 服务。
+networkInternet.gigaLiteInstruction	透过相容设备之间的协商，即使使用 100 Mbps 的网路线，也能达到 500 Mbps 的传输速率	通过兼容设备之间的协商，即使使用 100 Mbps 的网线，也能达到 500 Mbps 的传输速率
+networkInternet.gigaLiteConflict	无法启用 GigaLite，因为连接埠协商速度设定低于 500 Mbps	无法启用 GigaLite，因为端口协商速度设置低于 500 Mbps
+networkInternetConnection.description	请设定网路业者(ISP)提供给您的连接方式。	请设置网络运营商(ISP)提供给您的连接方式。
+networkInternetConnection.dnsAdress	DNS 位址	DNS 服务器地址
+networkInternetConnection.unicastdhcpInstruction	使用单播 DHCP 取得IP位址	使用单播 DHCP 取得IP地址
+networkInternetConnection.getStaticIP	使用下列的IP位址	使用下列的IP地址
+networkInternetConnection.getStaticDns	使用下列的DNS位址	使用下列的DNS地址
+networkInternetConnection.mtuHint	(非必要请不要更改设定)	(非必要请不要更改设置)
+networkInternetConnection.userName	使用者名称	用户名
+networkInternetConnection.connectionMode	连线模式	连接模式
+networkInternetConnection.timeBased	以时间为基准的	按时间连接
+networkInternetConnection.maxIdleTime	最大闲置时间	最长空闲时间
+networkInternetConnection.maxIdleTimeHint	(0代表永远连接)	（0 表示保持连接）
+networkInternetConnection.VPNServerIPorDomainName	VPN伺服器IP/网域名称	VPN服务器IP/域名
+networkInternetConnection.v6PlusConfirmMsg	若网际网路连线类型设定为 v6plus，下列功能将无法使用：	若互联网连接类型设置为 v6plus，下列功能将无法使用：
+networkInternetConnection.OCNConfirmMsg	若网际网路连线类型已设为 MAP-E(OCN)，下列功能将无法使用：	若互联网连接类型已设为 MAP-E(OCN)，下列功能将无法使用：
+networkInternetConnection.dsLiteConfirmMsg	若网际网路连线类型设定为 DS-LITE，下列功能将无法使用：	若互联网连接类型设置为 DS-LITE，下列功能将无法使用：
+networkInternetConnection.blankUserNamePasswordPrompt	使用者名称或密码为空白，要继续吗?	用户名或密码为空白，要继续吗?
+networkInternetConnection.secondaryConnection	第二连线	辅助连接
+networkInternetConnection.serviceNameHint	(若网路业者没有要求填写，请维持空白)	(若网络运营商没有要求填写，请维持空白)
+networkInternetConnection.accessConcentratorName	存取集中器(AC)名称	访问集中器(AC)名称
+networkInternetConnection.detectOnlineInterval	侦测连线间隔	检测连接间隔
+networkInternetConnection.dialChangeConfirm	将网际网路连线类型变更为{dial}？	确定将互联网连接类型更改为 {dial} 吗？
+networkLan.lan	区域网路(LAN)	局域网(LAN)
+networkLan.lanDescription	查看并更改LAN设定。	查看或修改局域网设置。
+networkLan.mac	MAC 位址	MAC 地址
+networkLan.custom	自订	自定义
+networkLan.linkDescription	结合两个连接埠(LAN2和LAN3)为一个单一高频宽资料传输通道。	将 LAN2 与 LAN3 组合为一条逻辑链路，以提高总传输带宽。
+networkLan.ports	连接埠	端口
+networkLan.lanDisableTips	注意：IPTV 和链路聚合不可同时启用。使用此功能前请停用{iptv}。	注意：IPTV 和链路聚合不可同时启用。使用此功能前请禁用{iptv}。
+networkLan.flowControlDescription	启用此选项时，当设备过载时，将传送 PAUSE frame 通知网路成员在指定时间停止传送资料，避免传输壅塞导致封包遗失。	启用后，设备可能通过 PAUSE 帧通知对端暂时停止发送数据，以缓解拥塞和丢包。
+networkLan.flowControl	流量管理	流量控制
+networkLan.reboot	重新启动	重启
+networkLan.lanIpChangeMsg	之后若要回到此管理页面，请在网址输入新的IP位址，确认储存并重新登入吗?	之后若要回到此管理页面，请在网址输入新的IP地址，确认保存并重新登录吗?
+networkLan.rebootMsg	设定将在路由器重新开机后生效，网际网路将暂时无法使用，确认要重新开机吗?	设置将在路由器重启后生效，互联网将暂时无法使用，确认要重启吗?
+networkLan.ipRebootMsg	设定将在路由器重新开机后生效，之后若要回到此管理页面，请在网址输入新的IP位址。	设置将在路由器重启后生效，之后若要回到此管理页面，请在网址输入新的IP地址。
+networkLan.selectTwo	请选择两个欲整合的连接埠。	请选择两个要聚合的 LAN 端口。
+networkLan.lanLoadingAnimate	导向新的登入页面中…	跳转新的登录页面中…
+networkLan.flowLoadingTip	请等待设定生效。	请等待设置生效。
+networkIptv.iptvVlanDescription	若要使用IPTV或VoIP功能/网路业者需要设定VLAN tag，请设定IPTV/VLAN。	若要使用IPTV或VoIP功能/网络运营商需要设置VLAN tag，请设置IPTV/VLAN。
+networkIptv.custom	自订	自定义
+networkIptv.qTagInternet	802.1Q Tag (网际网路)	802.1Q Tag (互联网)
+networkIptv.multicastDescription	请确认群播设定，建议将他们维持在预设值。	请确认群播设置，建议将他们维持在默认值。
+networkIptv.udpProxyDescription	若您想要在不支援 UDP 串流的播放器上观看 IPTV，请设定 UDP 代理，将 UDP IPTV 串流转换为 HTTP 串流。	若您想要在不支持 UDP 串流的播放器上观看 IPTV，请设置 UDP 代理，将 UDP IPTV 串流转换为 HTTP 串流。
+networkIptv.rebootSaving	储存中…	保存中…
+networkIptv.iptvDisableTips	注意：IPTV 和链路聚合不可同时启用。使用此功能前请停用{linkAgg}。	注意：IPTV 和链路聚合不可同时启用。使用此功能前请禁用{linkAgg}。
+networkIptv.changeSingleInternet	将 LAN 埠设为 IPTV/VoIP/桥接埠后，LAN 埠无法用在网路连线使用。要继续吗？	将 LAN 埠设为 IPTV/VoIP/桥接埠后，LAN 埠无法用在网络连接使用。要继续吗？
+networkDhcp.server	DHCP 伺服器	DHCP 服务器
+networkDhcp.ipPool	IP 位址范围	IP 地址范围
+networkDhcp.description	动态分配 IP 位址至连接路由器的设备。	自动为接入路由器的设备分配 IP 地址。
+networkDhcp.addressLeaseTime	位址租用时间	地址租期
+networkDhcp.leaseTime	租用时间	租期
+networkDhcp.addressReservation	保留指定IP位址	地址保留
+networkDhcp.addressReservationInstruction	为连接至路由器的特定设备预留IP位址。	为指定设备固定分配一个 IP 地址。
+networkDhcp.reservedIp	保留 IP 位址	保留 IP 地址
+networkDhcp.ipReserved	此IP位址已保留。	此IP地址已保留。
+networkDhcp.macReserved	此MAC位址存在已保留的IP位址。	此MAC地址存在已保留的IP地址。
+networkDhcp.ipNoInRange	请输入IP范围中的一个IP位址。	请输入IP范围中的一个IP地址。
+networkDhcp.clientList	DHCP 用户端列表	DHCP 客户端列表
+networkDhcp.totalClients	使用者数量	客户端数量
+networkDhcp.clientListInstruction	查看设备最近借由DHCP伺服器分配的IP位址。	查看设备最近借由DHCP服务器分配的IP地址。
+networkDhcp.assignedIp	分配的IP 位址	分配的IP 地址
+networkDdns.connecting	连线中	连接中
+networkDdns.incorrectPwd	不正确的使用者名称或密码。	不正确的用户名或密码。
+networkDdns.dynamicDns	动态 DNS	动态 DNS（DDNS）
+networkDdns.ddnsDescription	分配一固定主机名称(网域名称)，让您可以远端存取连接在路由器的设备、网站或伺服器。	将域名关联到当前公网 IP 地址，以便通过域名访问内网服务（通常还需要端口转发等配置）。
+networkDdns.serviceProvider	服务供应商	服务提供商
+networkDdns.loginIn	登入	登录
+networkDdns.userName	使用者名称	用户名
+networkDdns.domainList	网域名称列表	域名列表
+networkDdns.domainName	网域名称	域名
+networkDdns.currentDomainName	目前的网域名称	当前的域名
+networkDdns.operation	运作	操作
+networkDdns.noInternetConnection	无网际网路连线	无互联网连接
+networkDdns.bindTips	若您要将设备绑定{domain}，请先将目前的域名解除绑定。	若您要将设备绑定{domain}，请先将当前的域名解除绑定。
+networkDdns.logout	登出	退出登录
+networkDdns.loginAndSave	登入并储存	登录并保存
+networkRouting.staticRouting	固定路由	静态路由
+networkRouting.staticRoutingInstruction	预先确定网路封包到达特定主机或网路的固定路由。	预先确定网络数据包到达特定主机或网络的固定路由。
+networkRouting.networkDestination	目标网路	目标网络
+networkRouting.interface	介面	接口
+networkRouting.routingNum	主动路由编号	路由条目数
+networkRouting.gateway	路由器	网关
+language.description	设定路由器系统语言。	设置路由器系统语言。
+time.description	设定路由器系统时间。	设置路由器系统时间。
+time.regionTimeDescription	设定路由器的地区和时间。	设置路由器的地区和时间。
+time.current	目前时间	当前时间
+time.setTime	设定时间	设置时间
+time.timeSettingNote	在使用此功能前，请确认 {module} 已设定为「{option}」。	在使用此功能前，请确认 {module} 已设置为「{option}」。
+time.fromInternet	从网际网路取得	从互联网取得
+time.NTP1	NTP 伺服器 I	NTP 服务器 I
+time.NTP2	NTP 伺服器 II	NTP 服务器 II
+time.gmtTimeout	从NTP伺服器取得时间逾时	从NTP服务器取得时间逾时
+time.autoToPc	若要从管理的设备设定系统时间，您需要到系统 > 韧体更新中停用自动更新。	若要从管理的设备设置系统时间，您需要到系统 > 固件更新中禁用自动更新。
+time.autoToManual	若要手动设定系统时间，您需要到系统 > 韧体更新停用自动更新。	若要手动设置系统时间，您需要到系统 > 固件更新禁用自动更新。
+time.toFirmware	前往韧体更新	前往固件更新
+validate.invalidIp	无效的 IP 位址。	无效的 IP 地址。
+validate.invalidIpOrDomain	无效的IP位址或域名。	无效的IP地址或域名。
+validate.invalidSubnetMask	无效的子网路遮罩。	无效的子网掩码。
+validate.invalidIpv6	无效的 IPv6 位址。	无效的 IPv6 地址。
+validate.invalidMac	无效的 MAC 位址。	无效的 MAC 地址。
+validate.invalidDomainName	无效的网域名称	无效的域名
+validate.invalidCIDR	CIDR 无效。请使用有效的 IP 位址 / 遮罩长度（例如 192.168.0.1/24）。	CIDR 无效。请使用有效的 IP 地址 / 掩码长度（例如 192.168.0.1/24）。
+validate.invalidCIDRRange	侦测到 CIDR IP 范围冲突。请调整 IP 范围以避免冲突。	检测到 CIDR IP 范围冲突。请调整 IP 范围以避免冲突。
+validate.invalidFileType	无效的档案类型。 支援档案类型：{type}。	无效的文件类型。 支持文件类型：{type}。
+validate.ipLoop	位址不应该是回环位址。	地址不应该是回环地址。
+validate.ipDType	位址不应该是Class D IP。	地址不应该是Class D IP。
+validate.ipEType	位址不应该是Class E IP。	地址不应该是Class E IP。
+validate.ipAllZero	位址不应该是0.0.0.0。	地址不应该是0.0.0.0。
+validate.ipAllOne	位址不应该是255.255.255.255。	地址不应该是255.255.255.255。
+validate.ipStartWithOne	位址不应该以255作为开头。	地址不应该以255作为开头。
+validate.ipStartWithZero	位址不应该以0作为开头。	地址不应该以0作为开头。
+validate.ipWithLeadingZero	IP位址不应包含前导零。	IP地址不应包含前导零。
+validate.defaultOrRange	请使用预设值 {default} 或输入 {min}-{max} 之间值。	请使用默认值 {default} 或输入 {min}-{max} 之间值。
+validate.ipv6PrefixWith2002	IPv6位址前缀不能以2002开头。	IPv6地址前缀不能以2002开头。
+validate.ipRangeOnSubNet	IP 位址范围和 LAN IP 位址需在相同网段。	IP 地址范围和 LAN IP 地址需在相同网段。
+validate.maskNoAllOne	遮罩不可以是255.255.255.255。	掩码不可以是255.255.255.255。
+validate.fileSizeMax	档案大小超过限制。	文件大小超过限制。
+error.10000139	无法检查更新。请确认您已经连线到网际网路并再试一次。	无法检查更新。请确认您已经连接到互联网并再试一次。
+error.10000158	WAN连接埠已拔除网路线。	WAN端口已拔除网线。
+error.10000159	无法连线到网际网路。请联络您的服务供应商或稍后再试。	无法连接到互联网。请联络您的服务供应商或稍后再试。
+error.10000160	无法从DHCP伺服器取得IP位址。请检查WAN连线类型或稍后再试一次。	无法从DHCP服务器取得IP地址。请检查WAN连接类型或稍后再试一次。
+error.10000161	PPPoE验证失败。请检查您的使用者名称与密码。	PPPoE验证失败。请检查您的用户名与密码。
+error.10000162	无法连线至PPPoE伺服器。	无法连接至PPPoE服务器。
+error.10000164	PPTP验证失败。请检查您的使用者名称与密码。	PPTP验证失败。请检查您的用户名与密码。
+error.10000165	无法连线至PPTP伺服器。	无法连接至PPTP服务器。
+error.10000167	L2TP验证失败。请检查您的使用者名称与密码。	L2TP验证失败。请检查您的用户名与密码。
+error.10000168	无法连线至L2TP伺服器。	无法连接至L2TP服务器。
+error.10000191	无法下载韧体，请稍后再试。	无法下载固件，请稍后再试。
+error.10000192	升级韧体错误。	升级固件错误。
+error.10000194	无法连接至原端伺服器	无法连接至原端服务器
+error.00000001	错误的档案类型。	错误的文件类型。
+error.00000003	档案过大。	文件过大。
+error.00000045	预设闸道与LAN IP位址应该要在相同子网路内。请输入另一个。	默认网关与LAN IP地址应该要在相同子网内。请输入另一个。
+error.00000047	该IP位址与路由器的LAN IP位址应该要在相同子网路内。请输入另一个。	该IP地址与路由器的LAN IP地址应该要在相同子网内。请输入另一个。
+error.00000051	此MAC位址已经存在，请输入另一个。	此MAC地址已经存在，请输入另一个。
+error.00000056	远端IP位址不可与目前的LAN IP位址在相同的网段内，请输入另一个。	远程IP地址不可与当前的LAN IP地址在相同的网段内，请输入另一个。
+error.00000059	无效的子网路遮罩与LAN IP位址。请输入另一个。	无效的子网掩码与LAN IP地址。请输入另一个。
+error.00000060	WAN IP位址和LAN IP位址不可为相同网段，请重新输入。	WAN IP地址和LAN IP地址不可为相同网段，请重新输入。
+error.00000064	封锁失败，因为您正使用此设备管理路由器。	拦截失败，因为您正使用此设备管理路由器。
+error.00000077	该IP位址不可与LAN IP位址相同。请输入另一个。	该IP地址不可与LAN IP地址相同。请输入另一个。
+error.00000088	远端管理者不被允许进行本项操作。	远程管理员不被允许进行本项操作。
+error.00000089	已超过登入失败次数 {attemptTimes}，请在 2 小时后重试。	已超过登录失败次数 {attemptTimes}，请在 2 小时后重试。
+error.00000095	至少需要一个网际网路通讯埠。	至少需要一个互联网端口。
+error.00000110	该IP位址必须与LAN IP位址在相同网段内。	该IP地址必须与LAN IP地址在相同网段内。
+error.00000131	NTP伺服器不应该是loopback位址	NTP服务器不应该是loopback地址
+error.00000150	无效的子网路遮罩与LAN IP位址。请输入另一个。	无效的子网掩码与LAN IP地址。请输入另一个。
+error.00000250	资料夹不存在。	数据夹不存在。
+error.00000251	请设定下载存取的资料夹。	请设置下载访问的数据夹。
+error.00000252	下载资料夹错误。	下载数据夹错误。
+error.00000253	已拔除 USB 装置！	已拔除 USB 设备！
+error.00000254	无 USB 装置！	无 USB 设备！
+error.00000257	无效的档案格式。	无效的文件格式。
+error.00000266	与网路断开连线。请检查硬体连接，然后重试。	与网络断开连接。请检查硬体连接，然后重试。
+error.E20003	云端伺服器忙碌中。请稍后再试。	云端服务器忙碌中。请稍后再试。
+error.E20506	操作失败。该设备已经绑定到另一个云端帐号。	操作失败。该设备已经绑定到另一个云端账号。
+error.E20507	此设备已经从该帐号解除绑定。	此设备已经从该账号解除绑定。
+error.E20508	绑定帐号的数量已达最大上限。	绑定账号的数量已达最大上限。
+error.E20509	使用者帐号无权去绑定新使用者。	用户账号无权去绑定新用户。
+error.E20580	您尚未取得此路由器管理权限，故无法登入。请联系拥有者将您加入管理员名单。	您尚未取得此路由器管理权限，故无法登录。请联系拥有者将您加入管理员名单。
+error.E20602	此 email 尚未启用，请使用其他 email 登入或确认您的收件匣是否有收到启用 email 或重新传送。	此 email 尚未启用，请使用其他 email 登录或确认您的收件匣是否有收到启用 email 或重新传送。
+error.E20604	无效的使用者名称。请输入电子邮件地址或电话号码。	无效的用户名。请输入邮箱地址或电话号码。
+error.E20606	无法发送帐号启动电子邮件。	无法发送账号启动电子邮件。
+error.E20617	此帐号不存在。	此账号不存在。
+error.E20618	此帐号不存在。	此账号不存在。
+error.E20661	因为进行了太多次的登入尝试，此TP-Link ID已经被封锁2小时。	因为进行了太多次的登录尝试，此TP-Link ID已经被拦截2小时。
+error.E20662	该设备被封锁。在接下来的24小时，该设备将不会对任何验证码回应请求。	该设备被拦截。在接下来的24小时，该设备将不会对任何验证码回应请求。
+error.E20671	无法验证帐号。	无法验证账号。
+error.E20672	无法验证帐号。该帐号启动连结已经过期。请提交新的请求。	无法验证账号。该账号启动链接已经过期。请提交新的请求。
+error.E20673	密码重置连结已经过期。请提交新的请求。	密码重置链接已经过期。请提交新的请求。
+error.E20675	此帐号目前已经在其它地方登入。	此账号当前已经在其它地方登录。
+error.E22001	网域名称已经注册。	域名已经注册。
+error.E22002	注册的网域名称的数量已达最大上限。	注册的域名的数量已达最大上限。
+error.E22003	绑定的网域名称的数量已达最大上限。	绑定的域名的数量已达最大上限。
+error.E22004	此网域名称已经绑定到另一个设备。	此域名已经绑定到另一个设备。
+error.E22007	网域名称包含敏感字。请试试另一个。	域名包含敏感字。请试试另一个。
+error.E22008	网域名称不存在。	域名不存在。
+error.E22010	注册的网域名称的数量已达最大上限。	注册的域名的数量已达最大上限。
+error.E22013	IP 位址和 Wireguard VPN IP 位址不可在相同网段中。	IP 地址和 Wireguard VPN IP 地址不可在相同网段中。
+error.E22014	IP 位址和 Wireguard VPN IP 位址不可在相同网段中。	IP 地址和 Wireguard VPN IP 地址不可在相同网段中。
+error.E22015	IP 位址和 OpenVPN IP 位址不可在相同网段中。	IP 地址和 OpenVPN IP 地址不可在相同网段中。
+error.E22016	IP 位址和 PPTP VPN IP 位址不可在相同网段中。	IP 地址和 PPTP VPN IP 地址不可在相同网段中。
+error.E22017	IP 位址和 PPTP VPN IP 位址不可在相同网段中。	IP 地址和 PPTP VPN IP 地址不可在相同网段中。
+error.E22018	IP 位址和 L2TP VPN IP 位址不可在相同网段中。	IP 地址和 L2TP VPN IP 地址不可在相同网段中。
+error.E22019	IP 位址和 L2TP VPN IP 位址不可在相同网段中。	IP 地址和 L2TP VPN IP 地址不可在相同网段中。
+error.E22020	IP 位址与保留的 IP 位址冲突。	IP 地址与保留的 IP 地址冲突。
+error.E22021	用户端 IP 位址与目前连线设备的 IP 位址冲突。	客户端 IP 地址与当前连接设备的 IP 地址冲突。
+error.E22028	已超过最大项目数，请前往 存取控制 进行设定。	已超过最大项目数，请前往 访问控制 进行设置。
+error.E22041	无法载入天气，请确认网际网路连线。	无法载入天气，请确认互联网连接。
+error.E22060	无效的使用者名称/email 或密码。	无效的用户名/email 或密码。
+error.E22062	由于短期内多次存取，此 IP 位址已被封锁。	由于短期内多次访问，此 IP 地址已被拦截。
+error.E22064	网路连线逾时。	网络连接逾时。
+error.E22065	因安全性因素封锁。	因安全性因素拦截。
+error.E22066	目前伺服器不可使用。请切换至其他伺服器。	当前服务器不可使用。请切换至其他服务器。
+error.E22080	不支援 TAP 模式。	不支持 TAP 模式。
+error.E50101	WAN连接埠已拔除网路线。	WAN端口已拔除网线。
+error.E50102	无法连线到网际网路。请联络您的服务供应商或稍后再试。	无法连接到互联网。请联络您的服务供应商或稍后再试。
+error.E50103	无法从DHCP伺服器取得IP位址。请检查WAN连线类型或稍后再试一次。	无法从DHCP服务器取得IP地址。请检查WAN连接类型或稍后再试一次。
+error.E50111	PPPoE验证失败。请检查您的使用者名称与密码。	PPPoE验证失败。请检查您的用户名与密码。
+error.E50112	无法连线至PPPoE伺服器。	无法连接至PPPoE服务器。
+error.E50121	PPTP验证失败。请检查您的使用者名称与密码。	PPTP验证失败。请检查您的用户名与密码。
+error.E50122	无法连线至PPTP伺服器。	无法连接至PPTP服务器。
+error.E50131	L2TP验证失败。请检查您的使用者名称与密码。	L2TP验证失败。请检查您的用户名与密码。
+error.E50132	无法连线至L2TP伺服器。	无法连接至L2TP服务器。
+error.E51215	请求逾时。请检查您的网际网路连线并稍后再试一次。	请求逾时。请检查您的互联网连接并稍后再试一次。
+error.E_CLOUD_SERVER	伺服器错误。请稍候再试。	服务器错误。请稍候再试。
+error.E5000	无网际网路连接，请以本地密码登入。	无互联网连接，请以本地密码登录。
+error.internalServer	介面回传异常。	接口回传异常。
+error.deviceDisconnected	设备已断开连线。	设备已断开连接。
+init.conflictInfo	为避免 IP 位址与前端设备冲突，您路由器的 IP 位址已修改为 {new_addr}。	为避免 IP 地址与前端设备冲突，您路由器的 IP 地址已修改为 {new_addr}。
+qos.globalSettings	全域设定	全局设置
+qos.globalSettingsInstruction	优先传输特定设备的网路流量以确保更快的连线。	为指定设备的网络流量分配更高优先级。
+qos.downloadBandwidth	下载频宽	下载带宽
+qos.uploadBandwidth	上传频宽	上传带宽
+qos.currentTime	目前时间	当前时间
+qos.timeSettings	时间设定	时间设置
+qos.realTimeRate	即时速率	实时速率
+qos.trafficUsage	流量用量	流量使用情况
+qos.timing	时间	定时
+qos.always	永远	始终
+qos.schedule	排程	时间计划
+alg.instruction	请确认ALG(应用层级闸道)设定，建议您维持预设的设定。	请确认ALG(应用层级网关)设置，建议您维持默认的设置。
+alg.note	NAT功能开启之前，您的设定将不会生效。	NAT功能开启之前，您的设置将不会生效。
+operationMode.title	运作模式	运行模式
+operationMode.instruction	选择路由器的运作模式。	选择路由器的运行模式。
+operationMode.modeRouterIntroduction	在此模式下，路由器可为多个有线和无线设备提供网路存取，是最常见的模式。	在此模式下，路由器可为多个有线和无线设备提供网络访问，是最常见的模式。
+operationMode.ruModeRouterIntroduction	透过有线或Wi-Fi连接将您的设备连接到网际网路。	通过有线或Wi-Fi连接将您的设备连接到互联网。
+operationMode.modeAPIntroduction	在此模式下，路由器会将已有的有线网路转换为无线网路。	在此模式下，路由器会将已有的有线网络转换为无线网络。
+operationMode.ruModeAPIntroduction	连接到现有的有线路由器，透过有线建立 WiFi 网路。	连接到现有的有线路由器，通过有线建立 WiFi 网络。
+operationMode.modeClient	用户端模式	客户端模式
+operationMode.modeClientIntroduction	在此模式下，路由器会延伸已有的无线网路并让有线设备(如有线电视或游戏主机)连接网路。	在此模式下，路由器会延伸已有的无线网络并让有线设备(如有线电视或游戏主机)连接网络。
+operationMode.modeRE	讯号延伸器模式	信号延伸器模式
+operationMode.modeSSIDIntroduction	在此模式中，路由器建立多个无线网路以提供不同安全性和 VLAN 群组。	在此模式中，路由器建立多个无线网络以提供不同安全性和 VLAN 群组。
+operationMode.rebootConfirmMsg	设定将在路由器重新开机后生效，网际网路将暂时无法使用，确认要重新开机吗?	设置将在路由器重启后生效，互联网将暂时无法使用，确认要重启吗?
+operationMode.modeFailTip	模式切换失败。请稍后再重试一次或重新启动您的路由器。	模式切换失败。请稍后再重试一次或重启您的路由器。
+operationMode.homeshieldNote	HomeShield 功能仅在路由器模式下可使用，若要享受此功能，请将您的设备设定为路由器模式。	HomeShield 功能仅在路由器模式下可使用，若要享受此功能，请将您的设备设置为路由器模式。
+operationMode.modeChangeTips	重新启动后，请使用 {link} 登入网页管理介面。	重启后，请使用 {link} 登录网页管理接口。
+cwmp.instruction	CPE WAN管理协定（也称为TR-069），允许自动设定伺服器(ACS)对此设备执行自动设定、供应、连线和诊断。您可以根据网路业者(ISP)的指示设定此功能。	CPE WAN管理协定（也称为TR-069），允许自动设置服务器(ACS)对此设备执行自动设置、供应、连接和诊断。您可以根据网络运营商(ISP)的指示设置此功能。
+cwmp.stunServerAddress	STUN 伺服器 位址	STUN 服务器 地址
+cwmp.stunServerPort	STUN 伺服器 连接埠	STUN 服务器 端口
+cwmp.stunServerUsername	STUN伺服器使用者名称	STUN服务器用户名
+cwmp.stunServerPassword	STUN伺服器密码	STUN服务器密码
+cwmp.acsUsername	ASC 使用者名称	ASC 用户名
+cwmp.interface	TR-069用户端使用的介面	TR-069客户端使用的接口
+cwmp.connectionRequireAuth	连线需要身份验证	连接需要身份验证
+cwmp.wanIPAddress	WAN IP位址	WAN IP地址
+firmware.autoUpdateInstruction	自动更新可让您的路由器自动更新到最新韧体，从而提供更好的网路效能并增强系统安全性。	自动更新可让您的路由器自动更新到最新固件，从而提供更好的网络效能并增强系统安全性。
+firmware.autoUpdateCheckTime	若要启用自动更新，请至系统 > 时间&语言设定时间为「从网际网路取得」。	若要启用自动更新，请至系统 > 时间&语言设置时间为「从互联网取得」。
+firmware.onlineUpdateInstruction	透过网际网路更新此路由器的韧体。	通过互联网更新此路由器的固件。
+firmware.firmwareVersion	韧体版本	固件版本
+firmware.firmwareUpToDate	韧体已是最新版本。	固件已是最新版本。
+firmware.illegalDevice	无法辨识此设备。请联络TP-Link技术支援。	无法辨识此设备。请联络TP-Link技术支持。
+firmware.updateRebootTip	更新将需要3分钟时间并且路由器将会重新开机。要更新吗？	更新将需要3分钟时间并且路由器将会重启。要更新吗？
+firmware.rebooting	重新启动中...	重启中...
+firmware.updateProgressTip	为避免毁损，请在韧体更新程序完成前，保持路由器开机并在这段时间内不要操作路由器。	为避免毁损，请在固件更新程序完成前，保持路由器启动并在这段时间内不要操作路由器。
+firmware.reconnectTip	韧体更新和设定套用成功，请先确认此设备已无线或有线连接至路由器之后再按「已连接」。	固件更新和设置套用成功，请先确认此设备已无线或有线连接至路由器之后再按「已连接」。
+firmware.reconnected	已连线	已连接
+firmware.localUpdateInstruction	透过本地档案更新此路由器的韧体。	通过本地文件更新此路由器的固件。
+firmware.newFirmwareFile	新韧体档	新固件档
+firmware.meshUpdateInstruction	透过网路更新 TP-Link EasyMesh 卫星路由器韧体。	通过网络更新 TP-Link EasyMesh 卫星路由器固件。
+firmware.emptyMeshDevice	EasyMesh 网路中无 TP-Link 卫星路由器。	EasyMesh 网络中无 TP-Link 卫星路由器。
+firmware.meshUpdateTip	更新将需要几分钟时间，卫星路由器将重新启动。	更新将需要几分钟时间，卫星路由器将重启。
+firmware.firmwareUpdateAvailable	有可用的韧体更新	有可用的固件更新
+firmware.firmwareUpdateRequired	需要更新韧体	需要更新固件
+firmware.newFirmwareAvailable	有可用的新韧体	有可用的新固件
+firmware.newFirmwareAvailableNote	上次自动更新因有人在更新时间使用网路，故重新安排更新时间。您想要马上更新吗？	上次自动更新因有人在更新时间使用网络，故重新安排更新时间。您想要马上更新吗？
+firmware.firmwareUpdateSucceed	韧体更新成功。	固件更新成功。
+firewall.instruction	请确认防火墙设定以保护您的网路，建议保持原始预设值。	请确认防火墙设置以保护您的网络，建议保持原始默认值。
+firewall.dialConflictTips	当网路连线类型设定为{dialText}时，此功能不可用。	当网络连接类型设置为{dialText}时，此功能不可用。
+firewall.lanPing	从LAN回应Ping封包	从LAN回应Ping数据包
+firewall.wanPing	从WAN回应Ping封包	从WAN回应Ping数据包
+pptp.addAccount	增加帐号	增加账号
+pptp.editAccount	编辑帐户	编辑账户
+pptp.username	使用者名称	用户名
+pptp.pptpInstruction	快速设定PPTP伺服器，远端存取您的网路。	快速设置PPTP服务器，远程访问您的网络。
+pptp.accountList	帐号列表	账号列表
+pptp.accountListInstruction	设定可透过VPN伺服器远端连接的用户端帐户(可多达16个)。	设置可通过VPN服务器远程连接的客户端账户(可多达16个)。
+pptp.deleteMsg	要删除此帐户吗?	要删除此账户吗?
+pptp.clientIP	用户端 IP 位址	客户端 IP 地址
+pptp.clientIPTips	(最多 10 个用户端)	(最多 10 个客户端)
+pptp.samba	允许SMB(网路芳邻)存取	允许SMB(网络芳邻)访问
+pptp.unencrypted	允许未加密连线	允许未加密连接
+pptp.conflictWithDhcp	用户端 IP 位址与 DHCP IP 位址集区冲突。	客户端 IP 地址与 DHCP IP 地址集区冲突。
+pptp.conflictWithReserved	用户端 IP 位址与保留的 IP 位址冲突。	客户端 IP 地址与保留的 IP 地址冲突。
+pptp.conflictWithOpenvpn	用户端 IP 位址和 OpenVPN IP 位址不能位于同一个子网路。	客户端 IP 地址和 OpenVPN IP 地址不能位于同一个子网。
+pptp.conflictWithL2tpvpn	用户端 IP 位址和 L2TP VPN IP 位址不可在相同网段。	客户端 IP 地址和 L2TP VPN IP 地址不可在相同网段。
+pptp.conflictWithPptpvpn	用户端 IP 位址和 PPTP VPN IP 位址不可在相同网段。	客户端 IP 地址和 PPTP VPN IP 地址不可在相同网段。
+pptp.usernameConflict	该使用者名称已在使用中。请试试另一个名称。	该用户名已在使用中。请试试另一个名称。
+pptp.noAccountTip	至少新增一个帐户以使用 PPTP 功能。	至少新增一个账户以使用 PPTP 功能。
+pptp.deleteNoAccountTip	无法删除帐户，请保留至少一个帐户以使用 PPTP 功能。	无法删除账户，请保留至少一个账户以使用 PPTP 功能。
+l2tpIpsec.l2tpIpsecInstruction	设定 L2TP/IPSec VPN 和帐户取得快速、远端存取您的网路。	设置 L2TP/IPSec VPN 和账户取得快速、远程访问您的网络。
+l2tpIpsec.ipsecKey	IPSec 预共用金钥	IPSec 预共用密钥
+connections.instruction	查看远端用户VPN连接。	查看远程用户VPN连接。
+connections.openVpn	OpenVPN 连线	OpenVPN 连接
+connections.pptp	PPTP VPN 连线	PPTP VPN 连接
+connections.l2tpIpsec	L2TP/IPSec VPN 连线	L2TP/IPSec VPN 连接
+connections.wireguard	WireGuard VPN 连线	WireGuard VPN 连接
+connections.remoteIp	远端 IP	远程 IP
+usageStats.joinProgram	加入使用者体验改善计划	加入用户体验改善计划
+usageStats.note	加入 {url} 表示您同意传送匿名的使用数据，协助 TP-Link 改善他们的产品。TP-Link 将搜集您如何使用产品和其功能的资讯，而不使用任何关于您的资料。	加入 {url} 表示您同意传送匿名的使用数据，协助 TP-Link 改善他们的产品。TP-Link 将搜集您如何使用产品和其功能的信息，而不使用任何关于您的数据。
+usageStats.noteLink	使用者体验改善计划	用户体验改善计划
+upnp.instruction	启用随插即用(Universal Plug and Play = UPnP)功能，自动开启连接路由器对应连接设备的通讯埠，让您不用费心进行设定。如:多玩家连线游戏和即时通讯。	启用随插即用(Universal Plug and Play = UPnP)功能，自动开启连接路由器对应连接设备的端口，让您不用费心进行设置。如:多玩家连接游戏和即时通讯。
+upnp.clientListInstruction	显示UPnP设备资讯。	显示UPnP设备信息。
+upnp.clientIP	用户端 IP 位址	客户端 IP 地址
+upnp.internalPort	内部通讯埠	内部端口
+upnp.externalPort	外部通讯埠	外部端口
+upnp.totalClients	使用者数量	用户数量
+upnp.enableNote	如果您不使用需要通讯埠转发（如 IP 摄影机、NAS、PS5 或 XBOX）的网路设备，建议关闭 UPnP 以提升您的网路安全性。	如果您不使用需要端口转发（如 IP 摄影机、NAS、PS5 或 XBOX）的网络设备，建议关闭 UPnP 以提升您的网络安全性。
+additionalSettings.instruction	请确认设备的进阶无线设定。	请确认设备的高级无线设置。
+additionalSettings.updatePeriod	群组金钥更新周期	群组密钥更新周期
+alexa.introduction	透过 Amazon Alexa 中的 TP-Link Router Skill 使用语音轻松管理您的网路设备。优先传输电玩或您的游戏设备、开关路由器的 LED 灯号或要求 Alexa 读出访客网路的密码，而不影响您手边的事。	通过 Amazon Alexa 中的 TP-Link Router Skill 使用语音轻松管理您的网络设备。优先传输电玩或您的游戏设备、开关路由器的 LED 灯号或要求 Alexa 读出访客网络的密码，而不影响您手边的事。
+alexa.steps	按照这些步骤在您的 TP-Link 路由器设定 Alexa 控制。	按照这些步骤在您的 TP-Link 路由器设置 Alexa 控制。
+alexa.step1	1. 请确认您有一台 Alexa 设备，此功能可与 Amazon Echo、Amazon Tap、Echo Dot 或其他启用 AVS(Alexa Voice Service) 的设备共同运作。	1. 请确认您有一台 Alexa 设备，此功能可与 Amazon Echo、Amazon Tap、Echo Dot 或其他启用 AVS(Alexa Voice Service) 的设备共同运行。
+alexa.step2	2. 将路由器绑定您的 TP-Link ID，前往 {path} 使用您的 TP-Link ID 进行登入(或注册)。	2. 将路由器绑定您的 TP-Link ID，前往 {path} 使用您的 TP-Link ID 进行登录(或注册)。
+alexa.step3	3. 开启 Alexa app，搜寻并启用 TP-Link Router Skill。 {url}	3. 开启 Alexa app，搜索并启用 TP-Link Router Skill。 {url}
+alexa.setup	使用 TP-Link Tether App 进行设定。	使用 TP-Link Tether App 进行设置。
+alexa.setupLink	如何透过 TP-Link Tether app 设定 TP-Link Router Skill。	如何通过 TP-Link Tether app 设置 TP-Link Router Skill。
+dmz.introduction	将您本地网路的特定设备显现至网际网路，主要应用于线上游戏和即时通讯。	将您本地网络的特定设备显现至互联网，主要应用于线上游戏和即时通讯。
+dmz.hostIP	DMZ 主机 IP 位址	DMZ 主机 IP 地址
+dmz.note	NAT功能开启之前，您的设定将不会生效。	NAT功能开启之前，您的设置将不会生效。
+dmz.errorIp	无效的DHZ主机IP位址。请输入另一个位址。	无效的DHZ主机IP地址。请输入另一个地址。
+googleAssistant.introduction	透过 TP-Link Router 搭配 Google 助理让您可用语音管理 TP-Link 路由器，透过语音启用访客网路、关闭路由器的 LED 灯或要求 Google 念出路由器的主网路名称，不会影响您正在做的事情。	通过 TP-Link Router 搭配 Google 助理让您可用语音管理 TP-Link 路由器，通过语音启用访客网络、关闭路由器的 LED 灯或要求 Google 念出路由器的主网络名称，不会影响您正在做的事情。
+googleAssistant.steps	按照下列指示将 TP-Link 路由器新增至 Google 助理语音服务，您便可以透过 Google 助理或 Google Home app语音管理 TP-Link 路由器。	按照下列指示将 TP-Link 路由器新增至 Google 助理语音服务，您便可以通过 Google 助理或 Google Home app语音管理 TP-Link 路由器。
+googleAssistant.step2	2. 点击+新增装置 > 连结智慧住宅装置后选择 TP-Link Router。	2. 点击+新增设备 > 链接智慧住宅设备后选择 TP-Link Router。
+googleAssistant.step3	3. 按照网页指示登入您的 TP-Link ID。	3. 按照网页指示登录您的 TP-Link ID。
+googleAssistant.step4	4. 您将会在 Google 助理 app 主页看到 TP-Link Router 和您的智慧装置。	4. 您将会在 Google 助理 app 主页看到 TP-Link Router 和您的智慧设备。
+googleAssistant.setup	使用 TP-Link Tether App 进行设定。	使用 TP-Link Tether App 进行设置。
+googleAssistant.setupLink	如何将您的 TP-Link 路由器连结 Google 助理	如何将您的 TP-Link 路由器链接 Google 助理
+portTriggering.introduction	指定通讯埠以允许本地网路的设备动态开启指定外部通讯埠并转发从网际网路取得的封包至触发的设备。	指定端口以允许本地网络的设备动态开启指定外部端口并转发从互联网取得的数据包至触发的设备。
+portTriggering.triggeringPort	触发通讯埠	触发端口
+portTriggering.addDialogTitle	新增通讯埠触发项目	新增端口触发项目
+portTriggering.externalPort	外部通讯埠	外部端口
+portTriggering.triggeringPortError	此项目与已存在的项目冲突，请检查触发通讯埠与触发通讯协定。	此项目与已存在的项目冲突，请检查触发端口与触发通讯协定。
+networkMap.client	用户端	客户端
+networkMap.internetStatus	网际网路状态	互联网状态
+networkMap.connectType	连线类型	连接类型
+networkMap.wanMac	WAN MAC 位址	WAN MAC 地址
+networkMap.internetIp	网际网路IP位址	互联网IP地址
+networkMap.poorNetwork	网路不良	网络不良
+networkMap.poorInternetStep1	请稍后再检查网路状态，因为网际网路连线可能需要几分钟的时间，或者网际网路可能会暂时中断。	请稍后再检查网络状态，因为互联网连接可能需要几分钟的时间，或者互联网可能会暂时中断。
+networkMap.poorInternetStep2	与您的网路业者确认网际网路服务正常运作并且您的网路网路连线设定是正确的。	与您的网络运营商确认互联网服务正常运行并且您的网络网络连接设置是正确的。
+networkMap.poorInternetStep3	联系您的网路业者，确认是否只允许指定 MAC 位址连接网路。若是，请将路由器的 MAC 位址设为该位址。	联系您的网络运营商，确认是否只允许指定 MAC 地址连接网络。若是，请将路由器的 MAC 地址设为该地址。
+networkMap.poorInternetStep4	若问题仍存在，请联系我们的技术支援团队({supportUrl})。	若问题仍存在，请联系我们的技术支持团队({supportUrl})。
+networkMap.noNetwork	没有网际网路连接	没有互联网连接
+networkMap.noInternetStep1	确认网路线是否确实连接至网路连接埠。	确认网线是否确实连接至网络端口。
+networkMap.noInternetStep2	请试试其他网路线。	请试试其他网线。
+networkMap.noInternetStep4	若问题仍没有解决，请重启或重设您的路由器。	若问题仍没有解决，请重启或重置您的路由器。
+networkMap.routerInfo	路由器资讯	路由器信息
+networkMap.lanMac	LAN MAC 位址	LAN MAC 地址
+networkMap.connectedClients	连接的用户端	连接的客户端
+networkMap.filterClientsByNetwork	按网路过滤用户	按网络过滤用户
+networkMap.addToDenyListConfirm	封锁此设备后，便将它新增至黑名单中，该设备将无法再存取网际网路。要继续吗？	拦截此设备后，便将它新增至黑名单中，该设备将无法再访问互联网。要继续吗？
+networkMap.removeFromAllowListConfirm	封锁此设备后，它将从白名单中移除，且无法存取网路。要继续吗？	拦截此设备后，它将从白名单中移除，且无法访问网络。要继续吗？
+networkMap.speedLimitTooltip	设定设备的最大上传和下载速度。您可以点击{operation}图示编辑速度限制。	设置设备的最大上传和下载速度。您可以点击{operation}图示编辑速度限制。
+networkMap.speedLimitConfigMaxLimitTip	您最多可为 {limit} 个装置设定速度限制。	您最多可为 {limit} 个设备设置速度限制。
+networkMap.internetPaused	暂停网路使用	暂停网络使用
+networkMap.mloNetwork	MLO 网路	MLO 网络
+networkMap.cpuLoadDetail	该设备具有 {num} 核 CPU，目前使用率为 {percentage}。	该设备具有 {num} 核 CPU，当前使用率为 {percentage}。
+networkMap.memoryUsageDetail	设备目前记忆体使用率为 {percentage}	设备当前记忆体使用率为 {percentage}
+networkMap.ethernetStatus	乙太网路状态	乙太网络状态
+networkMap.speedTestFailTip	测速失败，请修改测试伺服器后重试。	测速失败，请修改测试服务器后重试。
+networkMap.internetSpeedTest	网际网路速度测试	互联网速度测试
+networkMap.changeServer	修改伺服器	修改服务器
+networkMap.nonOptimalNote	测速表现会因著测速伺服器，导致结果可能不是最好的。	测速表现会因著测速服务器，导致结果可能不是最好的。
+networkMap.ultraTip	网路速度太惊人了！您可以享受所有网路服务和体验。	网络速度太惊人了！您可以享受所有网络服务和体验。
+networkMap.superTip	网路速度超快，可以同时在多台装置上享受清晰的 4K 影片和线上游戏！	网络速度超快，可以同时在多台设备上享受清晰的 4K 影片和线上游戏！
+networkMap.fastTip	网路速度很快，可以享受 4K 影片、高画质串流、线上游戏和下载大档案！	网络速度很快，可以享受 4K 影片、高画质串流、线上游戏和下载大文件！
+networkMap.greatTip	网路速度良好，可以享受高画质影片、串流影音和手机游戏。	网络速度良好，可以享受高画质影片、串流影音和手机游戏。
+networkMap.goodTip	网路速度不错，可以享受高画质影片、短影片、通讯软体和顺畅的浏览网页。	网络速度不错，可以享受高画质影片、短影片、通讯软体和顺畅的浏览网页。
+networkMap.normalTip	网路速度一般，您可以观看一般影片、浏览网页、收发 e-mail 和使用通讯软体。多台设备连线时可能会有缓冲的情况发生。	网络速度一般，您可以观看一般影片、浏览网页、收发 e-mail 和使用通讯软体。多台设备连接时可能会有缓冲的情况发生。
+networkMap.serverError	无法取得测试伺服器资讯，测试伺服器目前忙碌中。请在几分钟后重试。	无法取得测试服务器信息，测试服务器当前忙碌中。请在几分钟后重试。
+networkMap.unavailableTip	{date}开始，Speed Test 功能将停止使用，以推出全新的改善工具，在那之前，都会正常运作。我们对于造成的不便感到抱歉，我们将尽速推出新的工具。若您有任何问题，请联系我们的技术支援团队。	{date}开始，Speed Test 功能将停止使用，以推出全新的改善工具，在那之前，都会正常运行。我们对于造成的不便感到抱歉，我们将尽速推出新的工具。若您有任何问题，请联系我们的技术支持团队。
+portForwarding.introduction	指定连接埠使本地网路的特定设备或服务可透过网际网路存取使用。	指定端口使本地网络的特定设备或服务可通过互联网访问使用。
+portForwarding.deviceIpAddress	设备IP位址	设备IP地址
+portForwarding.externalPort	外部通讯埠	外部端口
+portForwarding.internalPort	内部通讯埠	内部端口
+portForwarding.addDialogTitle	新增通讯埠转发项目	新增端口转发项目
+portForwarding.singlePort	个人通讯埠	个人端口
+portForwarding.rangePort	通讯埠范围	端口范围
+portForwarding.tip	新增带有特定外部通讯埠或一个通讯埠范围的规则。若为不连续的通讯埠(例如: 100 和 200)，请新增多项规则。如需更多资讯，请参考 {url}。	新增带有特定外部端口或一个端口范围的规则。若为不连续的端口(例如: 100 和 200)，请新增多项规则。如需更多信息，请参考 {url}。
+portForwarding.faqUrl	通讯埠转发 FAQ	端口转发 FAQ
+portForwarding.errorIp	无效的网际网路IP。请输入另一个。	无效的互联网IP。请输入另一个。
+tpLinkCloud.errorTitle	糟糕…我们不能连到云端伺服器。	糟糕…我们不能连到云端服务器。
+tpLinkCloud.followingStep2	云端伺服器暂时无法使用，请稍后重整页面。	云端服务器暂时无法使用，请稍后重整页面。
+tpLinkCloud.support	TP-Link 技术支援团队	TP-Link 技术支持团队
+tpLinkCloud.instruction	登入路由器来绑定您的TP-Link ID，您便可以透过Tether App远端管理您的网路。	登录路由器来绑定您的TP-Link ID，您便可以通过Tether App远程管理您的网络。
+tpLinkCloud.offline	该设备已离线。请检查WAN与网路设定以确认是否正确地输入合适设定。	该设备已离线。请检查WAN与网络设置以确认是否正确地输入合适设置。
+tpLinkCloud.currentPassword	目前的密码	当前的密码
+tpLinkCloud.changeTip	新的电子邮件或密码可能没有立即同步到用户端设备。当您的设备连线到网际网路以更新帐号资讯时，请再次登入。	新的电子邮件或密码可能没有立即同步到客户端设备。当您的设备连接到互联网以更新账号信息时，请再次登录。
+tpLinkCloud.unbindOwnerTip	解除绑定管理员帐户也将关闭所有的使用者帐号。要继续吗？	解除绑定管理员账户也将关闭所有的用户账号。要继续吗？
+tpLinkCloud.regionChangeConfirm	您只能设定一次区域，以后无法变更。请确保您选择了正确的区域。	您只能设置一次区域，以后无法变更。请确保您选择了正确的区域。
+tpLinkCloud.emailSubscriptionOffConfirm	如果您停用电子邮件订阅，您将错过接收有关超值优惠、VIP 赠品、新产品等的讯息。	如果您禁用电子邮件订阅，您将错过接收有关超值优惠、VIP 赠品、新产品等的消息。
+led.nightModeTip	设定LED灯自动关闭的时间。	设置LED灯自动关闭的时间。
+led.timeSettingsModule	时间设定	时间设置
+reboot.rebootTip	重新启动以清除快取并增加运作效能。	重启以清除快取并增加运行效能。
+reboot.rebootSchedule	重启排程	重启计划任务
+reboot.rebootScheduleTip	设定路由器自动重启的规则。	设置路由器自动重启的规则。
+diagnostics.diagInstruction	解决网路连接问题。	解决网络连接问题。
+diagnostics.ipDomain	IP 位址/ 网域名称	IP 地址/ 域名
+diagnostics.pingPacketSize	Ping 封包大小	Ping 数据包大小
+parentalControlsV2Optimize.profiles	设定档	配置文件
+parentalControlsV2Optimize.timeLimitsSetting	时间限制设定	时间限制设置
+parentalControlsV2Optimize.internetAccess	网际网路存取	互联网访问
+parentalControlsV2Optimize.addDenyListTips	设定档「{name}」中的设备将无法存取网站。	配置文件「{name}」中的设备将无法访问网站。
+parentalControlsV2Optimize.noProfile	您还没有建立任何设定档。点击“新增”开始。	您还没有建立任何配置文件。点击“新增”开始。
+parentalControlsV2Optimize.noInternetHistory	此设定档没有网际网路历史记录。	此配置文件没有互联网历史记录。
+parentalControlsV2Optimize.usageReport	网际网路使用报告	互联网使用报告
+parentalControlsV2Optimize.noTimeTable	您尚未设定时间表。	您尚未设置时间表。
+parentalControlsV2Optimize.noTimeTableTips	未设定时间表将导致此设定档在任何时候都无法存取网际网路。您确定要继续吗？	未设置时间表将导致此配置文件在任何时候都无法访问互联网。您确定要继续吗？
+parentalControlsV2Optimize.allowEmptyTitle	您尚未设定允许清单。	您尚未设置允许清单。
+parentalControlsV2Optimize.allowEmptyNote	启用允许清单但没有新增任何关键字将导致此设定档无法存取任何网站。您确定要继续吗？	启用允许清单但没有新增任何关键字将导致此配置文件无法访问任何网站。您确定要继续吗？
+parentalControlsV2Optimize.blockTitle	要封锁今天的网际网路存取吗？	要拦截今天的互联网访问吗？
+parentalControlsV2Optimize.blockMsg	设定档「{name}」中的设备今天不允许存取网际网路。	配置文件「{name}」中的设备今天不允许访问互联网。
+parentalControlsV2Optimize.allowTitle	要允许今天的网际网路存取吗？	要允许今天的互联网访问吗？
+parentalControlsV2Optimize.allowMsg	设定档「{name}」中的设备今天允许存取网际网路。	配置文件「{name}」中的设备今天允许访问互联网。
+parentalControlsV2Optimize.deleteConfirm	您确定要删除设定档「{name}」吗？	您确定要删除配置文件「{name}」吗？
+parentalControlsV2Optimize.accessAllowed	允许存取	允许访问
+parentalControlsV2Optimize.accessDenied	拒绝存取	拒绝访问
+parentalControlsV2Optimize.allowedTimeTimeTip	设定允许上网的时间区间。	设置允许上网的时间区间。
+parentalControlsV2Optimize.titleTips	过滤内容、限制上网时间并检查家庭成员的网路使用报告。	过滤内容、限制上网时间并检查家庭成员的网络使用报告。
+parentalControlsV2Optimize.gridTips	建立一个设定档来管理家庭成员的装置。	建立一个配置文件来管理家庭成员的设备。
+parentalControlsV2Optimize.timeControlIntro	为设定档设定网际网路存取时间。	为配置文件设置互联网访问时间。
+parentalControlsV2Optimize.basicInfoIntro	为设定档命名并新增设备到里面。	为配置文件命名并新增设备到里面。
+parentalControlsV2Optimize.contentFilterIntro	自订设定档的内容过滤设定。	自定义配置文件的内容过滤设置。
+parentalControlsV2Optimize.timeLimitsTips	设定每日上网总时间限制。	设置每日上网总时间限制。
+parentalControlsV2Optimize.denyTips	封锁所有包含特定关键字的网站。	拦截所有包含特定关键字的网站。
+parentalControls.createProfile	建立设定档	建立配置文件
+parentalControls.leaveCreateProfileContent	若您不储存直接离开，未储存的设定档将会遗失。	若您不保存直接离开，未保存的配置文件将会遗失。
+parentalControls.editProfile	编辑设定档	编辑配置文件
+parentalControls.basicInfo	基本资讯	基本信息
+parentalControls.timeControlsInstruction	为设定档设定网际网路存取时间。	为配置文件设置互联网访问时间。
+parentalControls.profileName	设定档名称	配置文件名称
+parentalControls.addDevicesTitle	新增设备至设定档	新增设备至配置文件
+parentalControls.addDevicesTip	一个设备一次只能新增至一个设定档。	一个设备一次只能新增至一个配置文件。
+parentalControls.addDevicesConflict	若设备已连接至不同网路，将列出相同名称的多台设备。请选择每台设备。 {url}	若设备已连接至不同网络，将列出相同名称的多台设备。请选择每台设备。 {url}
+parentalControls.bedtimeProModeTip	作为 TP-Link Homeshield Pro 订阅者，您可以使用 Tether 设定弹性的就寝时间。	作为 TP-Link Homeshield Pro 订阅者，您可以使用 Tether 设置弹性的就寝时间。
+parentalControls.moveDevicesTitle	将设备移动至设定档	将设备移动至配置文件
+parentalControls.moveDevicesContent1	以下设备将从先前的设定档移动至目前的设定档「{name}」。要继续吗？	以下设备将从先前的配置文件移动至当前的配置文件「{name}」。要继续吗？
+parentalControls.moveDevicesContent2	以下设备将从先前的设定档移除至目前的设定档。要继续吗？	以下设备将从先前的配置文件移除至当前的配置文件。要继续吗？
+parentalControls.timeLimitsInstruction	设定每日上线的总时间。	设置每日上线的总时间。
+admin.pwdRecovery	密码复原	密码恢复
+admin.smtp	SMTP 伺服器	SMTP 服务器
+admin.localManagementInstruction	透过本地网路设备存取并管理路由器。	通过本地网络设备访问并管理路由器。
+admin.localManagementViaHttps	透过HTTPS进行本地管理	通过HTTPS进行本地管理
+admin.remoteManagement	远端管理	远程管理
+admin.remoteManagementInstruction	透过网际网路存取并管理路由器。	通过互联网访问并管理路由器。
+admin.httpsPort	HTTPS通讯埠	HTTPS端口
+admin.remoteManagers	远端管理者	远程管理员
+admin.onlyThisIp	只有此IP位址	只有此IP地址
+admin.remoteManagementNote	当路由器只透过IPv6连接网路时，无法使用远端管理功能。若您想使用远端管理，请先确认是否有设定IPv4连线。	当路由器只通过IPv6连接网络时，无法使用远程管理功能。若您想使用远程管理，请先确认是否有设置IPv4连接。
+admin.httpsPortConflict	HTTPS 通讯埠与通讯埠转发的外部通讯埠冲突。您要继续吗？	HTTPS 端口与端口转发的外部端口冲突。您要继续吗？
+systemLog.systemLogInstruction	查看系统活动运作的细节纪录。	查看系统活动运行的细节纪录。
+systemLog.currentTime	目前时间	当前时间
+systemLog.saveLog	储存日志	保存日志
+systemLog.saveLogInstruction	传送系统日志至指定 e-mail 位址或储存在本地。	传送系统日志至指定 e-mail 地址或保存在本地。
+systemLog.setMail	设定以下 e-mail 资讯。	设置以下 e-mail 信息。
+systemLog.smtpServer	SMTP 伺服器	SMTP 服务器
+systemLog.saveAndSend	储存并传送	保存并传送
+systemLog.searchInLog	搜寻日志	搜索日志
+systemLog.DHCPS	DHCP 伺服器	DHCP 服务器
+systemLog.DOMAIN_LOGIN	域名登入	域名登录
+systemLog.ACCESS_CONTROL	存取管理	访问管理
+systemLog.TIME_SETTINGS	时间设定	时间设置
+systemLog.ACCOUNT_MANAGEMENT	帐号管理	账号管理
+systemLog.REMOTE_MANAGEMENT	远端管理	远程管理
+systemLog.FACTORY_RESET	恢复原厂预设值	恢恢复厂默认值
+systemLog.NETWORK	网路	网络
+systemLog.WIRELESS	无线网路	无线网络
+systemLog.LAN	区域网路(LAN)	局域网(LAN)
+systemLog.VPN_SERVER	VPN伺服器	VPN服务器
+systemLog.INFO	资讯	信息
+timeMachine.notAvailable	目前的位址是不可用的。	当前的地址是不可用的。
+timeMachine.timeMachineInstruction	将所有 Mac 上的档案备份至 USB 储存装置后连接至您的路由器。	将所有 Mac 上的文件备份至 USB 保存设备后连接至您的路由器。
+timeMachine.timeMachineSize	备份储存限制	备份存储限制
+timeMachine.timeMachineStep3Content	输入 USB 储存装置的共享帐号并点击{connect}。	输入 USB 保存设备的共享账号并点击{connect}。
+timeMachine.connect	连线	连接
+timeMachine.timeMachineSelectMsgTitle	请选择要用于时光机备份的 USB 储存装置：	请选择要用于时光机备份的 USB 保存设备：
+timeMachine.noUsbStorageFound	未找到 USB 储存装置。请将 USB 插入路由器的 USB 连接埠之后再试一次。	未找到 USB 保存设备。请将 USB 插入路由器的 USB 端口之后再试一次。
+timeMachine.noteGetHigherSpeed	我们建议您使用有线连线作为备援，以取得更高速度。	我们建议您使用有线连接作为备援，以取得更高速度。
+timeMachine.noteRemoveHdd	请在重启路由器或拔除 HDD 前从路由器上安全的移除 HDD。若路由器异常关机或 HDD 在传输档案时断线，HDD 可能会损毁。	请在重启路由器或拔除 HDD 前从路由器上安全的移除 HDD。若路由器异常关机或 HDD 在传输文件时断开连接，HDD 可能会损毁。
+timeMachine.selectUsbStorageDevice	选择 USB 储存装置	选择 USB 保存设备
+timeMachine.usbListTitle	USB储存装置列表	USB保存设备列表
+wirelessSchedule.instruction	设定自动关闭无线网路的排程。	设置自动关闭无线网络的计划任务。
+wirelessSchedule.turnOffTitle	要立刻关闭 Wi-Fi 吗？	要立即关闭 Wi-Fi 吗？
+wirelessSchedule.turnOffContent	目前时间是在您设定的无线网路关闭排程之内，您想要现在马上关闭 Wi-Fi 还是等待下次开始时间再关闭Wi-Fi呢？	当前时间是在您设置的无线网络关闭计划任务之内，您想要现在马上关闭 Wi-Fi 还是等待下次开始时间再关闭Wi-Fi呢？
+wirelessSchedule.addSchedule	新增排程	新增计划任务
+wirelessSchedule.modifySchedule	修改排程	修改计划任务
+wirelessSchedule.mloRebootInstruction	排程何时自动关闭您的无线网路。(除了 MLO 网路)	计划任务何时自动关闭您的无线网络。(除了 MLO 网络)
+ipMacBinding.instruction	绑定设备的MAC和IP位址，预防ARP攻击。	绑定设备的MAC和IP地址，预防ARP攻击。
+ipMacBinding.arpListInstruction	绑定或解除绑定目前连接设备的MAC和IP位址。	绑定或解除绑定当前连接设备的MAC和IP地址。
+backupRestore.backupInstruction	储存您目前的设定值。	保存您当前的设置。
+backupRestore.localRestore	复原	恢复
+backupRestore.localRestoreInstruction	从备份档复原以储存的设定。	从备份档恢复以保存的设置。
+backupRestore.localRestoreConfirm	路由器将套用设定档的设定并重新开机，确定要复原吗?	路由器将套用配置文件的设置并重启，确定要恢复吗?
+backupRestore.factoryDefaultRestore	恢复原厂预设值	恢恢复厂默认值
+backupRestore.factoryDefaultRestoreInstruction	重设所有设定回归原厂预设值。	重置所有设置回归出厂默认值。
+backupRestore.factoryRestoreDefaultTip	除了您的登入与云端帐号资讯以外，还原所有的设定至预设值。	除了您的登录与云端账号信息以外，还原所有的设置至默认值。
+backupRestore.factoryRestoreAllTip	还原所有的设定至它们的预设值。	还原所有的设置至它们的默认值。
+backupRestore.factoryRestoreUpper	恢复原厂设定	恢恢复厂设置
+backupRestore.factoryRestoreConfirm	目前所有设定将遗失，路由器将重启以还原出厂预设值。要马上还原吗？	当前所有设置将遗失，路由器将重启以还原出厂默认值。要马上还原吗？
+backupRestore.restoring	重设中…	重置中…
+wireGuard.wireGuardInstruction	设定 WireGuard VPN 和帐号，进行快速、远端且安全的存取您的网路。	配置 WireGuard VPN 服务器，以安全地远程访问家庭网络。
+wireGuard.tunnelIpAddress	Tunnel IP 位址	隧道 IP 地址
+wireGuard.listenPort	Listen Port	监听端口
+wireGuard.clientAccess	用户端存取	客户端访问权限
+wireGuard.accessInternet	网际网路和家庭网路	互联网和家庭网络
+wireGuard.accessHome	仅限家庭网路	仅家庭网络
+wireGuard.privateKey	Private Key	私钥
+wireGuard.publicKey	Public Key	公钥
+wireGuard.renewKey	更新金钥	重新生成密钥
+wireGuard.renewKeyNote	更新金钥将更新 private key 和 public key，先前建立的用户端设定档将无法使用。在更新金钥后，请重新取得帐号列表以取得 QR code 或设定档。	重新生成密钥将更新 private key 和 public key，先前建立的客户端配置文件将无法使用。在重新生成密钥后，请重新取得账号列表以取得 QR code 或配置文件。
+wireGuard.renewKeyTitle	要更新金钥吗？	要重新生成密钥吗？
+wireGuard.renewing	正在更新金钥…	正在重新生成密钥…
+wireGuard.accountList	帐号列表	客户端列表
+wireGuard.accountListInstruction	设定可透过VPN伺服器远端连接的用户端帐户(可多达16个)。	设置可通过VPN服务器远程连接的客户端账户(可多达16个)。
+wireGuard.renewConfigTip	若您已更新金钥，请重新设定用户端，否则用户端将无法连接至 VPN Server。	若您已重新生成密钥，请重新设置客户端，否则客户端将无法连接至 VPN Server。
+wireGuard.allowedIpsServer	允许的 IP (伺服器)	允许的 IP (服务器)
+wireGuard.allowedIpsClient	允许的 IP (用户端)	允许的 IP (客户端)
+wireGuard.preSharedKey	预先共用金钥(密钥)	预共享密钥
+wireGuard.generateConfig	正在产生设定档…	正在产生配置文件…
+wireGuard.scanNote	请从 Google Play 或 Apple Store 下载 WireGurad App，再使用 App 扫描 QR Code 连接至此 Server。	请安装 WireGuard 客户端，扫描二维码以导入 VPN 配置。
+wireGuard.exportNote	请使用下列设定设定您的 WireGuard 用户端。	请使用下列设置设置您的 WireGuard 客户端。
+wireGuard.deleteAccountNote	先前设定的用户端将不会连接至 VPN Server，要删除吗？	先前设置的客户端将不会连接至 VPN Server，要删除吗？
+wireGuard.deleteAccountTitle	要删除帐号吗？	要删除账号吗？
+wireGuard.addressIncludedInServer	位址须包含在允许的 IP 中(伺服器)。	地址须包含在允许的 IP 中(服务器)。
+wireGuard.address	位址	地址
+wireGuard.export	汇出	导出
+wireGuard.exportUpper	汇出	导出
+wireGuard.deleteNoAccountTip	无法删除帐户，请保留至少一个帐户以使用 WireGuard 功能。	无法删除账户，请保留至少一个账户以使用 WireGuard 功能。
+ipv6.ipv6Internet	IPv6 网际网路	IPv6 互联网
+ipv6.ipv6InternetInstruction	设定ISP(网路服务提供业者)提供的资讯使用IPv6网际网路连接。	设置ISP(网络服务提供业者)提供的信息使用IPv6互联网连接。
+ipv6.ipv6Lan	IPv6区域网路	IPv6局域网
+ipv6.ipv6LanInstruction	设定路由器IPv6的LAN位址及分配给客户端的IPv6位址类型。	设置路由器IPv6的LAN地址及分配给客户端的IPv6地址类型。
+ipv6.ipv6Address	IPv6 位址	IPv6 地址
+ipv6.mtuSizeTip	(预设值为 1500，非必要请勿更改。)	(默认值为 1500，非必要请勿更改。)
+ipv6.advancedTitle	进阶设定	高级设置
+ipv6.getIpv6Address	取得IPv6 位址	取得IPv6 地址
+ipv6.dnsAddress	DNS 位址	DNS 地址
+ipv6.pppoeShare	与IPv4连线使用相同会话。	与IPv4连接使用相同会话。
+ipv6.ipv4Address	IPv4 位址	IPv4 地址
+ipv6.ipv4Mask	IPv4 子网路遮罩	IPv4 子网掩码
+ipv6.ipv4DefaultGateway	IPv4 预设闸道	IPv4 默认网关
+ipv6.tunnelAddress	通道位址	通道地址
+ipv6.getStaticDns	使用下列的DNS位址	使用下列的DNS地址
+ipv6.addressPrefix	位址前缀	地址前缀
+ipv6.releaseTimeTip	(预设值为 86400，非必要请勿更改。)	(默认值为 86400，非必要请勿更改。)
+ipv6.custom	自订	自定义
+easyMesh.connection	连线	连接
+easyMesh.noMeshDeviceNote1	此功能允许您透过新增任何品牌的 EasyMesh 设备和 TP-Link OneMesh 设备以设定 Mesh 网路。	此功能允许您通过新增任何品牌的 EasyMesh 设备和 TP-Link OneMesh 设备以设置 Mesh 网络。
+easyMesh.noMeshDeviceNote2	在 EasyMesh 网路中，您的行动装置将无缝切换至 Mesh 路由器或延伸器，当您在家中移动时，提供更快的速度。	在 EasyMesh 网络中，您的行动设备将无缝切换至 Mesh 路由器或延伸器，当您在家中移动时，提供更快的速度。
+easyMesh.meshNetwork	EasyMesh 网路	Mesh 网络
+easyMesh.commonNetwork	一般网路	一般网络
+easyMesh.meshNetworkInstruction	设定并管理您的 EasyMesh 网路。	设置并管理您的 EasyMesh 网络。
+easyMesh.meshTip	启用 {smartUrl} 与 EasyMesh 设备运作以提供更好的无缝漫游。	启用 {smartUrl} 与 EasyMesh 设备运行以提供更好的无缝漫游。
+easyMesh.signal	讯号	信号
+easyMesh.meshInstruction	连接 EasyMesh 和 OneMesh 设备以建立无缝的 Wi-Fi 范围和集中管理 Mesh 网路。	连接 EasyMesh 和 OneMesh 设备以建立无缝的 Wi-Fi 范围和集中管理 Mesh 网络。
+easyMesh.enableTitle	要启用 EasyMesh 吗？	确定启用 EasyMesh 吗？
+easyMesh.enableNotice	将重启您的无线网路。无线存取将暂时停用，您需要在重启完成后，重新连接网路。	将重启您的无线网络。无线访问将暂时禁用，您需要在重启完成后，重新连接网络。
+easyMesh.disabling	正在停用 EasyMesh…	正在禁用 EasyMesh…
+easyMesh.restartNotice	将需要几秒钟时间，请在重启后重新连接网路。	将需要几秒钟时间，请在重启后重新连接网络。
+easyMesh.disableMainTitle	要在主路由器上停用 EasyMesh 吗？	要在主路由器上禁用 EasyMesh 吗？
+easyMesh.disableMainNotice	在停用网路中所有设备的 EasyMesh！TP-Link 卫星路由器将重置回出厂预设值。TP-Link 卫星延伸器将保留他们的无线设定，但将不会同步主路由器的设定。	在禁用网络中所有设备的 EasyMesh！TP-Link 卫星路由器将重置回出厂默认值。TP-Link 卫星延伸器将保留他们的无线设置，但将不会同步主路由器的设置。
+easyMesh.disableMainTip	若为主要路由器的一般功能，请拔除所有连接卫星设备的网路线。	若为主要路由器的一般功能，请拔除所有连接卫星设备的网线。
+easyMesh.disableTitle	停用 EasyMesh？	确定禁用 EasyMesh 吗？
+easyMesh.disableNotice	将重启无线网路！无线存取将暂时停用且您需要重新连线。	将重启无线网络！无线访问将暂时禁用且您需要重新连接。
+easyMesh.addConfirm	要将此设备新增至 EasyMesh 网路吗？	要将此设备新增至 EasyMesh 网络吗？
+easyMesh.addNotice	设备将同步至您主路由器的无线设定，您需要重新连接此装置。	设备将同步至您主路由器的无线设置，您需要重新连接此设备。
+easyMesh.mainRouterLinkNote	TP-Link 卫星路由器将按照主路由器的 {ledUrl} 设定。	TP-Link 卫星路由器将按照主路由器的 {ledUrl} 设置。
+easyMesh.mainRouterNote	TP-Link 卫星路由器将按照主路由器的 LED 管理设定。	TP-Link 卫星路由器将按照主路由器的 LED 管理设置。
+easyMesh.satelliteNote	在此模式中，您可以将路由器新增至 EasyMesh 主路由器的网路中延伸 Wi-Fi 覆盖范围。	在此模式中，您可以将路由器新增至 EasyMesh 主路由器的网络中延伸 Wi-Fi 覆盖范围。
+easyMesh.satelliteTip	EasyMesh 将在韧体更新后适用于所有 TP-Link OneMesh 设备。	EasyMesh 将在固件更新后适用于所有 TP-Link OneMesh 设备。
+easyMesh.deviceInfo	设备资讯	设备信息
+easyMesh.notSet	未设定	未设置
+easyMesh.removeTitle	要从 EasyMesh 网路中移除「{name}」吗？	要从 EasyMesh 网络中移除「{name}」吗？
+easyMesh.removeNotice	这会将设备重置回出厂预设值，您可以稍后搜寻并重新新增。	这会将设备重置回出厂默认值，您可以稍后搜索并重新新增。
+easyMesh.cantRemove	请从 Mesh 网路中手动重置设备以删除。	请从 Mesh 网络中手动重置设备以删除。
+easyMesh.poorSignal	讯号太差，请将此设备移动至靠近您主路由器的地方摆放。	信号太差，请将此设备移动至靠近您主路由器的地方摆放。
+easyMesh.emptyClient	无装置。	无设备。
+easyMesh.offline1	请确认设备已开机。	请确认设备已启动。
+easyMesh.offline3	将您的设备摆放在靠近主路由器或网路中其他卫星设备的地方后，再次确认。	将您的设备摆放在靠近主路由器或网络中其他卫星设备的地方后，再次确认。
+easyMesh.techSupport	技术支援团队	技术支持团队
+easyMesh.beforeAddRouter1	确认您的路由器支援EasyMesh。早期OneMesh的型号可能需要更新韧体才能支援路由器连接路由器网路。	确认您的路由器支持EasyMesh。早期OneMesh的型号可能需要更新固件才能支持路由器连接路由器网络。
+easyMesh.beforeAddRouter3	将它们重置回出厂预设值或变更为卫星路由器模式。	将它们重置回出厂默认值或变更为卫星路由器模式。
+easyMesh.setUpGuideNote	如果您透过有线方式建立EasyMesh网路，请先重置您的子路由器，并将子路由器的LAN埠连接到主路由器的LAN埠。等到子路由器的LED灯显示已连接到网路，则代表EasyMesh网路已建立成功。	如果您通过有线方式建立EasyMesh网络，请先重置您的子路由器，并将子路由器的LAN埠连接到主路由器的LAN埠。等到子路由器的LED灯显示已连接到网络，则代表EasyMesh网络已建立成功。
+easyMesh.addOther1Router	若为路由器，请至它们的 EasyMesh 页面将它们变更为卫星路由器或其他相似的模式。若需要更多细节，请参考使用者手册。	若为路由器，请至它们的 EasyMesh 页面将它们变更为卫星路由器或其他相似的模式。若需要更多细节，请参考用户手册。
+easyMesh.addOtherWpsA	在主路由器按压 WPS 按钮。	在主路由器按下 WPS 按钮。
+easyMesh.addOtherWpsB	在 2 分钟内，按压卫星设备上的 WPS 按钮。	在 2 分钟内，按下卫星设备上的 WPS 按钮。
+easyMesh.addOther4	点击确定并确认 EasyMesh 网路设备列表。	点击确定并确认 EasyMesh 网络设备列表。
+easyMesh.addRouterTip	搜寻附近的 TP-Link 卫星路由器，将它们新增至 Mesh 网路中。	搜索附近的 TP-Link 卫星路由器，将它们新增至 Mesh 网络中。
+easyMesh.searchRouter	正在搜寻卫星路由器…	正在搜索卫星路由器…
+easyMesh.emptyRouter	附近无卫星路由器，点击「搜寻」寻找卫星路由器。	附近无卫星路由器，点击「搜索」寻找卫星路由器。
+easyMesh.toSatellite1	登入路由器的网页介面。	登录路由器的网页接口。
+easyMesh.notFoundHelp2	重置设备至出厂预设值或设为卫星路由器模式。	重置设备至出厂默认值或设为卫星路由器模式。
+easyMesh.notFoundHelp4	更新卫星设备的韧体版本。	更新卫星设备的固件版本。
+easyMesh.chooseMode	在 EasyMesh 网路中选择您路由器的运作模式。	在 EasyMesh 网络中选择您路由器的运行模式。
+easyMesh.workingMode	运作模式	运行模式
+easyMesh.satelliteConfirmTip	将消除您的路由器设定且网页将无法使用，您可以到主路由器的 EasyMesh 页面将卫星路由器新增至 Mesh 网路中。	将消除您的路由器设置且网页将无法使用，您可以到主路由器的 EasyMesh 页面将卫星路由器新增至 Mesh 网络中。
+easyMesh.satelliteReset	如果您需要恢复卫星路由器，请按 Reset 按钮将其恢复出厂设定。	如果您需要恢复卫星路由器，请按 Reset 按钮将其恢复出厂设置。
+easyMesh.addFail2	其他人正在尝试建立 EasyMesh 网路，请稍后再试。	其他人正在尝试建立 EasyMesh 网络，请稍后再试。
+easyMesh.addFail3	重设设备后再试一次。	重置设备后再试一次。
+easyMesh.addSuccessTip	若要优化无线网路范围，请将设备摆放至您主路由器和 Wi-Fi 死角的中间。	若要优化无线网络范围，请将设备摆放至您主路由器和 Wi-Fi 死角的中间。
+easyMesh.wirelessOffTip	主路由器上已停用无线功能，请启用以使用无线连线。	主路由器上已禁用无线功能，请启用以使用无线连接。
+easyMesh.wpsTitle	无法透过 WPS 新增卫星设备，请至{wirelessUrl}确认：	无法通过 WPS 新增卫星设备，请至{wirelessUrl}确认：
+easyMesh.wireless	无线网路设定	无线网络设置
+easyMesh.wpsReNote	若新增失败，请至卫星设备的网页介面确认 EasyMesh 是否已启用。	若新增失败，请至卫星设备的网页接口确认 EasyMesh 是否已启用。
+easyMesh.wpsOtherNote	不同品牌的设备可能彼此不相容。	不同品牌的设备可能彼此不兼容。
+easyMesh.addRe2	透过 WPS 将设备新增至 Mesh 网路。	通过 WPS 将设备新增至 Mesh 网络。
+easyMesh.clients	用户端	客户端
+easyMesh.signalStrength	讯号强度	信号强度
+easyMesh.satelliteConfirmNote	其他路由器目前正在您的 EasyMesh 网路中作为主要路由器。若要维持原有 EasyMesh 网路运作正常，您只能将此路由器设为卫星路由器以加入原有网路。	其他路由器当前正在您的 EasyMesh 网络中作为主要路由器。若要维持原有 EasyMesh 网络运行正常，您只能将此路由器设为卫星路由器以加入原有网络。
+wps.instruction	使用 WPS (Wi-Fi 保护设定)轻松将装置(个人设备)无线连接至路由器。	使用 WPS (Wi-Fi 保护设置)轻松将设备(个人设备)无线连接至路由器。
+wps.client_pin	输入使用者端的 PIN	输入用户端的 PIN
+wps.default	预设	默认
+wps.connecting	连线中...	连接中...
+wps.client_connected_success	设备 ({mac}) 已连线。	设备 ({mac}) 已连接。
+wps.client_connected_error	连线失败。	连接失败。
+wps.client_connected_overlap	连线失败(重叠)。	连接失败(重叠)。
+wps.client_connected_timeout	连线失败(逾时)。	连接失败(逾时)。
+wps.client_connected_inact	连线无效。	连接无效。
+wps.client_connected_not_found	未找到用户端。点选以再试一次。	未找到客户端。点选以再试一次。
+wps.wps_disable_note	此功能无法使用，若要使用，请至{link}页面修改下列设定：	此功能无法使用，若要使用，请至{link}页面修改下列设置：
+wps.wps_disable_note_title_24g	对于 2.4 GHz网路：	对于 2.4 GHz网络：
+wps.wps_disable_note_title_5g	对于 5 GHz网路：	对于 5 GHz网络：
+wps.wps_disable_note_title_51g	对于 5 GHz-1网路：	对于 5 GHz-1网络：
+wps.wps_disable_note_title_52g	对于 5 GHz-2网路：	对于 5 GHz-2网络：
+wps.wps_disable_note_step1	启用无线网路功能。	启用无线网络功能。
+wps.wps_disable_note_step3_1	设定安全性加密为{encryptionA}(建议)或{encryptionB}。	设置安全性加密为{encryptionA}(建议)或{encryptionB}。
+wps.wps_disable_note_step3_2	安全性设定为{encryption}。	安全性设置为{encryption}。
+iotSecurity.deviceIsolationInstruction	隔离设备(例如 IoT 设备)以保护您的网路不受安全性威胁。	隔离设备(例如 IoT 设备)以保护您的网络不受安全性威胁。
+iotNetwork.iot_network	IoT 网路	IoT 网络
+iotNetwork.iot_network_instruction	建立专用的无线网路一同管理您的 IoT 设备，例如智慧灯具和摄影机。	建立专用的无线网络一同管理您的 IoT 设备，例如智慧灯具和摄影机。
+iotNetwork.ensure_wpa3_tip	请确认连接的 IoT 设备支援 WPA3。	请确认连接的 IoT 设备支持 WPA3。
+iotNetwork.enable_5g_tip	请确认您的 IoT 设备可连接至 5 GHz 网路。	请确认您的 IoT 设备可连接至 5 GHz 网络。
+accessControl.accessControl	存取管理	访问管理
+accessControl.accessControlInstruction	控制特定设备存取您的网路。	控制特定设备访问您的网络。
+accessControl.denyListInstruction	设定黑名单，只封锁特定设备无法存取您的网路。	设置黑名单，只拦截特定设备无法访问您的网络。
+accessControl.allowListInstruction	设定白名单，只允许特定设备存取您的网路。	设置白名单，只允许特定设备访问您的网络。
+accessControl.accessMode	存取模式	访问模式
+accessControl.macAddress	MAC 位址	MAC 地址
+yandexDns.titleInstruction	透过 Yandex.DNS 服务保护您的家庭网路。	通过 Yandex.DNS 服务保护您的家庭网络。
+yandexDns.subTitle	为个人装置	为个人设备
+yandexDns.subTitleInstruction	新增 Yandex.DNS 规则，为个人装置设定管理模式。	新增 Yandex.DNS 规则，为个人设备设置管理模式。
+yandexDns.macAddress	MAC 位址	MAC 地址
+yandexDns.chooseMsgTitle	从连线设备选择	从连接设备选择
+wifiSharing.sharing_network	分享网路	共享网络
+wireless.wirelessSettings	无线网路设定	Wi-Fi 设置
+wireless.bandWireless	{band}无线	{band} Wi-Fi
+wireless.bandAdvancedSettings	{band}进阶设定	{band} 高级设置
+wireless.networkName	无线网路名称 (SSID)	Wi-Fi 名称（SSID）
+wireless.radiusServerIp	RADIUS 伺服器 IP位址	RADIUS 服务器 IP 地址
+wireless.radiusPort	RADIUS 通讯埠	RADIUS 端口
+wireless.radiusPassword	RADIUS 连线密码	RADIUS 连接密码
+wireless.hideSsid	隐藏 SSID	隐藏 Wi-Fi 名称（SSID）
+wireless.enhancedOpenNote	此安全性类型遵守 WPA3 标准，若您的设备因相容性问题无法连接至 Wi-Fi，请选择「开放」安全性类型进行不加密的存取。	此安全性类型遵守 WPA3 标准，若您的设备因兼容性问题无法连接至 Wi-Fi，请选择「开放」安全性类型进行不加密的访问。
+wireless.networkDisabled	{wireless}网路已停用。	{wireless}网络已禁用。
+wireless.networkEnabled	{wireless}网路已启用。	{wireless}网络已启用。
+mainNetwork.instruction	为每个频段进行个人化设定，或启用智慧连线同步 2.4 GHz 和 5 GHz 设定。	为每个频段进行个人化设置，或启用智慧连接同步 2.4 GHz 和 5 GHz 设置。
+mainNetwork.smartConnectNote	智慧连接允许路由器的 2.4 GHz 和 5 GHz 频段使用相同的无线设定。路由器可平衡网路需求并将设备分配至最佳频段连线。	智慧连接允许路由器的 2.4 GHz 和 5 GHz 频段使用相同的无线设置。路由器可平衡网络需求并将设备分配至最佳频段连接。
+mainNetwork.ofdmaFullName	正交分频多工存取	正交分频多工访问
+mainNetwork.ofdmaIntroduction	OFDMA 允许多个设备透过将相同频道划分为更小的资源单元来同时共享相同频道，从而提高网路效率和容量。 OFDMA 专注于如何利用频道同时容纳多个设备。	OFDMA 允许多个设备通过将相同频道划分为更小的资源单元来同时共享相同频道，从而提高网络效率和容量。 OFDMA 专注于如何利用频道同时容纳多个设备。
+mainNetwork.ofdmaNote	OFDMA让多个用户能够同时传输资料，并因此而大幅改善速度和效能。请注意只有当您的客户端也支援OFDMA时，才能完整的享受到他的效益。	OFDMA让多个用户能够同时传输数据，并因此而大幅改善速度和效能。请注意只有当您的客户端也支持OFDMA时，才能完整的享受到他的效益。
+mainNetwork.muMimoIntroduction	MU-MIMO 使路由器能够同时使用多个天线与多个设备进行通讯，提升整体网路吞吐量并降低延迟。MU-MIMO 的重点在于如何同时与多个设备进行通讯。	MU-MIMO 使路由器能够同时使用多个天线与多个设备进行通讯，提升整体网络吞吐量并降低延迟。MU-MIMO 的重点在于如何同时与多个设备进行通讯。
+mainNetwork.mruNote	如果您启用了OFDMA 且无线模式设定为 802.11be，MRU（多资源单元）功能将自动生效。	如果您启用了OFDMA 且无线模式设置为 802.11be，MRU（多资源单元）功能将自动生效。
+mainNetwork.twtNote	目标唤醒时间允许 802.11ax 路由器和客户端协商彼此传输和接收资料封包的期间。客户端只在 TWT 连线时醒来，在休息时间保持睡眠模式，这将大大的延伸其电池寿命。	目标唤醒时间允许 802.11ax 路由器和客户端协商彼此传输和接收数据数据包的期间。客户端只在 TWT 连接时醒来，在休息时间保持睡眠模式，这将大大的延伸其电池寿命。
+mainNetwork.amazonFfs	Amazon Wi-Fi 简易设定	Amazon Wi-Fi 简易设置
+mainNetwork.amazonFfsNote	Amazon Wi-Fi 简易设定让您可以透过简单几步骤将支援的设备连接至 Wi-Fi 网路和 Alexa 帐号。启用此功能将建立一个简单的网路，支援的设备可使用该网路存取储存在 Amazon Wi-Fi Locker 中的 Wi-Fi 凭证。{amazonSupportLink}	Amazon Wi-Fi 简易设置让您可以通过简单几步骤将支持的设备连接至 Wi-Fi 网络和 Alexa 账号。启用此功能将建立一个简单的网络，支持的设备可使用该网络访问保存在 Amazon Wi-Fi Locker 中的 Wi-Fi 证书。{amazonSupportLink}
+mainNetwork.amazonFfsDisable	请先启用{bandName} Wi-Fi 以进行简单设定	请先启用{bandName} Wi-Fi 以进行简单设置
+mainNetwork.successNote	设定成功，您可以使用下列无线资讯连接至路由器的网路。	设置成功，您可以使用下列无线信息连接至路由器的网络。
+mainNetwork.dfsOverlapNote	您选择的频道宽度和频道与 DFS 频道重叠，需要等待一段时间，侦测周围是否有正在运作中的雷达。	您选择的频道宽度和频道与 DFS 频道重叠，需要等待一段时间，检测周围是否有正在运行中的雷达。
+mainNetwork.dfsOverlapConfirm	频道宽度和频道设定需要一些时间套用。 在此期间，5 GHz 连线将受到影响。	频道宽度和频道设置需要一些时间套用。 在此期间，5 GHz 连接将受到影响。
+mainNetwork.wlanOffTitle	要停用所有无线网路吗？	要禁用所有无线网络吗？
+mainNetwork.wlanOffNote	您的设备只能在设定生效后，透过网路线连接路由器。	您的设备只能在设置生效后，通过网线连接路由器。
+mainNetwork.wlanOffTitle6g	要停用 2.4 GHz 和 5 GHz 网路吗？	要禁用 2.4 GHz 和 5 GHz 网络吗？
+mainNetwork.wlanOffNote6g	只有相容于 Wi-Fi 6E 的设备可搜寻并加入 6 GHz 网路。若您有其他设备，请保留 2.4 GHz 或 5 GHz 至少一个网路启用。	只有兼容于 Wi-Fi 6E 的设备可搜索并加入 6 GHz 网络。若您有其他设备，请保留 2.4 GHz 或 5 GHz 至少一个网络启用。
+mainNetwork.wifi6Note	6 GHz Wi-Fi 网路可提供更快的无线连线	6 GHz Wi-Fi 网络可提供更快的无线连接
+mainNetwork.pscNote	启用 PSC(Preferred Scanning Channel)优先扫描频道时，只会保留更高连线的频道，以确保 6 GHz 装置连线。	启用 PSC(Preferred Scanning Channel)优先扫描频道时，只会保留更高连接的频道，以确保 6 GHz 设备连接。
+mainNetwork.setSeparately	分别设定每一个频段	分别设置每一个频段
+mainNetwork.enable160M	为{band} Wi-Fi 启用 160 MHz 频宽以提供更快的速度和更好的 Wi-Fi 体验。将需要约 1 分钟以符合雷达侦测需求的规定。	为{band} Wi-Fi 启用 160 MHz 带宽以提供更快的速度和更好的 Wi-Fi 体验。将需要约 1 分钟以符合雷达检测需求的规定。
+mainNetwork.enable160M5g2	为{band} Wi-Fi 启用 160 MHz 频宽将需要约 10 分钟时间以符合规范的雷达侦测需求。若您想要启用，请至进阶 > 无线 > 无线设定将 5 GHz-2 的频道宽度切换为 160 MHz。	为{band} Wi-Fi 启用 160 MHz 带宽将需要约 10 分钟时间以符合规范的雷达检测需求。若您想要启用，请至高级 > 无线 > 无线设置将 5 GHz-2 的频道宽度切换为 160 MHz。
+mainNetwork.useDefaultWifiSettings	使用预设 Wi-Fi 设定	使用默认 Wi-Fi 设置
+mloNetwork.mloNetwork	MLO 网路	MLO 网络
+mloNetwork.instruction	建立您的 MLO 网路，Wi-Fi 7 用户端连线后，将同时传送和接收不同频段之间的资料，大幅改善传输速率和稳定性。	建立您的 MLO 网络，Wi-Fi 7 客户端连接后，将同时传送和接收不同频段之间的数据，大幅改善传输速率和稳定性。
+mloNetwork.mloNote	路由器将重新启动来使 MLO 设定变更生效。	路由器将重启来使 MLO 设置变更生效。
+mloNetwork.disableTip	若要使用此功能，请启用至少两个主网路频段并将模式设定为 802.11be。	若要使用此功能，请启用至少两个主网络频段并将模式设置为 802.11be。
+mloNetwork.newMloSettingsTip	储存新的 MLO 设定后，路由器将重新启动。重新启动大约需要 {rebootTime}。	保存新的 MLO 设置后，路由器将重启。重启大约需要 {rebootTime}。
+mloNetwork.bandDisableTip	请启用{band}主要网路。	请启用{band}主要网络。
+mloNetwork.bandModeTip	若要使用此功能，请将主网路模式设定为 802.11be。	若要使用此功能，请将主网络模式设置为 802.11be。
+guestNetwork.enable_tips	您的无线网路功能已经被关闭。	您的无线网络功能已经被关闭。
+guestNetwork.guest_network	访客网路	访客网络
+guestNetwork.guest_network_instruction	开启您想让访客使用的无线频段并完成相关资讯。	为访客设置独立的 Wi-Fi 网络。
+guestNetwork.guest_permissions_instruction	控制访客可存取的资料。	控制访客能否访问局域网或相互通信。
+guestNetwork.isolate_box_label	允许访客可以互相连线	允许访客设备相互通信
+guestNetwork.access_box_label	允许访客使用您的本地网路	允许访客访问局域网
+guestNetwork.type	验证类型	认证方式
+guestNetwork.duration	验证逾时	认证有效期
+guestNetwork.redirect	重新导向	重定向
+guestNetwork.redirect_url	重新导向的URL	重新跳转的URL
+guestNetwork.redirect_tip	有些手机和浏览器由于相容性问题，可能会遇到网址重新导向异常的问题。	部分设备可能因浏览器兼容性而无法正常跳转到指定网址。
+guestNetwork.portal_note	当启用 IPv6 或在 https 网页开启门户认证页面时可能会遇到无法显示的状况。在此状况下，请改用 http 或停用 IPv6。	当启用 IPv6 或在 https 网页开启门户认证页面时可能会遇到无法显示的状况。在此状况下，请改用 http 或禁用 IPv6。
+guestNetwork.login_page	登入页面	登录页面
+guestNetwork.configuration	设定	设置
+guestNetwork.portal_title	门户标题	认证门户标题
+guestNetwork.logo_image	标识图片	徽标图片
+guestNetwork.logo_image_note	只支援 JPG 和 PNG 格式，最佳长宽比为 1:1，档案大小 < 100 KB	只支持 JPG 和 PNG 格式，最佳长宽比为 1:1，文件大小 < 100 KB
+guestNetwork.background_image_note	只支援 JPG 和 PNG 格式，档案大小 < 1MB	只支持 JPG 和 PNG 格式，文件大小 < 1MB
+guestNetwork.terms_of_use_note	使用此无线网路代表您同意使用条款，我们保留终止您使用的权利。	使用此无线网络代表您同意使用条款，我们保留终止您使用的权利。
+guestNetwork.network_name_ssid	无线网路名称 (SSID)	无线网络名称 (SSID)
+guestNetwork.wds_conflict_note	WDS与访客网路不可同时启用。	WDS与访客网络不可同时启用。
+guestNetwork.bandwidth_ctrl	频宽管理	带宽管理
+guestNetwork.download_bw	下载频宽	下载带宽
+guestNetwork.upload_bw	上传频宽	上传带宽
+guestNetwork.custom	自订	自定义
+guestNetwork.all_zero_error	存取时间的值不可为 0。	访问时间的值不可为 0。
+extendNetwork.bandNetwork	{band} 延伸的网路	{band} 延伸的网络
+openVpn.openVpnInstruction	设定一个安全的OpenVPN来远端存取您的网路。	设置一个安全的OpenVPN来远程访问您的网络。
+openVpn.openGenerateNote	尚无凭证，使用OpenVPN前请先至下方产生凭证。	尚无证书，使用OpenVPN前请先至下方产生证书。
+openVpn.openSubnet	VPN子网域	VPN子域
+openVpn.netmask	子网路遮罩	子网掩码
+openVpn.clientAccess	用户端存取	客户端访问
+openVpn.serverAddress	伺服器位址	服务器地址
+openVpn.certificate	凭证	证书
+openVpn.certificateInstruction	产生凭证。	产生证书。
+openVpn.configurationFileInstruction	汇出设定档。	导出配置文件。
+openVpn.exportUpper	汇出	导出
+openVpn.noCertificate	尚无凭证，点击{ok}以产生凭证并储存设定。	尚无证书，点击{ok}以产生证书并保存设置。
+openVpn.noInternetNote	无网际网路，请先确认您的网路连接并再产生一次凭证。	无互联网，请先确认您的网络连接并再产生一次证书。
+openVpn.generating	产生凭证中…	产生证书中…
+openVpn.sameSubnetNote	用户端 IP 位址和 LAN IP 位址不能位于同一个子网路。	客户端 IP 地址和 LAN IP 地址不能位于同一个子网。
+openVpn.conflictWithPptpvpn	VPN 子网路/网路遮罩和 PPTP VPN IP 位址不能位于同一个子网路。	VPN 子网/网络掩码和 PPTP VPN IP 地址不能位于同一个子网。
+openVpn.conflictWithL2tpvpn	VPN 子网路/遮罩和 L2TP VPN IP 位址不可在相同网段中。	VPN 子网/掩码和 L2TP VPN IP 地址不可在相同网段中。
+openVpn.conflictWithReserved	VPN 子网路/网路遮罩与保留的 IP 位址冲突。	VPN 子网/网络掩码与保留的 IP 地址冲突。
+openVpn.conflictWithDhcp	VPN 子网路/网路遮罩与 DHCP IP 位址集区冲突。	VPN 子网/网络掩码与 DHCP IP 地址集区冲突。
+vpnClient.vpnClient	VPN客户端	VPN 客户端
+vpnClient.vpnClientInstruction	为客户设定要使用 VPN 功能的设定档。	配置 VPN 连接，并选择通过 VPN 访问互联网的设备。
+vpnClient.importOpenVpnFile	汇入 .ovpn 档	导入 .ovpn 配置文件
+vpnClient.enableExtraEditVpn	手动汇入 CA 档或编辑 .ovpn 档	手动导入 CA 档或编辑 .ovpn 档
+vpnClient.importCAFile	汇入 CA 档	导入 CA 证书
+vpnClient.manualSettings	手动设定	手动设置
+vpnClient.manualSettingsTitle	金钥和凭证	密钥和证书
+vpnClient.certificateAuthority	凭证授权	证书颁发机构（CA）
+vpnClient.clientCertificate	Client Certificate	客户端证书
+vpnClient.clientKey	Client Key	客户端私钥
+vpnClient.staticKey	Static Key	静态密钥
+vpnClient.certificateRevocationList	凭证吊销列表	证书吊销列表
+vpnClient.importFromConfigFile	从设定档汇入	从配置文件导入
+vpnClient.vpnKillSwitch	VPN 断线开关	VPN 断线保护（Kill Switch）
+vpnClient.vpnKillSwitchNote	如果您的VPN连线中断，VPN断线保护功能将会阻止连接到此VPN伺服器的设备存取网际网路，直到恢复与VPN伺服器的连接。这有助于增强您的网路安全。	当 VPN 连接断开时，阻止指定设备绕过 VPN 直接访问互联网，直到 VPN 重新连接。
+vpnClient.addProfile	新增设定档	新增配置文件
+vpnClient.serverList	伺服器列表	服务器列表
+vpnClient.serverListInstruction	新增或编辑 VPN 伺服器，最多可新增 {limit} 个 VPN 伺服器。	新增或编辑 VPN 服务器，最多可新增 {limit} 个 VPN 服务器。
+vpnClient.vpnServer	VPN伺服器	VPN服务器
+vpnClient.vpnAccess	VPN 存取	VPN 访问
+vpnClient.addDeviceTitle	选择要存取 VPN 伺服器的设备。	选择要访问 VPN 服务器的设备。
+vpnClient.enableVpnServerTip	要启用 VPN 伺服器{name}吗？	要启用 VPN 服务器{name}吗？
+vpnClient.changeVpnServerTip	要将 VPN 伺服器修改为{name}吗？	要将 VPN 服务器修改为{name}吗？
+vpnClient.disableVpnServerTip	目前伺服器「VPN{name}」将被停用。	当前服务器「VPN{name}」将被禁用。
+vpnClient.interface	介面	接口
+vpnClient.peer	网路成员	网络成员
+vpnClient.address	位址	地址
+vpnClient.preSharedKey	预共用金钥	预共用密钥
+vpnClient.endpointAddress	终端位址	终端地址
+vpnClient.bannerTitle	立即获得适合您网路的最佳 VPN！	立即获得适合您网络的最佳 VPN！
+vpnClient.vpnServerList	VPN 伺服器列表	VPN 服务器列表
+vpnClient.server	伺服器	服务器
+vpnClient.serverLoadingNote	正在载入伺服器...	正在载入服务器...
+vpnClient.setUpServer	设定 VPN 伺服器	设置 VPN 服务器
+vpnClient.openVpnGuidance	需要设定 OpenVPN 吗？	需要设置 OpenVPN 吗？
+vpnClient.detail	详细资料	详细数据
+vpnClient.searchNote	在 {num} 个伺服器中搜寻	在 {num} 个服务器中搜索
+vpnClient.getServerFailedNote	无法载入伺服器列表。请点选重新整理伺服器清单重试。	无法载入服务器列表。请点选重新整理服务器清单重试。
+vpnClient.loginFailedNote	登入失败。 请尝试{faq}。	登录失败。 请尝试{faq}。
+vpnClient.setUpManual	手动设定伺服器	手动设置服务器
+vpnClient.setVpnTitle	设定 VPN 伺服器	设置 VPN 服务器
+vpnClient.addManually	手动设定	手动设置
+vpnClient.serverName	伺服器名称	服务器名称
+vpnClient.serverDetail	伺服器详细资料	服务器详细数据
+vpnClient.updateLoading	正在更新伺服器...	正在更新服务器...
+vpnClient.loginTitle	登入您的 VPN 帐号	登录您的 VPN 账号
+vpnClient.username	使用者名称/Email	用户名/Email
+vpnClient.login	登入	登录
+vpnClient.loginByToken	透过 token 登入	通过 token 登录
+vpnClient.surfSharkPrivacyNote	登入即表示您同意 Surfshark 的{term}和{privacy}。	登录即表示您同意 Surfshark 的{term}和{privacy}。
+vpnClient.nordVpnPrivacyNote	登入即表示您同意 NordVPN 的{term}和{privacy}。	登录即表示您同意 NordVPN 的{term}和{privacy}。
+vpnClient.accountStoreNote	您的帐号和密码将不会储存在 TP-Link 设备或伺服器上。	您的账号和密码将不会保存在 TP-Link 设备或服务器上。
+vpnClient.contactSupport	联系 Surfshark 技术支援	联系 Surfshark 技术支持
+vpnClient.connecting	连线中...	连接中...
+vpnClient.noVpnClient	没有 VPN 用户端	没有 VPN 客户端
+vpnClient.notEditableTip	TP-Link 不再与{vendor}合作，因此无法编辑此设定档。您可以{faq}。	TP-Link 不再与{vendor}合作，因此无法编辑此配置文件。您可以{faq}。
+vpnClient.addNewManual	手动设定新的 VPN 伺服器	手动设置新的 VPN 服务器
+vpnClient.updateFailedTip	更新失败。请检查您的网路状态。	更新失败。请检查您的网络状态。
+vpnClient.connectFailedTip	连线失败。请检查您的网路状态。	连接失败。请检查您的网络状态。
+vpnClient.tokenExpiredNote	Token 已过期，请重新登入	Token 已过期，请重新登录
+vpnClient.loginExpiredNote	VPN 登入资讯已过期，请重新登入	VPN 登录信息已过期，请重新登录
+vpnClient.blockNote	此 IP 已被封锁，请点选{support}。	此 IP 已被拦截，请点选{support}。
+vpnClient.nordVpnSupport	联系 NordVPN 技术支援	联系 NordVPN 技术支持
+block.updatingFirmware	正在更新韧体…	正在更新固件…
+block.updatingFirmwareNote	更新依您的网路速度将需要 5 到 10 分钟，更新时请勿拔除或操作路由器。	更新依您的网络速度将需要 5 到 10 分钟，更新时请勿拔除或操作路由器。
+block.content1	存取此网站的权限已被封锁。	访问此网站的权限已被拦截。
+block.content2	网路管理员已暂停您的网际网路连线，请在他们取消暂停后再试一次。	网络管理员已暂停您的互联网连接，请在他们取消暂停后再试一次。
+block.content3	您已设定今天的网路时间使用限额，您可以在隔天恢复连线。	您已设置今天的网络时间使用限额，您可以在隔天恢复连接。
+block.content4	在此时间您不允许使用网路，您可以在就寝时间结束后恢复连线。	在此时间您不允许使用网络，您可以在就寝时间结束后恢复连接。
+block.httpsBlockingNotice	已经停用「透过HTTPS进行本地管理」。请透过HTTP存取该设备。	已经禁用「通过HTTPS进行本地管理」。请通过HTTP访问该设备。
+block.accessDenied	拒绝存取！	拒绝访问！
+block.accessDeniedNote	此网站已被家长监护封锁。	此网站已被家长监护拦截。
+block.unsafeWebsiteNote	此网站侦测到危害您网路的风险，防毒已封锁。	此网站检测到危害您网络的风险，防毒已拦截。
+block.requestAccessWebsite	需要存取网站	需要访问网站
+block.websiteRequestNote	上网{url}请求已送出，请等候网路管理员同意。	上网{url}请求已送出，请等候网络管理员同意。
+block.bedTime	您目前无法使用网际网路。	您当前无法使用互联网。
+block.bedTimeNote	您的网路已限制在特定时间中使用，且目前不在该时间内。	您的网络已限制在特定时间中使用，且当前不在该时间内。
+block.bedTimeFeedback	暂时使用网路的时间请求已送出，请等待允许。	暂时使用网络的时间请求已送出，请等待允许。
+block.internetBlocked	网际网路已封锁！	互联网已拦截！
+block.internetBlockedNote	此设备的网际网路存取已被封锁，请联系您的网路管理员。	此设备的互联网访问已被拦截，请联系您的网络管理员。
+block.details	详细资料	详细数据
+block.upgradeTitle	需要更新韧体	需要更新固件
+block.noticeImportant	已为您的{model}发布了一个关键韧体，您需要更新韧体后才能使用此路由器的完整服务。	已为您的{model}发布了一个关键固件，您需要更新固件后才能使用此路由器的完整服务。
+block.wanConnectionError	WAN 连线错误	WAN 连接错误
+block.unplugged	WAN连接埠未连接	WAN端口未连接
+block.checkConnection	确认连线	确认连接
+quickSetup.select_internet_port	告诉我们您连接哪一个埠口使用网路	告诉我们您连接哪一个埠口使用网络
+quickSetup.port_instruction	选择您插入网路线的路由器连接埠。	选择您插入网线的路由器端口。
+quickSetup.ispSettings	特定ISP设定(IPTV/VLAN)	特定ISP设置(IPTV/VLAN)
+quickSetup.cloudLoginInstruction	登入以绑定路由器到您的 TP-Link ID，接著您可以透过 Tether app 管理使用。	登录以绑定路由器到您的 TP-Link ID，接著您可以通过 Tether app 管理使用。
+quickSetup.quit_qs	离开设定	离开设置
+quickSetup.quit_msg1	您的设定将不被储存，确定要直接离开吗？	您的设置将不被保存，确定要直接离开吗？
+quickSetup.quit_msg2	快速设定即将完成，确定要直接离开吗？	快速设置即将完成，确定要直接离开吗？
+quickSetup.wan_disconnected	网际网路连接埠已断线	互联网端口已断开连接
+quickSetup.wan_disconnected_intro	请确认网路线是否确实连接至网际网路(WAN)连接埠。	请确认网线是否确实连接至互联网(WAN)端口。
+quickSetup.select_connect_type	选择连线类型	选择连接类型
+quickSetup.auto_manual	手动设定连线类型。	手动设置连接类型。
+quickSetup.secondary_conn	第二连线	第二连接
+quickSetup.server_ip_address_name	VPN伺服器IP/网域名称	VPN服务器IP/域名
+quickSetup.internet_connection_type_note	请选择您的网际网路连接类型，若不确定，请点选自动侦测或连系您的ISP(网路服务供应商)。	请选择您的互联网连接类型，若不确定，请点选自动检测或连系您的ISP(网络服务供应商)。
+quickSetup.auto_detect	自动侦测	自动检测
+quickSetup.dynamic_intro	若您的ISP没有提供任何连接网际网路的资讯，请选择此项。	若您的ISP没有提供任何连接互联网的信息，请选择此项。
+quickSetup.pppoe_intro	若您的ISP提供了一组使用者名称和密码，请选择此项。	若您的ISP提供了一组用户名和密码，请选择此项。
+quickSetup.l2tp_intro	若您的ISP提供L2TP VPN伺服器资讯及一组帐户或是特定的IP参数，请选择此项。	若您的ISP提供L2TP VPN服务器信息及一组账户或是特定的IP参数，请选择此项。
+quickSetup.pptp_intro	若您的ISP提供PPTP VPN伺服器资讯及一组帐户或是特定的IP参数，请选择此项。	若您的ISP提供PPTP VPN服务器信息及一组账户或是特定的IP参数，请选择此项。
+quickSetup.internet_disconnect	网际网路连接埠已断线	互联网端口已断开连接
+quickSetup.internet_disconnect_note_sel	确认线已安全的连接至您选择的网际网路连接埠。	确认线已安全的连接至您选择的互联网端口。
+quickSetup.upgrade_firmware	更新韧体	更新固件
+quickSetup.upgrade_firmware_note	有可用的新韧体，建议您更新韧体以取得更好的服务。	有可用的新固件，建议您更新固件以取得更好的服务。
+quickSetup.upgrade_firmware_note_critical	已为您的{model}发布了一个关键韧体，您需要更新韧体后才能使用此路由器的完整服务。	已为您的{model}发布了一个关键固件，您需要更新固件后才能使用此路由器的完整服务。
+quickSetup.details	详细资料	详细数据
+quickSetup.download_failed_note	请再试一次，或稍后到进阶设定>系统>韧体更新进行更新。	请再试一次，或稍后到高级设置>系统>固件更新进行更新。
+quickSetup.upgrade_failed_note	请稍后在进阶 > 系统 > 韧体更新中更新韧体。	请稍后在高级 > 系统 > 固件更新中更新固件。
+quickSetup.setupComplete	设定完成！	设置完成！
+quickSetup.updateAndApplySuccess	韧体已更新且设定套用成功。请在点击下一步之前，确认装置已无线连接或使用网路线连接至路由器。	固件已更新且设置套用成功。请在点击下一步之前，确认设备已无线连接或使用网线连接至路由器。
+quickSetup.wiredAndApplySuccess	设定套用成功，您可以使用连接以下资讯连接至路由器。	设置套用成功，您可以使用连接以下信息连接至路由器。
+quickSetup.wirelessAndApplySuccess	设定套用成功，请在点击下一步之前，重新连线此路由器的 Wi-Fi或透过网路线连接路由器。	设置套用成功，请在点击下一步之前，重新连接此路由器的 Wi-Fi或通过网线连接路由器。
+quickSetup.wiredButNoInternet	设定已套用但无网际网路连接，您可以使用下列资讯连接使用路由器内部网路。	设置已套用但无互联网连接，您可以使用下列信息连接使用路由器内部网络。
+quickSetup.wirelessButNoInternet	设定已套用但无网际网路连接，您可以使用下列资讯连接使用路由器内部网路。请在重新连接路由器之后再点击「下一步」。	设置已套用但无互联网连接，您可以使用下列信息连接使用路由器内部网络。请在重新连接路由器之后再点击「下一步」。
+quickSetup.deviceNotReady	在点击{button}之前，请确认该装置已透过无线或乙太网路线路连接到路由器。	在点击{button}之前，请确认该设备已通过无线或乙太网线路连接到路由器。
+quickSetup.waitForEffective	设定套用成功，等到无线设定生效后，在点击下一步前重新连接此设备。	设置套用成功，等到无线设置生效后，在点击下一步前重新连接此设备。
+quickSetup.noInternetAndWaitForEffective	已套用设定但无网际网路连线，您可以透过使用以下资讯使用路由器的内网。等到无线设定生效后，在点击下一步前重新连接此设备。	已套用设置但无互联网连接，您可以通过使用以下信息使用路由器的内网。等到无线设置生效后，在点击下一步前重新连接此设备。
+quickSetup.takeEffectNote	请注意 5 GHz 设定比 2.4 GHz 设定需要更长的时间才能生效。	请注意 5 GHz 设置比 2.4 GHz 设置需要更长的时间才能生效。
+quickSetup.wanCableMismatchNote	您路由器的 WAN 孔以次优速率与其连线设备通讯。请尝试以下说明：	您路由器的 WAN 孔以次优速率与其连接设备通讯。请尝试以下说明：
+quickSetup.wanCableMismatchDescript1	使用支援 Gigabit 速度的网路线，例如 RJ45 CAT 5e 以上规格的网路线。	使用支持 Gigabit 速度的网线，例如 RJ45 CAT 5e 以上规格的网线。
+quickSetup.wanCableMismatchDescript2	请确认乙太网路现已确实连接。	请确认乙太网络现已确实连接。
+quickSetup.wanCableMismatchDescript3	将您的电脑连接至数据机或网路来源以测试协商速度。	将您的电脑连接至数据机或网络来源以测试协商速度。
+quickSetup.iptv_guide_note	您可以稍后在进阶 > 网路 > IPTV/VLAN 页面设定 LAN 埠。	您可以稍后在高级 > 网络 > IPTV/VLAN 页面设置 LAN 埠。
+quickSetup.connecting_internet	连线测试	连接测试
+quickSetup.testing	测试网际网路连线，这将需要几秒钟时间，请稍后。	测试互联网连接，这将需要几秒钟时间，请稍后。
+quickSetup.no_internet	没有网际网路连接	没有互联网连接
+quickSetup.try_follow	糟糕…网际网路连线设定不成功。	糟糕…互联网连接设置不成功。
+quickSetup.try_1	请确认所有网路线已确实连接。	请确认所有网线已确实连接。
+quickSetup.try_2	点击回到设定并确认网际网路连接资讯是正确的。	点击回到设置并确认互联网连接信息是正确的。
+quickSetup.try_3	若问题仍存在，请联系技术支援取得协助。	若问题仍存在，请联系技术支持取得协助。
+quickSetup.back_to_setup	回到设定	回到设置
+quickSetup.ispProfile	ISP设定档	ISP配置文件
+quickSetup.auto_update_note1	自动更新可让您的路由器自动更新到最新韧体，从而提供更好的网路效能并增强系统安全性。	自动更新可让您的路由器自动更新到最新固件，从而提供更好的网络效能并增强系统安全性。
+quickSetup.auto_update_note3	注意：若路由器侦测到有人在该时间使用网际网路，更新将安排至隔日。	注意：若路由器检测到有人在该时间使用互联网，更新将安排至隔日。
+quickSetup.dualNatDetectedTips	侦测到重大的网路问题。请重新连接您的设备后点击「下一步」来解决此问题。	检测到重大的网络问题。请重新连接您的设备后点击「下一步」来解决此问题。
+quickSetup.dual_nat_detected_title	我们在您的网路中找到另一台路由器，这可能会造成双重 NAT 问题。	我们在您的网络中找到另一台路由器，这可能会造成双重 NAT 问题。
+quickSetup.dual_nat_detected_instruction	选择路由器如何连线，若您的状况不在选项内，请选择「以上皆非」。	选择路由器如何连接，若您的状况不在选项内，请选择「以上皆非」。
+quickSetup.whats_dual_nat_answer	双重 NAT 是发生在两台路由器互相连接，且两台有各自的私人网路。在大多数情况中不会影响 Wi-Fi 效能，但在您玩线上游戏、直播或使用通讯埠转发、VPN 或 UPnP 等功能时可能会造成问题。	双重 NAT 是发生在两台路由器互相连接，且两台有各自的私人网络。在大多数情况中不会影响 Wi-Fi 效能，但在您玩线上游戏、直播或使用端口转发、VPN 或 UPnP 等功能时可能会造成问题。
+quickSetup.whats_combo_port_answer	Combo port 为 RJ45 连接埠与 SFP+ 连接埠结合，同时间只能使用其中一个连接埠。	Combo port 为 RJ45 端口与 SFP+ 端口结合，同时间只能使用其中一个端口。
+quickSetup.fix_issue_step_1	{step}: 断开有线/无线设备与数据机结合路由器的连线后，将它们重新连接至此 TP-Link 路由器。	{step}: 断开有线/无线设备与数据机结合路由器的连接后，将它们重新连接至此 TP-Link 路由器。
+quickSetup.fix_issue_step_2	{step} (建议选项): 将数据机结合路由器修改为桥接模式或停用无线网路。	{step} (建议选项): 将数据机结合路由器修改为桥接模式或禁用无线网络。
+quickSetup.how_to_do_step_1	1. 将您的电脑透过网路线直接连接具路由器功能的数据机。	1. 将您的电脑通过网线直接连接具路由器功能的数据机。
+quickSetup.how_to_do_step_2	2. 登入具路由器功能的数据机，找到桥接模式设定进行切换。	2. 登录具路由器功能的数据机，找到桥接模式设置进行切换。
+quickSetup.how_to_do_note	若需详细说明，请参考产品手册或联系您的网路业者。	若需详细说明，请参考产品手册或联系您的网络运营商。
+quickSetup.g3_g4_connection_method	连线方式	连接方式
+quickSetup.g3_g4_connection_method_cable	网路线	网线
+quickSetup.enjoy_more	您现在可以尽情享受网路了。	您现在可以尽情享受网络了。
+quickSetup.user_exp_improve	使用者体验改善计划	用户体验改善计划
+quickSetup.tether_management	透过 Tether 远端管理您的网路	通过 Tether 远程管理您的网络
+quickSetup.forgot_pppoe_settings	要忘记您的网际网路设定吗？	要忘记您的互联网设置吗？
+quickSetup.forgot_pppoe_button	从您的旧路由器恢复设定	从您的旧路由器恢复设置
+quickSetup.retrieve_pppoe_settings	从您的旧路由器恢复设定	从您的旧路由器恢复设置
+quickSetup.retrieve_follow	按照下列步骤从您的旧路由器恢复网际网路设定：	按照下列步骤从您的旧路由器恢复互联网设置：
+quickSetup.retrieving	恢复网际网路设定中…请稍候。	恢复互联网设置中…请稍候。
+quickSetup.stop_retrieve	您确定要停止恢复网际网路设定吗？	您确定要停止恢复互联网设置吗？
+quickSetup.retrieve_fail	未恢复网际网路设定	未恢复互联网设置
+quickSetup.make_sure_power_on	请确认旧路由器已开机。	请确认旧路由器已启动。
+quickSetup.make_sure_plugged	请确认网路线已正确插入网路孔。	请确认网线已正确插入网络孔。
+quickSetup.dynamic_ip_intro	若您的网路业者设定只有特定的MAC位址才能使用网际网路再使用此功能。	若您的网络运营商设置只有特定的MAC地址才能使用互联网再使用此功能。
+quickSetup.wireless_setting_title	个人化无线网路设定	个人化无线网络设置
+quickSetup.wireless_setting_intro	自订您的无线网路名称和密码。	自定义您的无线网络名称和密码。
+quickSetup.internet_step_intro	请输入ISP所提供的资讯。	请输入ISP所提供的信息。
+quickSetup.dualNatNetworkErrorTip	请确保此设备透过无线网路或乙太网路线连接至路由器。	请确保此设备通过无线网络或乙太网线连接至路由器。
+shnBlocking.contentHomeCare	TP-Link家庭照护已经封锁了此网站的连线。继续访问网站可能会使您的电脑感染恶意软体。恶意软体可以不经您的同意，存取或修改档案并且窃取个人资料。	TP-Link家庭照护已经拦截了此网站的连接。继续访问网站可能会使您的电脑感染恶意软体。恶意软体可以不经您的同意，访问或修改文件并且窃取个人数据。
+shnBlocking.content1_0	存取此网站的权限已被封锁。	访问此网站的权限已被拦截。
+shnBlocking.content2	网路管理员已暂停您的网际网路连线，请在他们取消暂停后再试一次。	网络管理员已暂停您的互联网连接，请在他们取消暂停后再试一次。
+shnBlocking.content3	您已设定今天的网路时间使用限额，您可以在隔天恢复连线。	您已设置今天的网络时间使用限额，您可以在隔天恢复连接。
+shnBlocking.content4	在此时间您不允许使用网路，您可以在就寝时间结束后恢复连线。	在此时间您不允许使用网络，您可以在就寝时间结束后恢复连接。
+shnBlocking.social	社群网路	社群网络
+usbModem.connectOnDemand	依需求连线	依需求连接
+usbModem.connectAutomatically	自动连线	自动连接
+usbModem.connectManually	手动连线	手动连接
+usbModem.setTip	手动设定拨号号玛、APN、使用者名称与密码。	手动设置拨号号玛、APN、用户名与密码。
+usbModem.username	使用者名称	用户名
+usbModem.unknownModem	未知的数据机，请在数据机设定手动设定数据机。	未知的数据机，请在数据机设置手动设置数据机。
+usbModem.disconnected	未连线	未连接
+search.hint	搜寻功能	搜索功能
+timeSchedule.downloadBlocked	下载封锁	下载拦截
+ispSpeedTest.tip	此页面仅用于 Frontier 测速，在测试时，Frontier 将搜集并确认您的 WAN MAC 位址和韧体版本资讯，确认测试正常运行。	此页面仅用于 Frontier 测速，在测试时，Frontier 将搜集并确认您的 WAN MAC 地址和固件版本信息，确认测试正常运行。
+thirdFing.clientIdentify	用户端识别	客户端识别
+thirdFing.dialogTitle	我们现在能更好的辨识用户端!	我们现在能更好的辨识客户端!
+thirdFing.dialogContent	若要准确的辨识您连线的用户端，在您的授权下我们会将您的用户端资讯分享给第三方服务。我们不会储存您的私人资讯。如需更多详情，请参考{policy}。	若要准确的辨识您连接的客户端，在您的授权下我们会将您的客户端信息共享给第三方服务。我们不会保存您的私人信息。如需更多详情，请参考{policy}。
+thirdFing.remindContent	若要准确的辨识您连线的用户端，请至{path}。	若要准确的辨识您连接的客户端，请至{path}。
+thirdFing.closeTip	关闭此功能将降低路由器用户端辨识的效能，您确定要关闭吗?	关闭此功能将降低路由器客户端辨识的效能，您确定要关闭吗?
+thirdFing.imgAltText	用户端辨识说明	客户端辨识说明
+device.guestDevice	本设备已连接到访客网路。	本设备已连接到访客网络。
+device.hostDevice	该设备为目前管理设备。	该设备为当前管理设备。
+device.ipCamera	网路摄影机	网络摄影机
+device.motionDetector	移动侦测仪	移动检测仪
+device.network	网路	网络
+device.networkMonitor	网路监视器	网络监视器
+device.printer	印表机	打印机
+device.rangeextender	讯号延伸器	信号延伸器
+device.remoteControl	远端控制	远程控制
+device.server	伺服器	服务器
+device.smokeDetector	烟雾侦测器	烟雾检测器
+device.usb	USB 装置	USB 设备
+portal.colorHex	Color Hex	十六进制颜色值
+portal.colorAlpha	Color Alpha	颜色透明度
+wakeOnLan.title	网路唤醒	网络唤醒（Wake-on-LAN）
+wakeOnLan.instruction	Wake on LAN (WoL)允许从其他设备唤醒您网路上的电脑。	向局域网内支持 WoL 的设备发送魔术包，从而远程唤醒设备。
+wakeOnLan.wakeUp	唤醒	发送唤醒指令
+wakeOnLan.macAddr	MAC 位址	MAC 地址
