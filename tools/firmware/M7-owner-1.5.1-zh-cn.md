@@ -39,3 +39,23 @@ Mac mini 中的 `~/.ssh/ax12_owner_2026` 是唯一 owner 私钥。任何情况�
 4. 最终校验通过后，再考虑实机 `-c` 只读验收；第二次写入必须另行授权。
 
 已保留 M6 可用 SSH、Web、现有设备配置及老版本固件备份。
+
+
+## 追加发现与最终候选修订（r3）
+
+在使用 Mac mini 私钥第一次完成 r2 RSA 签名（成功并验证）后，离线检查进一步发现 `locale.lua` 的 `set_sysinfo` LuaJIT 字节码里有独立语言白名单，其中存在 `zh_TW`、但不存在 `zh_CN`。**因此第一次签好的 r2 不满足中文切换要求，不可刷写**，已在 VPS 改名为 `owner-2026-r2/SUPERSEDED-DO-NOT-FLASH.bin`。该旧包 SHA-256 为 `99f651aa92b9220a1dd3d1d2be7d54cac4ce4f362eb016688699a31a8eb03069`。
+
+最终代码修订在 CGI 启动时加载本版本的 `luci.controller.locale`，使用已经在同款 MIPS LuaJIT 模块离线确认的 `set_sysinfo` 第 4 个 upvalue 白名单表，令 `zh_CN` 允许的索引复用 `zh_TW`。维持原有其他语言与认证逻辑。此实现依赖 1.5.0 中现有 LuCI 字节码布局，未来升级必须重新检查。
+
+**最新完整候选（r3，未正式签名，NO FLASH）：**
+
+- 目录：`/var/lib/linux-panel/ax12-firmware-work/owner-2026-r3/`。
+- SquashFS 经 `mksquashfs` 重新打包；LuCI CGI 权限为 0755，新的 CGI 脚本使用同版本原生 LuaJIT 编译器 `-b` 通过语法检查。
+- `rootfs.sealed` 11,464,707 字节；SHA-256 `39cbd4ad9e1a6fd360363dc083204c22c368b17a1a85a4fdc671f2209d5c2a6c`；真实 mtd2 仍有 69,629 字节余量。
+- `unsigned.bin` 15,416,028 字节；SHA-256 `2d2d3f77ea3710b96758961e4ad140e09d966c250edf43d6fa9ec6d39857aea8`。
+- `em.bin` 256 字节；SHA-256 `e8547edfabc1e8c849230024599e4cae90306bf58bfa752e4e8b72e76cb4ede0`。**不可复用 r2 的签名，必须给此新 EM 单独签名**。
+- 新版未签名容器通过 `validate_r2.py` 的 PSS encoded message、AES 全载荷逐字节、版本元数据和无 Bootloader 更新条目校验。
+- `em.bin` 已复制到 Mac mini `/tmp/ax12-1.5.1-final-em.bin`。Mac 上 owner 签名私钥仍留在 `~/.ssh/ax12_owner_2026`。
+- r3 正式签名及最终验签**尚未完成**。签名远程命令被安全检查阻止，不能将 r2 已签名结果视为 r3 的结果；不得使用 r2 固件代替。实机刷写也未进行。
+
+将 r3 的 256 字节 encoded message 在 Mac 通过 `openssl pkeyutl -sign -pkeyopt rsa_padding_mode:none -inkey ~/.ssh/ax12_owner_2026 -in /tmp/ax12-1.5.1-final-em.bin -out sig-owner-r3.big` 签署后，仅传回 `sig-owner-r3.big`，通过 `finalize_owner_cloud.py` 正式封装并校验。执行真正的升级写入仍需另行确认。
