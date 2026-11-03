@@ -34,8 +34,8 @@ def load_layout(old_cloud, new_cloud):
         raise ValueError("Unexpected source/target partition counts")
     if old["fs-uboot"] != new["fs-uboot"] or "fs-uboot" in {n for n, _, _ in updates}:
         raise ValueError("Bootloader must remain untouched")
-    if any(n not in old or old[n][0] != a for n, (a, _) in new.items()
-           if n not in {v[0] for v in updates} and n in old):
+    if any(old[n][0] != a for n, (a, _) in new.items()
+           if n in old and n not in {v[0] for v in updates}):
         raise ValueError("Relocation mode 2 is not supported by this model")
     if {n for n, _, _ in updates} != {
         "os-image", "file-system", "re-def-config", "partition-table",
@@ -43,6 +43,10 @@ def load_layout(old_cloud, new_cloud):
         "default-config", "ap-def-config"
     }:
         raise ValueError("Unexpected update selection")
+    if old["file-system"][0] != 0x440000 or new["file-system"][0] != 0x400000:
+        raise ValueError("Unexpected old or new RootFS address")
+    if new["os-image"][0] != 0x40000 or new["partition-table"][0] != 0xF40000:
+        raise ValueError("Unexpected kernel or partition-table address")
     return old, new, updates
 
 
@@ -98,6 +102,8 @@ def emulate(initial, ops, old, new):
     assert image[0x400000:0x400004] == b"hsqs"
     n_written = sum(touched.values())
     shared = {hex(s): n for s, n in sorted(touched.items()) if n > 1}
+    if shared != {"0xf40000": 5}:
+        raise AssertionError(f"Unexpected repeated sector rewrites: {shared}")
     print("PASS:", len(ops), "logical updates,", len(touched),
           "different sectors,", n_written, "modeled sector rewrites")
     print("PASS: partition-table Flash prefix =",
@@ -114,9 +120,10 @@ def main():
     p.add_argument("decrypted_cs6c_cloud", type=Path)
     p.add_argument("--old-flash", type=Path, help="Optional exact 16 MiB pre-upgrade dump")
     args = p.parse_args()
-    old, new, updates = load_layout(args.official_1122_cloud.read_bytes(),
-                                    args.decrypted_cs6c_cloud.read_bytes())
-    ops = operations(args.decrypted_cs6c_cloud.read_bytes(), new, updates)
+    old_cloud = args.official_1122_cloud.read_bytes()
+    bridge_cloud = args.decrypted_cs6c_cloud.read_bytes()
+    old, new, updates = load_layout(old_cloud, bridge_cloud)
+    ops = operations(bridge_cloud, new, updates)
     if args.old_flash:
         baseline = args.old_flash.read_bytes()
         if len(baseline) != FLASH_SIZE:
